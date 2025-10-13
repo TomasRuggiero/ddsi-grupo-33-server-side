@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MetaMapa | Incendio en El Bolsón</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="css/custom.css" />
+    <style>
+      .map-container {
+        height: 400px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="/">MetaMapa</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/administrador/index.html"
+                >Administrador</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/login.html">Iniciar Sesión</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/visualizador/colecciones.html"
+                >Colecciones</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link btn btn-primary text-white ms-2"
+                href="/subir.html"
+                >Subir Hecho</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container my-5">
+      <div class="row">
+        <h1 class="mb-3">Incendio en El Bolsón</h1>
+        <p class="text-muted">Publicado el 08/09/2025</p>
+        <div class="col-lg-8">
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">Información del Hecho</h5>
+              <p>
+                Este hecho documenta un incendio forestal significativo ocurrido
+                en los alrededores de El Bolsón, Río Negro. El fuego afectó a
+                una extensa área de bosque nativo y zonas de pastizales,
+                movilizando a equipos de bomberos y brigadistas de la región.
+              </p>
+              <ul class="list-unstyled">
+                <li>
+                  <strong>Ubicación:</strong> El Bolsón, Río Negro, Argentina
+                </li>
+                <li><strong>Categoría:</strong> Incendio Forestal</li>
+                <li><strong>Fuente:</strong> Estática</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">Ubicación en el Mapa</h5>
+              <div class="map-container rounded-3 overflow-hidden">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11933.272782483857!2d-71.53755459344238!3d-41.968600021303845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x961a52865d4b0f69%3A0x6a19f6a61a7a00f1!2sEl%20Bolson%2C%20Rio%20Negro!5e0!3m2!1sen!2sar!4v1717205161421!5m2!1sen!2sar"
+                  width="100%"
+                  height="100%"
+                  style="border: 0"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">¿Hay algún error en este hecho?</h5>
+              <p class="card-text text-muted">
+                Si detectas información incorrecta, puedes solicitar su
+                eliminación.
+              </p>
+              <button
+                class="btn btn-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteRequestModal"
+              >
+                <i class="bi bi-trash"></i> Solicitar Eliminación
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="deleteRequestModal"
+      tabindex="-1"
+      aria-labelledby="deleteRequestModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteRequestModalLabel">
+              Solicitar Eliminación
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Por favor, explica por qué crees que este hecho debería ser
+              eliminado.
+            </p>
+            <form>
+              <div class="mb-3">
+                <label for="deleteDescription" class="form-label"
+                  >Descripción (máx. 500 caracteres)</label
+                >
+                <textarea
+                  class="form-control"
+                  id="deleteDescription"
+                  rows="4"
+                  maxlength="500"
+                ></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-danger">
+              Enviar Solicitud
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-dark text-white-50 py-4">
+      <div class="container text-center text-md-start">
+        <div class="row align-items-center">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <p class="mb-0">© 2025 MetaMapa. Todos los derechos reservados.</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <a href="#" class="text-white-50 text-decoration-none"
+              >Información legal y de privacidad</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

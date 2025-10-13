@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MetaMapa | Mapeo Colaborativo</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="css/custom.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="/">MetaMapa</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/administrador/index.html"
+                >Administrador</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Iniciar Sesión</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/visualizador/colecciones"
+                >Colecciones</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link btn btn-primary text-white ms-2"
+                href="/subir.html"
+                >Subir Hecho</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <header class="bg-primary text-white text-center py-5">
+      <div class="container">
+        <h1 class="display-4 fw-bold">MetaMapa</h1>
+        <p class="lead mb-4">
+          Sistema de gestión de mapeos colaborativos para la recopilación,
+          visibilización y ordenamiento de información en tiempo y espacio.
+        </p>
+        <a href="/visualizador/colecciones" class="btn btn-lg btn-light"
+          >Ver Colecciones <i class="bi bi-search"></i
+        ></a>
+        <a href="/subir.html" class="btn btn-lg btn-outline-light"
+          >Subir Hecho <i class="bi bi-plus"></i
+        ></a>
+      </div>
+    </header>
+
+    <section id="proposito" class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 mx-auto text-center">
+            <h2 class="display-6 fw-bold mb-4">¿Por qué MetaMapa?</h2>
+            <p class="lead">
+              La inteligencia colectiva permite resolver problemas a partir del
+              aporte de información individual. MetaMapa se encarga de ordenar,
+              etiquetar y ubicar esta información para que sea confiable y útil.
+            </p>
+            <p>
+              Esto permite, por ejemplo, reportar focos de incendios,
+              visibilizar causas, identificar focos de contaminación o
+              proporcionar datos valiosos para resolver desapariciones.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="ejemplos" class="bg-light py-5">
+      <div class="container">
+        <h2 class="text-center display-6 fw-bold mb-5">
+          Colecciones destacadas
+        </h2>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body text-center">
+                <h5 class="card-title fw-bold">
+                  Hechos de Desastres Naturales
+                </h5>
+                <p class="card-text text-muted">
+                  Colección para mapear y monitorear eventos naturales.
+                </p>
+                <a
+                  href="/visualizador/colecciones"
+                  class="btn btn-outline-primary mt-3"
+                  >Ver Colección</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body text-center">
+                <h5 class="card-title fw-bold">
+                  Hechos de Incendios Forestales en España
+                </h5>
+                <p class="card-text text-muted">
+                  Información georreferenciada sobre incendios.
+                </p>
+                <a
+                  href="/visualizador/colecciones"
+                  class="btn btn-outline-primary mt-3"
+                  >Ver Colección</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body text-center">
+                <h5 class="card-title fw-bold">
+                  Hechos y víctimas de muertes viales
+                </h5>
+                <p class="card-text text-muted">
+                  Mapeo de incidentes de tránsito en la República Argentina.
+                </p>
+                <a
+                  href="/visualizador/colecciones"
+                  class="btn btn-outline-primary mt-3"
+                  >Ver Colección</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body text-center">
+                <h5 class="card-title fw-bold">
+                  Hechos de personas asesinadas
+                </h5>
+                <p class="card-text text-muted">
+                  Colección sobre casos de violencia institucional.
+                </p>
+                <a
+                  href="/visualizador/colecciones"
+                  class="btn btn-outline-primary mt-3"
+                  >Ver Colección</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-5 text-center">
+      <div class="container">
+        <h3 class="fw-bold mb-3">¿Ya tenés cuenta?</h3>
+        <p class="mb-4">
+          Regístrate o inicia sesión para aportar información y gestionar
+          colecciones.
+        </p>
+        <a href="#" class="btn btn-lg btn-success me-2">Registrarse</a>
+        <a href="/login" class="btn btn-lg btn-outline-dark">Iniciar Sesión</a>
+      </div>
+    </section>
+
+    <footer class="bg-dark text-white-50 py-4">
+      <div class="container text-center text-md-start">
+        <div class="row align-items-center">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <p class="mb-0">
+              &copy; 2025 MetaMapa. Todos los derechos reservados.
+            </p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <a href="#" class="text-white-50 text-decoration-none"
+              >Información legal y de privacidad</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
