@@ -64,8 +64,10 @@
               <p class="card-text" th:text="${coleccion.descripcion}">}>
                 Mapeo de eventos relacionados con incendios forestales.
               </p>
-              <p class="card-text" th:text="${coleccion.totalDeHechos}"><strong>Hechos:</strong> 500</p>
-              <a
+                <p class="card-text">
+                    <strong>Hechos:</strong> <span th:text="${coleccion.totalDeHechos}">500</span>
+                </p>
+                <a
                 href="/visualizador/hechos.html"
                 class="btn btn-primary mt-auto"
                 >Ver Colección</a
