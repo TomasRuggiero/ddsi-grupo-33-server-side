@@ -19,4 +19,6 @@ public class HechoApiClient {
     return restTemplate.getForObject(BASE_URL + "/" + id, HechoDto.class);
   }
 
+  public void solicitarEliminacion(UUID id, String justificacion) {
+  }
 }
