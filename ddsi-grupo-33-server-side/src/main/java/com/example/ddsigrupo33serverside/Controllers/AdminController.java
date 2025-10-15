@@ -31,4 +31,11 @@ public class AdminController {
 
         return "administrador/colecciones";
     }
+
+    @GetMapping("/solicitudes")
+    public String solicitudes(Model model) {
+      model.addAttribute("solicitudes", adminService.getSolicitudes());
+
+      return "administrador/solicitudes";
+    }
 }

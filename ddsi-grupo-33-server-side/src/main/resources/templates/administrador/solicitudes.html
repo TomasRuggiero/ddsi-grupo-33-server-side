@@ -1,433 +1,357 @@
 <!DOCTYPE html>
-<html lang="es">
-  <head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Solicitudes | Panel de Administración MetaMapa</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+            crossorigin="anonymous"
     />
     <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
-  </head>
-  <body>
-    <nav class="navbar navbar-dark bg-dark fixed-top">
-      <div class="container-fluid">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
         <a class="navbar-brand" href="#">Administrador</a>
         <button
-          class="navbar-toggler d-md-none"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#sidebarOffcanvas"
-          aria-controls="sidebarOffcanvas"
-          aria-label="Toggle navigation"
+                class="navbar-toggler d-md-none"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#sidebarOffcanvas"
+                aria-controls="sidebarOffcanvas"
+                aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
-      </div>
-    </nav>
+    </div>
+</nav>
 
-    <div class="container-fluid">
-      <div class="row flex-nowrap">
+<div class="container-fluid">
+    <div class="row flex-nowrap">
         <div
-          class="col-xl-2 col-3 bg-dark vh-100 top-0 start-0 d-md-block d-none"
+                class="col-xl-2 col-3 bg-dark vh-100 top-0 start-0 d-md-block d-none"
         >
-          <div class="d-flex flex-column flex-shrink-0 p-3 pt-5 text-white-50">
-            <ul class="nav nav-pills flex-column mb-auto mt-4">
-              <li class="nav-item">
-                <a href="/administrador/index.html" class="nav-link text-white">
-                  <i class="bi bi-grid-fill me-2"></i> Resumen
-                </a>
-              </li>
-              <hr />
-              <li>
-                <a
-                  href="/administrador/hechos.html"
-                  class="nav-link text-white"
-                >
-                  <i class="bi bi-geo-alt-fill me-2"></i> Hechos
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/administrador/colecciones.html"
-                  class="nav-link text-white"
-                >
-                  <i class="bi bi-folder-fill me-2"></i> Colecciones
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/administrador/solicitudes.html"
-                  class="nav-link active"
-                  aria-current="page"
-                >
-                  <i class="bi bi-envelope-fill me-2"></i> Solicitudes
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/administrador/fuentes.html"
-                  class="nav-link text-white"
-                >
-                  <i class="bi bi-database-fill me-2"></i> Fuentes
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/administrador/usuarios.html"
-                  class="nav-link text-white"
-                >
-                  <i class="bi bi-people-fill me-2"></i> Usuarios
-                </a>
-              </li>
-            </ul>
-          </div>
+            <div class="d-flex flex-column flex-shrink-0 p-3 pt-5 text-white-50">
+                <ul class="nav nav-pills flex-column mb-auto mt-4">
+                    <li class="nav-item">
+                        <a href="/admin" class="nav-link text-white">
+                            <i class="bi bi-grid-fill me-2"></i> Resumen
+                        </a>
+                    </li>
+                    <hr />
+                    <li>
+                        <a
+                                href="/administrador/hechos.html"
+                                class="nav-link text-white"
+                        >
+                            <i class="bi bi-geo-alt-fill me-2"></i> Hechos
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                                href="/admin/colecciones"
+                                class="nav-link text-white"
+                        >
+                            <i class="bi bi-folder-fill me-2"></i> Colecciones
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                                href="/admin/solicitudes"
+                                class="nav-link active"
+                                aria-current="page"
+                        >
+                            <i class="bi bi-envelope-fill me-2"></i> Solicitudes
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                                href="/administrador/fuentes.html"
+                                class="nav-link text-white"
+                        >
+                            <i class="bi bi-database-fill me-2"></i> Fuentes
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                                href="/administrador/usuarios.html"
+                                class="nav-link text-white"
+                        >
+                            <i class="bi bi-people-fill me-2"></i> Usuarios
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div
-          class="offcanvas offcanvas-start bg-dark text-white"
-          tabindex="-1"
-          id="sidebarOffcanvas"
-          aria-labelledby="sidebarOffcanvasLabel"
+                class="offcanvas offcanvas-start bg-dark text-white"
+                tabindex="-1"
+                id="sidebarOffcanvas"
+                aria-labelledby="sidebarOffcanvasLabel"
         >
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">Menú</h5>
-            <button
-              type="button"
-              class="btn-close text-reset"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="offcanvas-body">
-            <ul class="nav nav-pills flex-column mb-auto">
-              <li class="nav-item">
-                <a href="/administrador/index.html" class="nav-link text-white">
-                  <i class="bi bi-grid-fill me-2"></i> Resumen
-                </a>
-              </li>
-              <hr />
-              <li>
-                <a
-                  href="/administrador/hechos.html"
-                  class="nav-link text-white"
-                >
-                  <i class="bi bi-geo-alt-fill me-2"></i> Hechos
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/administrador/colecciones.html"
-                  class="nav-link text-white"
-                >
-                  <i class="bi bi-folder-fill me-2"></i> Colecciones
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/administrador/solicitudes.html"
-                  class="nav-link active"
-                  aria-current="page"
-                >
-                  <i class="bi bi-envelope-fill me-2"></i> Solicitudes
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/administrador/fuentes.html"
-                  class="nav-link text-white"
-                >
-                  <i class="bi bi-database-fill me-2"></i> Fuentes
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/administrador/usuarios.html"
-                  class="nav-link text-white"
-                >
-                  <i class="bi bi-people-fill me-2"></i> Usuarios
-                </a>
-              </li>
-            </ul>
-          </div>
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">Menú</h5>
+                <button
+                        type="button"
+                        class="btn-close text-reset"
+                        data-bs-dismiss="offcanvas"
+                        aria-label="Close"
+                ></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <a href="/admin" class="nav-link text-white">
+                            <i class="bi bi-grid-fill me-2"></i> Resumen
+                        </a>
+                    </li>
+                    <hr />
+                    <li>
+                        <a
+                                href="/administrador/hechos.html"
+                                class="nav-link text-white"
+                        >
+                            <i class="bi bi-geo-alt-fill me-2"></i> Hechos
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                                href="/admin/colecciones"
+                                class="nav-link text-white"
+                        >
+                            <i class="bi bi-folder-fill me-2"></i> Colecciones
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                                href="/admin/solicitudes"
+                                class="nav-link active"
+                                aria-current="page"
+                        >
+                            <i class="bi bi-envelope-fill me-2"></i> Solicitudes
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                                href="/administrador/fuentes.html"
+                                class="nav-link text-white"
+                        >
+                            <i class="bi bi-database-fill me-2"></i> Fuentes
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                                href="/administrador/usuarios.html"
+                                class="nav-link text-white"
+                        >
+                            <i class="bi bi-people-fill me-2"></i> Usuarios
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
+
         <main class="col-12 col-md-9 col-xl-10 px-md-4 pt-5">
-          <div
-            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-          >
-            <h1 class="h2">Solicitudes de eliminación</h1>
-          </div>
+            <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+            >
+                <h1 class="h2">Solicitudes de eliminación</h1>
+            </div>
 
-          <div class="table-responsive d-none d-md-block">
-            <table class="table table-striped table-sm">
-              <thead>
-                <tr>
-                  <th scope="col">#ID</th>
-                  <th scope="col">Descripción</th>
-                  <th scope="col">Usuario</th>
-                  <th scope="col">Hecho Relacionado</th>
-                  <th scope="col">Fecha de Creación</th>
-                  <th scope="col">Estado</th>
-                  <th scope="col">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>El hecho contiene datos desactualizados.</td>
-                  <td>Usuario anónimo</td>
-                  <td>Incendio en El Bolsón (ID: 154)</td>
-                  <td>2025-09-08</td>
-                  <td>
-                    <span class="badge rounded-pill bg-warning">Pendiente</span>
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      class="btn btn-sm btn-success me-1"
-                      data-bs-toggle="modal"
-                      data-bs-target="#acceptRequestModal"
-                    >
-                      <i class="bi bi-check-circle"></i> Aceptar
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-sm btn-danger"
-                      data-bs-toggle="modal"
-                      data-bs-target="#rejectRequestModal"
-                    >
-                      <i class="bi bi-x-circle"></i> Rechazar
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Ya existe un hecho similar en la base de datos.</td>
-                  <td>Pepe Perez (ID: 42)</td>
-                  <td>Accidente vial en Ruta 3 (ID: 212)</td>
-                  <td>2025-09-07</td>
-                  <td>
-                    <span class="badge rounded-pill bg-success">Aceptada</span>
-                  </td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Es un hecho repetido y de mala calidad.</td>
-                  <td>Laura García (ID: 67)</td>
-                  <td>Violencia en marchas (ID: 88)</td>
-                  <td>2025-09-06</td>
-                  <td>
-                    <span class="badge rounded-pill bg-danger">Rechazada</span>
-                  </td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+            <div class="table-responsive d-none d-md-block">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col">#ID</th>
+                        <th scope="col">Descripción (Justificación)</th>
+                        <th scope="col">Hecho Relacionado (Título)</th>
+                        <th scope="col">ID de Hecho</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col" th:if="${(solicitudes?.?[estado == 'PENDIENTE'] ?: {}).size() > 0}">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="solicitud : ${solicitudes}">
+                        <td th:text="${solicitud.id}">1</td>
+                        <td th:text="${solicitud.justificacion}">El hecho contiene datos desactualizados.</td>
+                        <td th:text="${solicitud.tituloHecho}">Incendio en El Bolsón</td>
+                        <td th:text="${solicitud.idHecho}">a1b2c3d4-e5f6-7890-1234-567890abcdef</td>
+                        <td>
+                    <span
+                            class="badge rounded-pill"
+                            th:text="${solicitud.estado}"
+                            th:classappend="${solicitud.estado == 'PENDIENTE' ? 'bg-warning' : (solicitud.estado == 'ACEPTADA' ? 'bg-success' : 'bg-danger')}"
+                    >Pendiente</span>
+                        </td>
+                        <td th:if="${solicitud.estado == 'PENDIENTE'}">
+                            <button
+                                    type="button"
+                                    class="btn btn-sm btn-success me-1"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#acceptRequestModal"
+                                    th:attr="data-solicitud-id=${solicitud.id}"
+                            >
+                                <i class="bi bi-check-circle"></i> Aceptar
+                            </button>
+                            <button
+                                    type="button"
+                                    class="btn btn-sm btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#rejectRequestModal"
+                                    th:attr="data-solicitud-id=${solicitud.id}"
+                            >
+                                <i class="bi bi-x-circle"></i> Rechazar
+                            </button>
+                        </td>
+                        <td th:unless="${solicitud.estado == 'PENDIENTE'}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-          <div class="d-block d-md-none">
-            <div class="card mb-3">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">
-                  Incendio en El Bolsón (ID: 154)
-                </h5>
-                <p class="card-text">
-                  <small class="fw-bold">ID:</small>
-                  <small>1</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Descripción:</small>
-                  <small>El hecho contiene datos desactualizados.</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Usuario:</small>
-                  <small>Usuario anónimo</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Fecha:</small>
-                  <small>2025-09-08</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Estado:</small>
-                  <small>
-                    <span class="badge rounded-pill bg-warning">Pendiente</span>
-                  </small>
-                </p>
-                <div class="mt-3">
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-success me-1"
-                    data-bs-toggle="modal"
-                    data-bs-target="#acceptRequestModal"
-                  >
-                    <i class="bi bi-check-circle"></i> Aceptar
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#rejectRequestModal"
-                  >
-                    <i class="bi bi-x-circle"></i> Rechazar
-                  </button>
+            <div class="d-block d-md-none">
+                <div class="card mb-3" th:each="solicitud : ${solicitudes}">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">
+                            <span th:text="${solicitud.tituloHecho}">Incendio en El Bolsón</span>
+                            <span th:text="| (ID: ${solicitud.idHecho})|">(ID: a1b2c3d4...)</span>
+                        </h5>
+                        <p class="card-text">
+                            <small class="fw-bold">ID Solicitud:</small>
+                            <small th:text="${solicitud.id}">1</small>
+                        </p>
+                        <p class="card-text">
+                            <small class="fw-bold">Descripción:</small>
+                            <small th:text="${solicitud.justificacion}">El hecho contiene datos desactualizados.</small>
+                        </p>
+                        <p class="card-text">
+                            <small class="fw-bold">Estado:</small>
+                            <small>
+                    <span
+                            class="badge rounded-pill"
+                            th:text="${solicitud.estado}"
+                            th:classappend="${solicitud.estado == 'PENDIENTE' ? 'bg-warning' : (solicitud.estado == 'ACEPTADA' ? 'bg-success' : 'bg-danger')}"
+                    >Pendiente</span>
+                            </small>
+                        </p>
+                        <div class="mt-3" th:if="${solicitud.estado == 'PENDIENTE'}">
+                            <button
+                                    type="button"
+                                    class="btn btn-sm btn-success me-1"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#acceptRequestModal"
+                                    th:attr="data-solicitud-id=${solicitud.id}"
+                            >
+                                <i class="bi bi-check-circle"></i> Aceptar
+                            </button>
+                            <button
+                                    type="button"
+                                    class="btn btn-sm btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#rejectRequestModal"
+                                    th:attr="data-solicitud-id=${solicitud.id}"
+                            >
+                                <i class="bi bi-x-circle"></i> Rechazar
+                            </button>
+                        </div>
+                        <div class="mt-3" th:unless="${solicitud.estado == 'PENDIENTE'}"></div>
+                    </div>
                 </div>
-              </div>
             </div>
-            <div class="card mb-3">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">
-                  Accidente vial en Ruta 3 (ID: 212)
-                </h5>
-                <p class="card-text">
-                  <small class="fw-bold">ID:</small>
-                  <small>2</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Descripción:</small>
-                  <small>Ya existe un hecho similar en la base de datos.</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Usuario:</small>
-                  <small>Pepe Perez (ID: 42)</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Fecha:</small>
-                  <small>2025-09-07</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Estado:</small>
-                  <small>
-                    <span class="badge rounded-pill bg-success">Aceptada</span>
-                  </small>
-                </p>
-                <div class="mt-3"></div>
-              </div>
-            </div>
-            <div class="card mb-3">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">
-                  Violencia en marchas (ID: 88)
-                </h5>
-                <p class="card-text">
-                  <small class="fw-bold">ID:</small>
-                  <small>3</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Descripción:</small>
-                  <small>Hecho repetido.</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Usuario:</small>
-                  <small>Laura García (ID: 67)</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Fecha:</small>
-                  <small>2025-09-06</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Estado:</small>
-                  <small>
-                    <span class="badge rounded-pill bg-danger">Rechazada</span>
-                  </small>
-                </p>
-                <div class="mt-3"></div>
-              </div>
-            </div>
-          </div>
         </main>
-      </div>
     </div>
+</div>
 
-    <div
-      class="modal fade"
-      id="acceptRequestModal"
-      tabindex="-1"
-      aria-labelledby="acceptRequestModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
+<div
+        class="modal fade"
+        id="acceptRequestModal"
+        tabindex="-1"
+        aria-labelledby="acceptRequestModalLabel"
+        aria-hidden="true"
+>
+    <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="acceptRequestModalLabel">
-              Aceptar Solicitud
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <p>
-              ¿Estás seguro de que querés aceptar esta solicitud? Esta acción
-              eliminará el hecho relacionado.
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cancelar
-            </button>
-            <button type="button" class="btn btn-success">Aceptar</button>
-          </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="acceptRequestModalLabel">
+                    Aceptar Solicitud
+                </h5>
+                <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    ¿Estás seguro de que querés aceptar esta solicitud? Esta acción
+                    eliminará el hecho relacionado.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                >
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-success">Aceptar</button>
+            </div>
         </div>
-      </div>
     </div>
+</div>
 
-    <div
-      class="modal fade"
-      id="rejectRequestModal"
-      tabindex="-1"
-      aria-labelledby="rejectRequestModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
+<div
+        class="modal fade"
+        id="rejectRequestModal"
+        tabindex="-1"
+        aria-labelledby="rejectRequestModalLabel"
+        aria-hidden="true"
+>
+    <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="rejectRequestModalLabel">
-              Rechazar Solicitud
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <p>
-              ¿Estás seguro de que querés rechazar esta solicitud? El hecho no
-              será eliminado.
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cancelar
-            </button>
-            <button type="button" class="btn btn-danger">Rechazar</button>
-          </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectRequestModalLabel">
+                    Rechazar Solicitud
+                </h5>
+                <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    ¿Estás seguro de que querés rechazar esta solicitud? El hecho no
+                    será eliminado.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                >
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-danger">Rechazar</button>
+            </div>
         </div>
-      </div>
     </div>
+</div>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"
+></script>
+</body>
 </html>
