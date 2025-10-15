@@ -3,21 +3,44 @@ package com.example.ddsigrupo33serverside.Services;
 import com.example.ddsigrupo33serverside.Dtos.AdminColeccionDto;
 import com.example.ddsigrupo33serverside.Dtos.AdminHomeDto;
 import com.example.ddsigrupo33serverside.Dtos.HechoDto;
+import com.example.ddsigrupo33serverside.Dtos.SolicitudDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class AdminService {
-    public AdminHomeDto getAdminHome() {
-        List<HechoDto> todosLosHechos = new ArrayList<>();
+  private final RestTemplate restTemplate;
 
-        todosLosHechos.add(new HechoDto("titulo de prueba"));
-        todosLosHechos.add(new HechoDto("titulo de prueba 2"));
-        todosLosHechos.add(new HechoDto("titulo de prueba 3"));
+  private static final String BASE_URL = "http://localhost:8080";
+
+    public AdminHomeDto getAdminHome() {
+        List<HechoDto> todosLosHechos = List.of(
+            new HechoDto(
+                UUID.fromString("550e8400-e29b-41d4-a716-446655440000"),
+                "Incendio en Córdoba",
+                "2024-12-03",
+                "Córdoba, Argentina",
+                "Estática",
+                Set.of("Incendio", "Medioambiente"),
+                "-64.1833",  // longitud
+                "-31.4167"   // latitud
+            ),
+            new HechoDto(
+                UUID.fromString("550e8400-e29b-41d4-a716-446655440001"),
+                "Reforestación en La Cumbre",
+                "2025-01-20",
+                "La Cumbre, Córdoba",
+                "Dinámica",
+                Set.of("Reforestación", "Voluntariado"),
+                "-64.1833",  // longitud
+                "-31.4167"   // latitud
+            )
+        );
+
 
         List<HechoDto> hechosUltimaSemana = new ArrayList<>(todosLosHechos.subList(1, 2));
 
@@ -67,5 +90,10 @@ public class AdminService {
         adminColecciones.add(new AdminColeccionDto(10, "Compositores y Obras", "Colección dedicada a las sinfonías y óperas más influyentes.", "Consenso", 180, haceSeisMeses));
 
         return adminColecciones;
+    }
+
+    public List<SolicitudDto> getSolicitudes() {
+      SolicitudDto[] solicitudes = restTemplate.getForObject(BASE_URL + "/solicitudes", SolicitudDto[].class);
+      return Arrays.asList(solicitudes);
     }
 }
