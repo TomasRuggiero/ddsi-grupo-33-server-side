@@ -17,7 +17,7 @@ public class ColeccionService {
             "Incendio en Córdoba",
             "2024-12-03",
             "Córdoba, Argentina",
-            "La Voz del Interior",
+            "Estática",
             Set.of("Incendio", "Medioambiente"),
             "-64.1833",  // longitud
             "-31.4167"   // latitud
@@ -27,7 +27,7 @@ public class ColeccionService {
             "Reforestación en La Cumbre",
             "2025-01-20",
             "La Cumbre, Córdoba",
-            "Agencia Télam",
+            "Dinámica",
             Set.of("Reforestación", "Voluntariado"),
             "-64.1833",  // longitud
             "-31.4167"   // latitud
@@ -40,7 +40,7 @@ public class ColeccionService {
             "Inundación en Santa Fe",
             "2024-11-12",
             "Santa Fe, Argentina",
-            "El Litoral",
+            "Proxy",
             Set.of("Inundación", "Clima Extremo"),
             "-60.7000",
             "-31.6333"
@@ -50,7 +50,7 @@ public class ColeccionService {
             "Reparación de defensas",
             "2025-02-05",
             "Santa Fe, Argentina",
-            "Ministerio de Obras Públicas",
+            "Estática",
             Set.of("Infraestructura", "Recuperación"),
             "-60.7000",
             "-31.6333"
@@ -63,7 +63,7 @@ public class ColeccionService {
             "Contaminación en el Riachuelo",
             "2025-03-10",
             "Buenos Aires, Argentina",
-            "Página 12",
+            "Proxy",
             Set.of("Contaminación", "Río", "Industria"),
             "-58.3660",
             "-34.6348"
