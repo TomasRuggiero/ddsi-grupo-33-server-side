@@ -16,4 +16,12 @@ public class SolicitudApiClient {
     return restTemplate.postForObject(BASE_URL, solicitud, SolicitudDto.class);
   }
 
+  public void aceptar(Integer id) {
+    restTemplate.put(BASE_URL + "/aprobada/" + id, null);
+  }
+
+  public void rechazar(Integer id) {
+    restTemplate.put(BASE_URL + "/rechazada/" + id, null);
+  }
+
 }

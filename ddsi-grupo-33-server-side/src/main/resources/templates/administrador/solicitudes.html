@@ -186,7 +186,7 @@
                     <span
                             class="badge rounded-pill"
                             th:text="${solicitud.estado}"
-                            th:classappend="${solicitud.estado == 'PENDIENTE' ? 'bg-warning' : (solicitud.estado == 'ACEPTADA' ? 'bg-success' : 'bg-danger')}"
+                            th:classappend="${solicitud.estado == 'PENDIENTE' ? 'bg-warning' : (solicitud.estado == 'APROBADA' ? 'bg-success' : 'bg-danger')}"
                     >Pendiente</span>
                         </td>
                         <td th:if="${solicitud.estado == 'PENDIENTE'}">
@@ -236,7 +236,7 @@
                     <span
                             class="badge rounded-pill"
                             th:text="${solicitud.estado}"
-                            th:classappend="${solicitud.estado == 'PENDIENTE' ? 'bg-warning' : (solicitud.estado == 'ACEPTADA' ? 'bg-success' : 'bg-danger')}"
+                            th:classappend="${solicitud.estado == 'PENDIENTE' ? 'bg-warning' : (solicitud.estado == 'APROBADA' ? 'bg-success' : 'bg-danger')}"
                     >Pendiente</span>
                             </small>
                         </p>
@@ -293,6 +293,9 @@
                     ¿Estás seguro de que querés aceptar esta solicitud? Esta acción
                     eliminará el hecho relacionado.
                 </p>
+                <form id="acceptForm" method="POST" action="">
+                    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                </form>
             </div>
             <div class="modal-footer">
                 <button
@@ -302,7 +305,7 @@
                 >
                     Cancelar
                 </button>
-                <button type="button" class="btn btn-success">Aceptar</button>
+                <button type="button" class="btn btn-success" id="confirmAcceptBtn">Aceptar</button>
             </div>
         </div>
     </div>
@@ -333,6 +336,9 @@
                     ¿Estás seguro de que querés rechazar esta solicitud? El hecho no
                     será eliminado.
                 </p>
+                <form id="rejectForm" method="POST" action="">
+                    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                </form>
             </div>
             <div class="modal-footer">
                 <button
@@ -342,7 +348,7 @@
                 >
                     Cancelar
                 </button>
-                <button type="button" class="btn btn-danger">Rechazar</button>
+                <button type="button" class="btn btn-danger" id="confirmRejectBtn">Rechazar</button>
             </div>
         </div>
     </div>
@@ -353,5 +359,59 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"
 ></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    // La URL base del controlador de solicitudes de admin, obtenida de Thymeleaf
+    const BASE_URL = /*[[@{/admin/solicitudes}]]*/ '/admin/solicitudes';
+
+    // Obtener referencias a los elementos del DOM
+    const acceptRequestModal = document.getElementById('acceptRequestModal');
+    const rejectRequestModal = document.getElementById('rejectRequestModal');
+    const confirmAcceptBtn = document.getElementById('confirmAcceptBtn');
+    const confirmRejectBtn = document.getElementById('confirmRejectBtn');
+    const acceptForm = document.getElementById('acceptForm');
+    const rejectForm = document.getElementById('rejectForm');
+
+    // Función genérica para configurar el listener de apertura y el envío del formulario
+    function setupModalListener(modalElement, confirmButton, formElement, actionPath) {
+        // 1. Manejar la apertura del modal (para establecer la URL de acción)
+        modalElement.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const solicitudId = button.getAttribute('data-solicitud-id');
+
+            // Construir la URL completa: /admin/solicitudes/{id}/aceptar o /rechazar
+            const actionUrl = BASE_URL + '/' + solicitudId + actionPath;
+
+            // Asignar la URL al formulario oculto
+            formElement.setAttribute('action', actionUrl);
+        });
+
+        // 2. Manejar el clic del botón de confirmación (para enviar el POST)
+        confirmButton.addEventListener('click', function () {
+            // Envía el formulario POST, el controlador hará la redirección
+            formElement.submit();
+        });
+    }
+
+    // Configurar listeners para ACEPTAR
+    setupModalListener(
+        acceptRequestModal,
+        confirmAcceptBtn,
+        acceptForm,
+        '/aceptar'
+    );
+
+    // Configurar listeners para RECHAZAR
+    setupModalListener(
+        rejectRequestModal,
+        confirmRejectBtn,
+        rejectForm,
+        '/rechazar'
+    );
+
+    /*]]>*/
+</script>
 </body>
 </html>
