@@ -5,7 +5,9 @@ import java.util.UUID;
 
 import com.example.ddsigrupo33serverside.Dtos.ColeccionDto;
 import com.example.ddsigrupo33serverside.Dtos.HechoDto;
+import com.example.ddsigrupo33serverside.Services.ColeccionApiClient;
 import com.example.ddsigrupo33serverside.Services.ColeccionService;
+import com.example.ddsigrupo33serverside.Services.HechoApiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/visualizador")
 @RequiredArgsConstructor
 public class VisualizadorController {
-  private final ColeccionService coleccionService;
+  private final ColeccionApiClient coleccionService;
+
+  private final HechoApiClient hechoService;
+
 
   @GetMapping("/colecciones")
   public String colecciones(Model model){
@@ -38,7 +43,7 @@ public class VisualizadorController {
 
   @GetMapping("/hecho/{id}")
   public String detalleHecho(@PathVariable UUID id, Model model) {
-    HechoDto hecho = coleccionService.getHechoPorId(id);
+    HechoDto hecho = hechoService.getHechoPorId(id);
     if (hecho == null) {
       return "error/404"; // opcional
     }
