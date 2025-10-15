@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ddsi-grupo-33-server-side.iml" filepath="$PROJECT_DIR$/.idea/ddsi-grupo-33-server-side.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ddsi-grupo-33-server-side/ddsi-grupo-33-server-side.iml" filepath="$PROJECT_DIR$/ddsi-grupo-33-server-side/ddsi-grupo-33-server-side.iml" />
     </modules>
   </component>
 </project>
