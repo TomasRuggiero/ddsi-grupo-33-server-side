@@ -6,13 +6,11 @@ import java.util.UUID;
 import com.example.ddsigrupo33serverside.Dtos.ColeccionDto;
 import com.example.ddsigrupo33serverside.Dtos.HechoDto;
 import com.example.ddsigrupo33serverside.Services.ColeccionService;
-import com.example.ddsigrupo33serverside.Services.HechoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -20,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class VisualizadorController {
   private final ColeccionService coleccionService;
-
-  private final HechoService hechoService;
-
 
   @GetMapping("/colecciones")
   public String colecciones(Model model){
