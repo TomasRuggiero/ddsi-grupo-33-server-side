@@ -14,4 +14,6 @@ public class HechoDto {
   private String ubicacion;
   private String fuente;
   private Set<String> categorias;
+  private String longitud;
+  private String latitud;
 }
