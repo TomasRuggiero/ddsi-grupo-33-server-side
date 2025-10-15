@@ -56,6 +56,10 @@
   </div>
 </nav>
 
+<div th:if="${param.solicitudEnviada}" class="alert alert-success text-center mt-4">
+  Se generó la solicitud de eliminación correctamente.
+</div>
+
 <!-- Contenido dinámico -->
 <div class="container my-5">
   <div class="row">
@@ -143,11 +147,12 @@
                 aria-label="Cerrar"
         ></button>
       </div>
-      <div class="modal-body">
-        <p>
-          Por favor, explica por qué crees que este hecho debería ser eliminado.
-        </p>
-        <form>
+
+      <form th:action="@{'/visualizador/hecho/' + ${hecho.id} + '/solicitar-eliminacion'}" method="post">
+        <div class="modal-body">
+          <p>
+            Por favor, explica por qué crees que este hecho debería ser eliminado.
+          </p>
           <div class="mb-3">
             <label for="deleteDescription" class="form-label">
               Descripción (máx. 500 caracteres)
@@ -155,24 +160,26 @@
             <textarea
                     class="form-control"
                     id="deleteDescription"
+                    name="justificacion"
                     rows="4"
                     maxlength="500"
+                    required
             ></textarea>
           </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-        >
-          Cancelar
-        </button>
-        <button type="button" class="btn btn-danger">
-          Enviar Solicitud
-        </button>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-danger">
+            Enviar Solicitud
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -186,6 +193,22 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"
 ></script>
+
+<script>
+  // Selecciona el alert de éxito
+  const alertaExito = document.querySelector('.alert-success');
+
+  if (alertaExito) {
+    // Espera 4 segundos (4000 ms) y luego hace fade out
+    setTimeout(() => {
+      alertaExito.style.transition = 'opacity 0.5s ease-out';
+      alertaExito.style.opacity = '0';
+
+      // Después de la transición, lo elimina del DOM
+      setTimeout(() => alertaExito.remove(), 500);
+    }, 4000);
+  }
+</script>
 
 </body>
 </html>

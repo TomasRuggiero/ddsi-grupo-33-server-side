@@ -5,23 +5,26 @@ import java.util.UUID;
 
 import com.example.ddsigrupo33serverside.Dtos.ColeccionDto;
 import com.example.ddsigrupo33serverside.Dtos.HechoDto;
+import com.example.ddsigrupo33serverside.Dtos.SolicitudDto;
 import com.example.ddsigrupo33serverside.Services.ColeccionApiClient;
-import com.example.ddsigrupo33serverside.Services.ColeccionService;
 import com.example.ddsigrupo33serverside.Services.HechoApiClient;
+import com.example.ddsigrupo33serverside.Services.SolicitudApiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/visualizador")
 @RequiredArgsConstructor
 public class VisualizadorController {
   private final ColeccionApiClient coleccionService;
-
   private final HechoApiClient hechoService;
+  private final SolicitudApiClient solicitudService;
 
 
   @GetMapping("/colecciones")
@@ -49,6 +52,17 @@ public class VisualizadorController {
     }
     model.addAttribute("hecho", hecho);
     return "/visualizador/hecho";
+  }
+
+  @PostMapping("/hecho/{id}/solicitar-eliminacion")
+  public String solicitarEliminacion(@PathVariable UUID id,
+                                     @RequestParam String justificacion) {
+    SolicitudDto dto = new SolicitudDto();
+    dto.setIdHecho(id);
+    dto.setJustificacion(justificacion);
+    solicitudService.crearSolicitud(dto);
+
+    return "redirect:/visualizador/hecho/" + id + "?solicitudEnviada=true";
   }
 
 }
