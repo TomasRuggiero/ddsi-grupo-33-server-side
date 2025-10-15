@@ -47,6 +47,24 @@
   </div>
 </nav>
 
+<!-- Selector de modo de navegación -->
+<div class="bg-light py-3 border-bottom">
+  <div class="container d-flex justify-content-center">
+    <div class="btn-group" role="group" aria-label="Modo de navegación">
+      <input type="radio" class="btn-check" name="modo" id="modoCurada" autocomplete="off" />
+      <label class="btn btn-outline-primary" for="modoCurada">
+        Curada
+      </label>
+
+      <input type="radio" class="btn-check" name="modo" id="modoIrrestricta" autocomplete="off" checked />
+      <label class="btn btn-outline-secondary" for="modoIrrestricta">
+        Irrestricta
+      </label>
+    </div>
+  </div>
+</div>
+
+
 <div class="container my-5">
   <h1 class="mb-3" th:text="${coleccion.titulo}">Título de la colección</h1>
   <p class="mb-4 text-muted" th:text="${coleccion.descripcion}">Descripción de la colección</p>
