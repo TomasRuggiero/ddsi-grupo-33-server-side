@@ -123,7 +123,6 @@
   </div>
 </div>
 
-<!-- Modal y footer iguales -->
 <div
         class="modal fade"
         id="deleteRequestModal"
@@ -131,11 +130,62 @@
         aria-labelledby="deleteRequestModalLabel"
         aria-hidden="true"
 >
-  ...
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteRequestModalLabel">
+          Solicitar Eliminación
+        </h5>
+        <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Cerrar"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Por favor, explica por qué crees que este hecho debería ser eliminado.
+        </p>
+        <form>
+          <div class="mb-3">
+            <label for="deleteDescription" class="form-label">
+              Descripción (máx. 500 caracteres)
+            </label>
+            <textarea
+                    class="form-control"
+                    id="deleteDescription"
+                    rows="4"
+                    maxlength="500"
+            ></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+        >
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-danger">
+          Enviar Solicitud
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <footer class="bg-dark text-white-50 py-4">
   ...
 </footer>
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"
+></script>
+
 </body>
 </html>
