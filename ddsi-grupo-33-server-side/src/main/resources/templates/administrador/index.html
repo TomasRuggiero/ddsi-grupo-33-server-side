@@ -18,7 +18,7 @@
   <body>
     <nav class="navbar navbar-dark bg-dark fixed-top">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Administrador</a>
+        <a class="navbar-brand" href="/admin">Administrador</a>
         <button
           class="navbar-toggler d-md-none"
           type="button"
@@ -41,7 +41,7 @@
             <ul class="nav nav-pills flex-column mb-auto mt-4">
               <li class="nav-item">
                 <a
-                  href="/administrador/index.html"
+                  href="/admin"
                   class="nav-link active"
                   aria-current="page"
                 >
@@ -59,7 +59,7 @@
               </li>
               <li>
                 <a
-                  href="/administrador/colecciones.html"
+                  href="/admin/colecciones"
                   class="nav-link text-white"
                 >
                   <i class="bi bi-folder-fill me-2"></i> Colecciones
@@ -112,7 +112,7 @@
             <ul class="nav nav-pills flex-column mb-auto">
               <li class="nav-item">
                 <a
-                  href="/administrador/index.html"
+                  href="/admin"
                   class="nav-link active"
                   aria-current="page"
                 >
@@ -130,7 +130,7 @@
               </li>
               <li>
                 <a
-                  href="/administrador/colecciones.html"
+                  href="/admin/colecciones"
                   class="nav-link text-white"
                 >
                   <i class="bi bi-folder-fill me-2"></i> Colecciones
@@ -175,7 +175,7 @@
               <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
                   <h5 class="card-title fw-bold">Total de Hechos</h5>
-                  <p class="card-text display-4">12.540</p>
+                  <p class="card-text display-4" th:text="${totalHechos}"></p>
                 </div>
               </div>
             </div>
@@ -183,7 +183,7 @@
               <div class="card text-white bg-success mb-3">
                 <div class="card-body">
                   <h5 class="card-title fw-bold">Total Colecciones</h5>
-                  <p class="card-text display-4">12</p>
+                  <p class="card-text display-4" th:text="${totalColecciones}"></p>
                 </div>
               </div>
             </div>
@@ -191,7 +191,7 @@
               <div class="card text-white bg-danger mb-3">
                 <div class="card-body">
                   <h5 class="card-title fw-bold">Solicitudes de eliminación</h5>
-                  <p class="card-text display-4">3</p>
+                  <p class="card-text display-4" th:text="${totalSolicitudesDeEliminacion}"></p>
                 </div>
               </div>
             </div>
@@ -199,7 +199,7 @@
               <div class="card text-white bg-warning mb-3">
                 <div class="card-body">
                   <h5 class="card-title fw-bold">Usuarios Registrados</h5>
-                  <p class="card-text display-4">5</p>
+                  <p class="card-text display-4" th:text="${totalUsuarios}"></p>
                 </div>
               </div>
             </div>
@@ -210,30 +210,36 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="card mb-3">
-                <div class="card-header fw-bold">Hechos por Categoría</div>
-                <div class="card-body text-center">
-                  <p class="text-muted">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Impedit at quasi sed harum ut qui distinctio, ipsam
-                    expedita. Possimus impedit mollitia dolore culpa adipisci
-                    quidem qui omnis quod tempora minus.
-                  </p>
+
+                <div class="card-header fw-bold bg-dark text-white text-start">
+                  Todos los Hechos
                 </div>
+
+                <table class="table table-stripped table-sm mb-0">
+
+                  <tbody class="bg-dark text-white text-center">
+                  <tr th:each="hecho : ${todosLosHechos}" class="text-muted">
+                    <td th:text="${hecho.titulo}"></td>
+                  </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
             <div class="col-lg-6">
               <div class="card mb-3">
-                <div class="card-header fw-bold">
-                  Hechos en la Última Semana
+
+                <div class="card-header fw-bold bg-dark text-white text-start">
+                  Hechos en la Ultima Semana
                 </div>
-                <div class="card-body text-center">
-                  <p class="text-muted">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quod eos, expedita laboriosam magnam minus perferendis
-                    consequatur. Vel, iste ad ut et iusto enim tempora deserunt
-                    necessitatibus beatae mollitia optio accusantium!
-                  </p>
-                </div>
+
+                <table class="table table-stripped table-sm mb-0">
+
+                  <tbody class="bg-dark text-white text-center">
+                  <tr th:each="hecho : ${hechosUltimaSemana}" class="text-muted">
+                    <td th:text="${hecho.titulo}"></td>
+                  </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
