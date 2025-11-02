@@ -4,6 +4,7 @@ import com.example.ddsigrupo33serverside.Dtos.AdminColeccionDto;
 import com.example.ddsigrupo33serverside.Dtos.AdminHomeDto;
 import com.example.ddsigrupo33serverside.Dtos.HechoDto;
 import com.example.ddsigrupo33serverside.Dtos.SolicitudDto;
+import com.example.ddsigrupo33serverside.Dtos.UbicacionDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -22,22 +23,20 @@ public class AdminService {
             new HechoDto(
                 UUID.fromString("550e8400-e29b-41d4-a716-446655440000"),
                 "Incendio en Córdoba",
-                "2024-12-03",
-                "Córdoba, Argentina",
+                "Incencio",
+                new Date(2024/12/3),
                 "Estática",
                 Set.of("Incendio", "Medioambiente"),
-                "-64.1833",  // longitud
-                "-31.4167"   // latitud
+                new UbicacionDto("Calle falsa 12","Villa Carlos Paz","Cordoba","Argentina","-64.1833","-31.4167")
             ),
             new HechoDto(
                 UUID.fromString("550e8400-e29b-41d4-a716-446655440001"),
                 "Reforestación en La Cumbre",
-                "2025-01-20",
-                "La Cumbre, Córdoba",
+                "Reforestacion",
+                new Date(2025/1/20),
                 "Dinámica",
                 Set.of("Reforestación", "Voluntariado"),
-                "-64.1833",  // longitud
-                "-31.4167"   // latitud
+                new UbicacionDto("Calle falsa 23","La Cumbre","Cordoba","Argentina","-64.1833","-31.4167")
             )
         );
 

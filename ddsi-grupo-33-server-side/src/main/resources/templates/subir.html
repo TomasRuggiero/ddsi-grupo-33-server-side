@@ -1,207 +1,202 @@
 <!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MetaMapa | Subir Hecho</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
-    <link rel="stylesheet" href="css/custom.css" />
-  </head>
-  <body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container">
-        <a class="navbar-brand" href="/">MetaMapa</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/admin.html">Administrador</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/login.html">Iniciar Sesión</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/visualizador/colecciones.html"
-                >Colecciones</a
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MetaMapa | Subir Hecho</title>
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+          crossorigin="anonymous"
+  />
+  <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  />
+  <link rel="stylesheet" href="css/custom.css" />
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">MetaMapa</a>
+    <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/admin.html">Administrador</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login.html">Iniciar Sesión</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{'/visualizador/colecciones'}">Colecciones</a>
+        </li>
+        <li class="nav-item">
+          <a
+                  class="nav-link btn btn-primary text-white ms-2"
+                  th:href="@{'/hechos/nuevo'}"
+          >Subir Hecho</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container my-5">
+  <h1 class="mb-4 text-center">Subir un hecho</h1>
+
+  <div th:if="${hechoCreado}" class="alert alert-success text-center mt-4">
+    ¡El hecho se creó correctamente!
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg">
+        <div class="card-body p-5">
+          <form th:action="@{'/hechos/nuevo'}" th:object="${hecho}" method="post" enctype="multipart/form-data" id="submitFactForm">
+            <div class="mb-3">
+              <label for="factTitle" class="form-label"
+              >Título del Hecho <span class="text-danger">*</span></label
               >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link btn btn-primary text-white ms-2"
-                href="/subir-hecho.html"
-                >Subir Hecho</a
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <div class="container my-5">
-      <h1 class="mb-4 text-center">Subir un hecho</h1>
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="card shadow-lg">
-            <div class="card-body p-5">
-              <form id="submitFactForm">
-                <div class="mb-3">
-                  <label for="factTitle" class="form-label"
-                    >Título del Hecho <span class="text-danger">*</span></label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="factTitle"
-                    required
-                    placeholder="Ej: Incendio forestal en Lago Puelo"
-                  />
-                </div>
-
-                <div class="mb-3">
-                  <label for="factDescription" class="form-label"
-                    >Descripción <span class="text-danger">*</span></label
-                  >
-                  <textarea
-                    class="form-control"
-                    id="factDescription"
-                    rows="5"
-                    required
-                    placeholder="Detalle el hecho ocurrido, incluyendo contexto, impacto y cualquier información relevante."
-                  ></textarea>
-                </div>
-                <div class="row mb-3">
-                  <div class="col-md-6">
-                    <label for="factLatitude" class="form-label"
-                      >Latitud <span class="text-danger">*</span></label
-                    >
-                    <input
-                      type="number"
+              <input
+                      type="text"
+                      th:field="*{titulo}"
                       class="form-control"
-                      id="factLatitude"
+                      id="factTitle"
                       required
-                      step="any"
-                      placeholder="Ej: -42.067"
-                    />
-                  </div>
-                  <div class="col-md-6">
-                    <label for="factLongitude" class="form-label"
-                      >Longitud <span class="text-danger">*</span></label
-                    >
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="factLongitude"
-                      required
-                      step="any"
-                      placeholder="Ej: -71.533"
-                    />
-                  </div>
-                </div>
-
-                <div class="mb-3">
-                  <label for="factSource" class="form-label"
-                    >Fuente del Hecho <span class="text-danger">*</span></label
-                  >
-                  <select class="form-select" id="factSource" required>
-                    <option selected disabled value="">
-                      Seleccione una fuente...
-                    </option>
-                    <option value="estatica">Fuente Estática</option>
-                    <option value="dinamica">Fuente Dinámica</option>
-                    <option value="proxy">Fuente Proxy</option>
-                  </select>
-                </div>
-
-                <div class="mb-3">
-                  <label for="factCategory" class="form-label"
-                    >Categoría <span class="text-danger">*</span></label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="factCategory"
-                    required
-                    placeholder="Ej: Incendio Forestal, Quema de pastizales"
-                  />
-                </div>
-
-                <div class="mb-3">
-                  <label for="factDate" class="form-label"
-                    >Fecha del Hecho <span class="text-danger">*</span></label
-                  >
-                  <input
-                    type="date"
-                    class="form-control"
-                    id="factDate"
-                    required
-                  />
-                </div>
-
-                <div class="mb-3">
-                  <label for="factMedia" class="form-label"
-                    >Subir Medios (Imágenes/Videos)</label
-                  >
-                  <input
-                    class="form-control"
-                    type="file"
-                    id="factMedia"
-                    multiple
-                    accept="image/*,video/*"
-                  />
-                  <div class="form-text">
-                    Podés subir hasta 5 archivos. Tamaño máximo por archivo:
-                    10MB.
-                  </div>
-                </div>
-
-                <div class="d-grid gap-2">
-                  <button type="submit" class="btn btn-primary btn-lg">
-                    <i class="bi bi-upload"></i> Subir Hecho
-                  </button>
-                </div>
-              </form>
+                      placeholder="Ej: Incendio forestal en Lago Puelo"
+              />
             </div>
-          </div>
+
+            <div class="mb-3">
+              <label for="factDescription" class="form-label"
+              >Descripción <span class="text-danger">*</span></label
+              >
+              <textarea
+                      th:field="*{descripcion}"
+                      class="form-control"
+                      id="factDescription"
+                      rows="5"
+                      required
+                      placeholder="Detalle el hecho ocurrido, incluyendo contexto, impacto y cualquier información relevante."
+              ></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="factAddress" class="form-label">Dirección <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="factAddress" th:field="*{ubicacion.direccion}" required placeholder="Ej: Av. San Martín 123"/>
+            </div>
+            <div class="mb-3">
+              <label for="factCity" class="form-label">Ciudad</label>
+              <input type="text" class="form-control" id="factCity" th:field="*{ubicacion.ciudad}" placeholder="Ej: Lago Puelo"/>
+            </div>
+            <div class="mb-3">
+              <label for="factProvince" class="form-label">Provincia</label>
+              <input type="text" class="form-control" id="factProvince"  th:field="*{ubicacion.provincia}" placeholder="Ej: Chubut"/>
+            </div>
+            <div class="mb-3">
+              <label for="factCountry" class="form-label">País</label>
+              <input type="text" class="form-control" id="factCountry" th:field="*{ubicacion.pais}" placeholder="Ej: Argentina"/>
+            </div>
+
+            <div class="mb-3">
+              <label for="factCategory" class="form-label"
+              >Categoría <span class="text-danger">*</span></label
+              >
+              <input
+                      type="text"
+                      class="form-control"
+                      id="factCategory"
+                      th:field="*{categorias}"
+                      required
+                      placeholder="Ej: Incendio Forestal, Quema de pastizales"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="factDate" class="form-label"
+              >Fecha del Hecho <span class="text-danger">*</span></label
+              >
+              <input
+                      type="date"
+                      th:field="*{fecha}"
+                      class="form-control"
+                      id="factDate"
+                      required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="factMedia" class="form-label"
+              >Subir Medios (Imágenes/Videos)</label
+              >
+              <input
+                      class="form-control"
+                      type="file"
+                      id="factMedia"
+                      multiple
+                      accept="image/*,video/*"
+              />
+              <div class="form-text">
+                Podés subir hasta 5 archivos. Tamaño máximo por archivo:
+                10MB.
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-upload"></i> Subir Hecho
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-    <footer class="bg-dark text-white-50 py-4">
-      <div class="container text-center text-md-start">
-        <div class="row align-items-center">
-          <div class="col-md-6 mb-3 mb-md-0">
-            <p class="mb-0">© 2025 MetaMapa. Todos los derechos reservados.</p>
-          </div>
-          <div class="col-md-6 text-md-end">
-            <a href="#" class="text-white-50 text-decoration-none"
-              >Información legal y de privacidad</a
-            >
-          </div>
-        </div>
+  </div>
+</div>
+<footer class="bg-dark text-white-50 py-4">
+  <div class="container text-center text-md-start">
+    <div class="row align-items-center">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <p class="mb-0">© 2025 MetaMapa. Todos los derechos reservados.</p>
       </div>
-    </footer>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+      <div class="col-md-6 text-md-end">
+        <a href="#" class="text-white-50 text-decoration-none"
+        >Información legal y de privacidad</a
+        >
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"
+></script>
+
+<script>
+  const alertaExito = document.querySelector('.alert-success');
+  if (alertaExito) {
+    setTimeout(() => {
+      alertaExito.style.transition = 'opacity 0.5s ease-out';
+      alertaExito.style.opacity = '0';
+      setTimeout(() => alertaExito.remove(), 500);
+    }, 4000);
+  }
+</script>
+
+</body>
 </html>

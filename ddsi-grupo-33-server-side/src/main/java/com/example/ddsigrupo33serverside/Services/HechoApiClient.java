@@ -19,6 +19,10 @@ public class HechoApiClient {
     return restTemplate.getForObject(BASE_URL + "/" + id, HechoDto.class);
   }
 
+  public void crearHecho(HechoDto hechoDto) {
+    restTemplate.postForObject(BASE_URL, hechoDto, HechoDto.class);
+  }
+
   public void solicitarEliminacion(UUID id, String justificacion) {
   }
 }

@@ -40,7 +40,7 @@
           <a class="nav-link" href="/visualizador/colecciones">Colecciones</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link btn btn-primary text-white ms-2" href="/subir.html">Subir Hecho</a>
+          <a class="nav-link btn btn-primary text-white ms-2" th:href="@{'/hechos/nuevo'}">Subir Hecho</a>
         </li>
       </ul>
     </div>
@@ -161,8 +161,8 @@
       <tbody>
       <tr th:each="hecho : ${coleccion.hechos}">
         <td th:text="${hecho.titulo}">Título</td>
-        <td th:text="${hecho.fecha_acontecimiento}">01/01/2025</td>
-        <td th:text="${hecho.ubicacion}">Ubicación</td>
+        <td th:text="${#dates.format(hecho.fecha, 'dd/MM/yyyy')}">01/01/2025</td>
+        <td th:text="${hecho.ubicacion.direccion}">Ubicación</td>
         <td th:text="${hecho.fuente}">Fuente</td>
         <td th:text="${hecho.categorias}">Categoría</td>
         <td>
@@ -192,7 +192,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title" th:text="${hecho.titulo}">Título del hecho</h5>
-            <p class="card-text mb-1"><strong>Fecha:</strong> <span th:text="${hecho.fecha_acontecimiento}">Fecha</span></p>
+            <p class="card-text mb-1"><strong>Fecha:</strong> <span th:text="${hecho.fecha}">Fecha</span></p>
             <p class="card-text mb-1"><strong>Ubicación:</strong> <span th:text="${hecho.ubicacion}">Ubicación</span></p>
             <p class="card-text mb-1"><strong>Fuente:</strong> <span th:text="${hecho.fuente}">Fuente</span></p>
             <p class="card-text mb-3"><strong>Categoría:</strong> <span th:text="${hecho.categorias}">Categoría</span></p>

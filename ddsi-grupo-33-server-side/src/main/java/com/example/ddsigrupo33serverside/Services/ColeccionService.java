@@ -1,11 +1,13 @@
 package com.example.ddsigrupo33serverside.Services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import com.example.ddsigrupo33serverside.Dtos.ColeccionDto;
 import com.example.ddsigrupo33serverside.Dtos.HechoDto;
+import com.example.ddsigrupo33serverside.Dtos.UbicacionDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,45 +17,39 @@ public class ColeccionService {
         new HechoDto(
             UUID.fromString("550e8400-e29b-41d4-a716-446655440000"),
             "Incendio en Córdoba",
-            "2024-12-03",
-            "Córdoba, Argentina",
+            "Incendio",
+            new Date(2024/12/3),
             "Estática",
             Set.of("Incendio", "Medioambiente"),
-            "-64.1833",  // longitud
-            "-31.4167"   // latitud
-        ),
+            new UbicacionDto("Calle falsa 123","Villa Carlos Paz","Cordoba","Argentina","-64.1833","-31.4167")),
         new HechoDto(
             UUID.fromString("550e8400-e29b-41d4-a716-446655440001"),
             "Reforestación en La Cumbre",
-            "2025-01-20",
-            "La Cumbre, Córdoba",
+            "Reforestacion",
+            new Date(2025/1/20),
             "Dinámica",
             Set.of("Reforestación", "Voluntariado"),
-            "-64.1833",  // longitud
-            "-31.4167"   // latitud
-        )
-    );
+            new UbicacionDto("Calle falsa 345","La Cumbre","Cordoba","Argentina","-64.1833","-31.4167")
+    ));
 
     List<HechoDto> hechosInundaciones = List.of(
         new HechoDto(
             UUID.fromString("550e8400-e29b-41d4-a716-446655440002"),
             "Inundación en Santa Fe",
-            "2024-11-12",
-            "Santa Fe, Argentina",
+            "Inundacion",
+            new Date(2024/11/12),
             "Proxy",
             Set.of("Inundación", "Clima Extremo"),
-            "-60.7000",
-            "-31.6333"
+            new UbicacionDto("Calle falsa 567","Rosario","Santa Fe","Argentina","-64.1833","-31.4167")
         ),
         new HechoDto(
             UUID.fromString("550e8400-e29b-41d4-a716-446655440003"),
             "Reparación de defensas",
-            "2025-02-05",
-            "Santa Fe, Argentina",
+            "Reparacion",
+            new Date(2025/2/5),
             "Estática",
             Set.of("Infraestructura", "Recuperación"),
-            "-60.7000",
-            "-31.6333"
+            new UbicacionDto("Calle falsa 789","Rosario","Santa Fe","Argentina","-64.1833","-31.4167")
         )
     );
 
@@ -61,12 +57,11 @@ public class ColeccionService {
         new HechoDto(
             UUID.fromString("550e8400-e29b-41d4-a716-446655440004"),
             "Contaminación en el Riachuelo",
-            "2025-03-10",
-            "Buenos Aires, Argentina",
+            "Contaminacion",
+            new Date(2025/3/10),
             "Proxy",
             Set.of("Contaminación", "Río", "Industria"),
-            "-58.3660",
-            "-34.6348"
+            new UbicacionDto("Calle falsa 912","Buenos Aires","Buenos Aires","Argentina","-64.1833","-31.4167")
         )
     );
 
