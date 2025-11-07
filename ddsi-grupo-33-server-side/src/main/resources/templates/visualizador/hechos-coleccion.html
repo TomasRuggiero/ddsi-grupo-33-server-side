@@ -15,8 +15,8 @@
   <link rel="stylesheet" href="/css/custom.css" />
 </head>
 
-<body class="bg-light">
-<!-- NAVBAR -->
+<body class="bg-light d-flex flex-column min-vh-100">
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand" href="/">MetaMapa</a>
@@ -47,198 +47,201 @@
   </div>
 </nav>
 
-<!-- Selector de modo de navegación -->
-<div class="bg-light py-3 border-bottom">
-  <div class="container d-flex justify-content-center">
-    <div class="btn-group" role="group" aria-label="Modo de navegación">
-      <input type="radio" class="btn-check" name="modo" id="modoCurada" autocomplete="off" />
-      <label class="btn btn-outline-primary" for="modoCurada">
-        Curada
-      </label>
+<main class="flex-grow-1">
 
-      <input type="radio" class="btn-check" name="modo" id="modoIrrestricta" autocomplete="off" checked />
-      <label class="btn btn-outline-secondary" for="modoIrrestricta">
-        Irrestricta
-      </label>
+  <!-- Selector de modo de navegación -->
+  <div class="bg-light py-3 border-bottom">
+    <div class="container d-flex justify-content-center">
+      <div class="btn-group" role="group" aria-label="Modo de navegación">
+        <input type="radio" class="btn-check" name="modo" id="modoCurada" autocomplete="off" />
+        <label class="btn btn-outline-primary" for="modoCurada">
+          Curada
+        </label>
+
+        <input type="radio" class="btn-check" name="modo" id="modoIrrestricta" autocomplete="off" checked />
+        <label class="btn btn-outline-secondary" for="modoIrrestricta">
+          Irrestricta
+        </label>
+      </div>
     </div>
   </div>
-</div>
 
 
-<div class="container my-5">
-  <h1 class="mb-3" th:text="${coleccion.titulo}">Título de la colección</h1>
-  <p class="mb-4 text-muted" th:text="${coleccion.descripcion}">Descripción de la colección</p>
+  <div class="container my-5">
+    <h1 class="mb-3" th:text="${coleccion.titulo}">Título de la colección</h1>
+    <p class="mb-4 text-muted" th:text="${coleccion.descripcion}">Descripción de la colección</p>
 
-  <div class="accordion mb-4" id="filtersAccordion">
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="filtersHeading">
-        <button
-                class="accordion-button"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#filtersCollapse"
-                aria-expanded="true"
-                aria-controls="filtersCollapse"
+    <div class="accordion mb-4" id="filtersAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="filtersHeading">
+          <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#filtersCollapse"
+                  aria-expanded="true"
+                  aria-controls="filtersCollapse"
+          >
+            <i class="bi bi-funnel me-2"></i> Filtros de búsqueda
+          </button>
+        </h2>
+        <div
+                id="filtersCollapse"
+                class="accordion-collapse collapse"
+                aria-labelledby="filtersHeading"
+                data-bs-parent="#filtersAccordion"
         >
-          <i class="bi bi-funnel me-2"></i> Filtros de búsqueda
-        </button>
-      </h2>
-      <div
-              id="filtersCollapse"
-              class="accordion-collapse collapse"
-              aria-labelledby="filtersHeading"
-              data-bs-parent="#filtersAccordion"
-      >
-        <div class="accordion-body">
-          <form class="row g-3">
-            <div class="col-md-6 col-lg-3">
-              <label for="dateFrom" class="form-label">Fecha (Desde)</label>
-              <input type="date" class="form-control" id="dateFrom" />
-            </div>
-            <div class="col-md-6 col-lg-3">
-              <label for="dateTo" class="form-label">Fecha (Hasta)</label>
-              <input type="date" class="form-control" id="dateTo" />
-            </div>
+          <div class="accordion-body">
+            <form class="row g-3">
+              <div class="col-md-6 col-lg-3">
+                <label for="dateFrom" class="form-label">Fecha (Desde)</label>
+                <input type="date" class="form-control" id="dateFrom" />
+              </div>
+              <div class="col-md-6 col-lg-3">
+                <label for="dateTo" class="form-label">Fecha (Hasta)</label>
+                <input type="date" class="form-control" id="dateTo" />
+              </div>
 
-            <div class="col-md-6 col-lg-3">
-              <label for="location" class="form-label">Ubicación</label>
-              <input
-                      type="text"
-                      class="form-control"
-                      id="location"
-                      placeholder="Ej: El Bolsón"
-              />
-            </div>
+              <div class="col-md-6 col-lg-3">
+                <label for="location" class="form-label">Ubicación</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="location"
+                        placeholder="Ej: El Bolsón"
+                />
+              </div>
 
-            <div class="col-md-6 col-lg-3">
-              <label for="category" class="form-label">Categoría</label>
-              <input
-                      type="text"
-                      class="form-control"
-                      id="category"
-                      placeholder="Ej: Quema de pastizales"
-              />
-            </div>
+              <div class="col-md-6 col-lg-3">
+                <label for="category" class="form-label">Categoría</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="category"
+                        placeholder="Ej: Quema de pastizales"
+                />
+              </div>
 
-            <div class="col-md-6 col-lg-3">
-              <label for="source" class="form-label">Fuente </label>
-              <select class="form-select" id="source">
-                <option selected disabled value="">Todas</option>
-                <option>Estática</option>
-                <option>Dinámica</option>
-                <option>Proxy</option>
-              </select>
-            </div>
+              <div class="col-md-6 col-lg-3">
+                <label for="source" class="form-label">Fuente </label>
+                <select class="form-select" id="source">
+                  <option selected disabled value="">Todas</option>
+                  <option>Estática</option>
+                  <option>Dinámica</option>
+                  <option>Proxy</option>
+                </select>
+              </div>
 
-            <div class="col-12 d-flex justify-content-end">
-              <button type="submit" class="btn btn-primary me-2">
-                <i class="bi bi-search"></i> Buscar
+              <div class="col-12 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary me-2">
+                  <i class="bi bi-search"></i> Buscar
+                </button>
+                <button type="reset" class="btn btn-outline-secondary">
+                  <i class="bi bi-x-circle"></i> Limpiar Filtros
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Tabla de hechos -->
+    <div class="table-responsive d-none d-md-block">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Título</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Ubicación</th>
+          <th scope="col">Fuente</th>
+          <th scope="col">Categoría</th>
+          <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="hecho : ${coleccion.hechos}">
+          <td th:text="${hecho.titulo}">Título</td>
+          <td th:text="${#dates.format(hecho.fecha, 'dd/MM/yyyy')}">01/01/2025</td>
+          <td th:text="${hecho.ubicacion.direccion}">Ubicación</td>
+          <td th:text="${hecho.fuente}">Fuente</td>
+          <td th:text="${hecho.categorias}">Categoría</td>
+          <td>
+            <a
+                    th:href="@{/visualizador/hecho/{id}(id=${hecho.id})}"
+                    class="btn btn-sm btn-primary text-white"
+            >
+              <i class="bi bi-eye"></i>
+            </a>
+            <button
+                    class="btn btn-sm btn-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteRequestModal"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Versión mobile (cards) -->
+    <div class="d-block d-md-none">
+      <div class="row g-3">
+        <div class="col-12" th:each="hecho : ${coleccion.hechos}">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title" th:text="${hecho.titulo}">Título del hecho</h5>
+              <p class="card-text mb-1"><strong>Fecha:</strong> <span th:text="${hecho.fecha}">Fecha</span></p>
+              <p class="card-text mb-1"><strong>Ubicación:</strong> <span th:text="${hecho.ubicacion}">Ubicación</span></p>
+              <p class="card-text mb-1"><strong>Fuente:</strong> <span th:text="${hecho.fuente}">Fuente</span></p>
+              <p class="card-text mb-3"><strong>Categoría:</strong> <span th:text="${hecho.categorias}">Categoría</span></p>
+              <a th:href="@{/visualizador/hecho/{id}(id=${hecho.id})}" class="btn btn-sm btn-primary text-white">
+                <i class="bi bi-eye"></i>
+              </a>
+              <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteRequestModal">
+                <i class="bi bi-trash"></i>
               </button>
-              <button type="reset" class="btn btn-outline-secondary">
-                <i class="bi bi-x-circle"></i> Limpiar Filtros
-              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de solicitud de eliminación -->
+  <div
+          class="modal fade"
+          id="deleteRequestModal"
+          tabindex="-1"
+          aria-labelledby="deleteRequestModalLabel"
+          aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteRequestModalLabel">Solicitar Eliminación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Por favor, explica por qué crees que este hecho debería ser eliminado.</p>
+          <form>
+            <div class="mb-3">
+              <label for="deleteDescription" class="form-label">Descripción (máx. 500 caracteres)</label>
+              <textarea class="form-control" id="deleteDescription" rows="4" maxlength="500"></textarea>
             </div>
           </form>
         </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Tabla de hechos -->
-  <div class="table-responsive d-none d-md-block">
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th scope="col">Título</th>
-        <th scope="col">Fecha</th>
-        <th scope="col">Ubicación</th>
-        <th scope="col">Fuente</th>
-        <th scope="col">Categoría</th>
-        <th scope="col">Acciones</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="hecho : ${coleccion.hechos}">
-        <td th:text="${hecho.titulo}">Título</td>
-        <td th:text="${#dates.format(hecho.fecha, 'dd/MM/yyyy')}">01/01/2025</td>
-        <td th:text="${hecho.ubicacion.direccion}">Ubicación</td>
-        <td th:text="${hecho.fuente}">Fuente</td>
-        <td th:text="${hecho.categorias}">Categoría</td>
-        <td>
-          <a
-                  th:href="@{/visualizador/hecho/{id}(id=${hecho.id})}"
-                  class="btn btn-sm btn-primary text-white"
-          >
-            <i class="bi bi-eye"></i>
-          </a>
-          <button
-                  class="btn btn-sm btn-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteRequestModal"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Versión mobile (cards) -->
-  <div class="d-block d-md-none">
-    <div class="row g-3">
-      <div class="col-12" th:each="hecho : ${coleccion.hechos}">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title" th:text="${hecho.titulo}">Título del hecho</h5>
-            <p class="card-text mb-1"><strong>Fecha:</strong> <span th:text="${hecho.fecha}">Fecha</span></p>
-            <p class="card-text mb-1"><strong>Ubicación:</strong> <span th:text="${hecho.ubicacion}">Ubicación</span></p>
-            <p class="card-text mb-1"><strong>Fuente:</strong> <span th:text="${hecho.fuente}">Fuente</span></p>
-            <p class="card-text mb-3"><strong>Categoría:</strong> <span th:text="${hecho.categorias}">Categoría</span></p>
-            <a th:href="@{/visualizador/hecho/{id}(id=${hecho.id})}" class="btn btn-sm btn-primary text-white">
-              <i class="bi bi-eye"></i>
-            </a>
-            <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteRequestModal">
-              <i class="bi bi-trash"></i>
-            </button>
-          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger">Enviar Solicitud</button>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-<!-- Modal de solicitud de eliminación -->
-<div
-        class="modal fade"
-        id="deleteRequestModal"
-        tabindex="-1"
-        aria-labelledby="deleteRequestModalLabel"
-        aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteRequestModalLabel">Solicitar Eliminación</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <p>Por favor, explica por qué crees que este hecho debería ser eliminado.</p>
-        <form>
-          <div class="mb-3">
-            <label for="deleteDescription" class="form-label">Descripción (máx. 500 caracteres)</label>
-            <textarea class="form-control" id="deleteDescription" rows="4" maxlength="500"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger">Enviar Solicitud</button>
-      </div>
-    </div>
-  </div>
-</div>
+</main>
 
 <footer class="bg-dark text-white-50 py-4 mt-5">
   <div class="container text-center text-md-start">

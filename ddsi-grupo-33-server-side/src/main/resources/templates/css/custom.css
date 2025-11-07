@@ -12,3 +12,62 @@
   height: 400px;
   width: 100%;
 }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main, .page-content {
+  flex: 1;
+}
+
+footer {
+  margin-top: auto;
+}
+
+
+main.error-page {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.error-code {
+  font-size: 7rem;
+  font-weight: 700;
+  color: #0d6efd;
+  animation: pulse404 2s infinite;
+}
+
+@keyframes pulse404 {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.8;
+  }
+}
+
+.error-message {
+  font-size: 1.5rem;
+  color: #6c757d;
+  margin-bottom: 30px;
+}
+
+.btn-home {
+  font-size: 1.1rem;
+  padding: 10px 25px;
+}
