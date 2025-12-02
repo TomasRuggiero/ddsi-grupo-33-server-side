@@ -37,6 +37,8 @@ public class HechoController {
                            BindingResult result,
                            Model model) {
     if (result.hasErrors()) {
+      model.addAttribute("hecho", hechoDto);
+      model.addAttribute("hechoRechazado", true);
       return "subir"; // vuelve al formulario mostrando errores
     }
     hechoApiClient.crearHecho(hechoDto);
