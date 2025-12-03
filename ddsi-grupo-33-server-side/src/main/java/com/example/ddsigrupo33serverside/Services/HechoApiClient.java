@@ -1,6 +1,5 @@
 package com.example.ddsigrupo33serverside.Services;
 
-import com.example.ddsigrupo33serverside.Dtos.ColeccionDto;
 import com.example.ddsigrupo33serverside.Dtos.HechoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,11 @@ public class HechoApiClient {
   }
 
   public void crearHecho(HechoDto hechoDto) {
-    restTemplate.postForObject(BASE_URL, hechoDto, HechoDto.class);
+    try {
+      restTemplate.postForObject(BASE_URL, hechoDto, HechoDto.class);
+    } catch (Exception e) {
+      throw new RuntimeException("error");
+    }
   }
 
   public void solicitarEliminacion(UUID id, String justificacion) {

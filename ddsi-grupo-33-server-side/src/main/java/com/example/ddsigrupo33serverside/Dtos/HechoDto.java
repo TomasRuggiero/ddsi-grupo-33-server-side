@@ -19,7 +19,7 @@ public class HechoDto {
   private String descripcion;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   @DateTimeFormat(pattern = "yyyy-MM-dd") // Esto soluciona el binding del formulario web  private Date fecha;
-  private Date fecha;
+  private Date fecha_acontecimiento;
   private String fuente;
   private Set<String> categorias;
   private UbicacionDto ubicacion;
