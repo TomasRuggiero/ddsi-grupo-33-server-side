@@ -17,8 +17,9 @@ public class AdminService {
   private final RestTemplate restTemplate;
 
   private static final String BASE_URL = "http://localhost:8080";
+  private final HechoApiClient hechoApiClient;
 
-    public AdminHomeDto getAdminHome() {
+  public AdminHomeDto getAdminHome() {
         List<HechoDto> todosLosHechos = List.of(
             new HechoDto(
                 UUID.fromString("550e8400-e29b-41d4-a716-446655440000"),
@@ -26,6 +27,7 @@ public class AdminService {
                 "Incencio",
                 new Date(2024/12/3),
                 "Estática",
+                "Pendiente",
                 Set.of("Incendio", "Medioambiente"),
                 new UbicacionDto("Calle falsa 12","Villa Carlos Paz","Cordoba","Argentina","-64.1833","-31.4167")
             ),
@@ -35,6 +37,7 @@ public class AdminService {
                 "Reforestacion",
                 new Date(2025/1/20),
                 "Dinámica",
+                "Pendiente",
                 Set.of("Reforestación", "Voluntariado"),
                 new UbicacionDto("Calle falsa 23","La Cumbre","Cordoba","Argentina","-64.1833","-31.4167")
             )
@@ -89,6 +92,11 @@ public class AdminService {
         adminColecciones.add(new AdminColeccionDto(10, "Compositores y Obras", "Colección dedicada a las sinfonías y óperas más influyentes.", "Consenso", 180, haceSeisMeses));
 
         return adminColecciones;
+    }
+
+    public List<HechoDto> getAdminHechos() {
+      var a = hechoApiClient.getAllHechos();
+      return a;
     }
 
     public List<SolicitudDto> getSolicitudes() {

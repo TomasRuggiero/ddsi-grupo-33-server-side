@@ -20,6 +20,7 @@ public class ColeccionService {
             "Incendio",
             new Date(2024/12/3),
             "Estática",
+            "Pendiente",
             Set.of("Incendio", "Medioambiente"),
             new UbicacionDto("Calle falsa 123","Villa Carlos Paz","Cordoba","Argentina","-64.1833","-31.4167")),
         new HechoDto(
@@ -28,6 +29,7 @@ public class ColeccionService {
             "Reforestacion",
             new Date(2025/1/20),
             "Dinámica",
+            "Pendiente",
             Set.of("Reforestación", "Voluntariado"),
             new UbicacionDto("Calle falsa 345","La Cumbre","Cordoba","Argentina","-64.1833","-31.4167")
     ));
@@ -39,6 +41,7 @@ public class ColeccionService {
             "Inundacion",
             new Date(2024/11/12),
             "Proxy",
+            "Pendiente",
             Set.of("Inundación", "Clima Extremo"),
             new UbicacionDto("Calle falsa 567","Rosario","Santa Fe","Argentina","-64.1833","-31.4167")
         ),
@@ -48,6 +51,7 @@ public class ColeccionService {
             "Reparacion",
             new Date(2025/2/5),
             "Estática",
+            "Pendiente",
             Set.of("Infraestructura", "Recuperación"),
             new UbicacionDto("Calle falsa 789","Rosario","Santa Fe","Argentina","-64.1833","-31.4167")
         )
@@ -60,6 +64,7 @@ public class ColeccionService {
             "Contaminacion",
             new Date(2025/3/10),
             "Proxy",
+            "Pendiente",
             Set.of("Contaminación", "Río", "Industria"),
             new UbicacionDto("Calle falsa 912","Buenos Aires","Buenos Aires","Argentina","-64.1833","-31.4167")
         )

@@ -25,6 +25,10 @@ public class HechoApiClient {
     return restTemplate.getForObject(BASE_URL + "/" + id, HechoDto.class);
   }
 
+  public List<HechoDto> getAllHechos() {
+    return restTemplate.getForObject(BASE_URL, List.class);
+  }
+
   public UUID crearHecho(HechoDto hechoDto) {
     try {
       HechoDto respuestaHecho = restTemplate.postForObject(BASE_URL, hechoDto, HechoDto.class);

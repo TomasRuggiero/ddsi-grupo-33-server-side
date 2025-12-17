@@ -41,6 +41,18 @@ public class AdminController {
       return "administrador/solicitudes";
     }
 
+    @GetMapping("hechos")
+    public String hechos(Model model) {
+      model.addAttribute("hechos", adminService.getAdminHechos());
+
+      return "administrador/hechos";
+    }
+
+    @GetMapping("fuentes")
+    public String fuentes(Model model) {
+      return "administrador/fuentes";
+    }
+
     @PostMapping("/solicitudes/{id}/aceptar")
     public String aceptarSolicitud(@PathVariable Integer id) {
       solicitudService.aceptar(id);

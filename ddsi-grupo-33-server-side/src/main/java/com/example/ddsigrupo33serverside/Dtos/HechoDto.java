@@ -21,6 +21,7 @@ public class HechoDto {
   @DateTimeFormat(pattern = "yyyy-MM-dd") // Esto soluciona el binding del formulario web  private Date fecha;
   private Date fecha_acontecimiento;
   private String fuente;
+  private String estado;
   private Set<String> categorias;
   private UbicacionDto ubicacion;
 }
