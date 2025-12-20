@@ -37,6 +37,7 @@ public class HechoController {
 
     return "subir";
   }
+
   @PostMapping("/nuevo")
   public String crearHecho(@ModelAttribute("hecho") HechoDto hechoDto,
                            BindingResult result,

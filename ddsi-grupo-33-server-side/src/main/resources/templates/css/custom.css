@@ -8,6 +8,25 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Evita que los botones de acción se amontonen o se doblen */
+.table td.text-nowrap {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Espaciado mínimo entre botones dentro de la celda */
+.table td.text-nowrap .btn {
+  margin-right: 2px;
+}
+
+/* Opcional: Si el título es muy largo, que no rompa la tabla */
+.table td:nth-child(2) {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .map-container {
   height: 400px;
   width: 100%;

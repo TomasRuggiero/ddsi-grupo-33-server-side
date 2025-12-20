@@ -65,4 +65,9 @@ public class HechoApiClient {
        throw new RuntimeException("Error al agregar multimedia: " + e.getMessage());
      }
   }
+
+  public void eliminarHecho(UUID id) {
+      restTemplate.delete(BASE_URL + "/" + id);
+
+  }
 }

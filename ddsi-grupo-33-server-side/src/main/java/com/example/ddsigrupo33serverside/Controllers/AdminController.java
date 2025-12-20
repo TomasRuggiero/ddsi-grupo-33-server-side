@@ -1,6 +1,7 @@
 package com.example.ddsigrupo33serverside.Controllers;
 
 import com.example.ddsigrupo33serverside.Services.AdminService;
+import com.example.ddsigrupo33serverside.Services.HechoApiClient;
 import com.example.ddsigrupo33serverside.Services.SolicitudApiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ public class AdminController {
     private final AdminService adminService;
 
     private final SolicitudApiClient solicitudService;
+    private final HechoApiClient hechoApiClient;
 
     @GetMapping()
     public String adminHome(Model model) {
