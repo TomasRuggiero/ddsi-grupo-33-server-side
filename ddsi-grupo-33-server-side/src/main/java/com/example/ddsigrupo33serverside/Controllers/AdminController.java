@@ -52,6 +52,8 @@ public class AdminController {
 
     @GetMapping("fuentes")
     public String fuentes(Model model) {
+      model.addAttribute("fuentes", adminService.getAllFuentes());
+
       return "administrador/fuentes";
     }
 

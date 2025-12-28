@@ -190,89 +190,15 @@
                     <thead>
                     <tr>
                         <th scope="col">#ID</th>
-                        <th scope="col">Título</th>
-                        <th scope="col">Descripción</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Colección</th>
-                        <th scope="col">Estado</th>
+                        <th scope="col">Tipo de Fuente</th>
                         <th scope="col">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Incendio en El Bolsón</td>
-                        <td>Incendio forestal que afectó 500 hectáreas.</td>
-                        <td>2025-09-08</td>
-                        <td>Incendios Forestales</td>
-                        <td><span class="badge bg-warning text-dark">Pendiente</span></td>
+                    <tr th:each="fuente : ${fuentes}">
+                        <td th:text="${fuente.id}"></td>
+                        <td th:text="${fuente.tipo_fuente}"></td>
                         <td>
-                            <button
-                                    class="btn btn-sm btn-outline-primary"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#reviewFactModal"
-                            >
-                                <i class="bi bi-check2-circle"></i> Revisar
-                            </button>
-                            <button
-                                    type="button"
-                                    class="btn btn-sm btn-primary me-1"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editFactModal"
-                            >
-                                <i class="bi bi-pencil-square"></i> Editar
-                            </button>
-                            <button
-                                    type="button"
-                                    class="btn btn-sm btn-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteFactModal"
-                            >
-                                <i class="bi bi-trash3"></i> Eliminar
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Inundación en La Matanza</td>
-                        <td>Fuertes lluvias provocan inundaciones en barrios.</td>
-                        <td>2025-08-15</td>
-                        <td>Desastres Naturales</td>
-                        <td><span class="badge bg-success">Aceptado</span></td>
-                        <td>
-                            <a href="/hecho" class="btn btn-sm btn-outline-info me-1">
-                                <i class="bi bi-eye"></i> Ver
-                            </a>
-                            <button
-                                    type="button"
-                                    class="btn btn-sm btn-primary me-1"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editFactModal"
-                            >
-                                <i class="bi bi-pencil-square"></i> Editar
-                            </button>
-                            <button
-                                    type="button"
-                                    class="btn btn-sm btn-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteFactModal"
-                            >
-                                <i class="bi bi-trash3"></i> Eliminar
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Accidente vial en Ruta 2</td>
-                        <td>Colisión entre dos vehículos, 3 heridos.</td>
-                        <td>2025-07-20</td>
-                        <td>Accidentes Viales</td>
-                        <td><span class="badge bg-info text-dark">Aceptado con sugerencia</span></td>
-                        <td>
-                            <a href="/hecho" class="btn btn-sm btn-outline-info me-1">
-                                <i class="bi bi-eye"></i> Ver
-                            </a>
-
                             <button
                                     type="button"
                                     class="btn btn-sm btn-primary me-1"
@@ -446,7 +372,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <a href="/subir" class="btn btn-sm btn-success">
+                <a href="/hechos/nuevo" class="btn btn-sm btn-success">
                     <i class="bi bi-plus-circle-fill"></i> Nuevo Hecho
                 </a>
                 <button

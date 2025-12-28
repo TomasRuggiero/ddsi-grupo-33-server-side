@@ -1,10 +1,6 @@
 package com.example.ddsigrupo33serverside.Services;
 
-import com.example.ddsigrupo33serverside.Dtos.AdminColeccionDto;
-import com.example.ddsigrupo33serverside.Dtos.AdminHomeDto;
-import com.example.ddsigrupo33serverside.Dtos.HechoDto;
-import com.example.ddsigrupo33serverside.Dtos.SolicitudDto;
-import com.example.ddsigrupo33serverside.Dtos.UbicacionDto;
+import com.example.ddsigrupo33serverside.Dtos.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,6 +14,7 @@ public class AdminService {
 
   private static final String BASE_URL = "http://localhost:8080";
   private final HechoApiClient hechoApiClient;
+  private final FuenteApiClient fuenteApiClient;
 
   public AdminHomeDto getAdminHome() {
         List<HechoDto> todosLosHechos = List.of(
@@ -92,6 +89,10 @@ public class AdminService {
         adminColecciones.add(new AdminColeccionDto(10, "Compositores y Obras", "Colección dedicada a las sinfonías y óperas más influyentes.", "Consenso", 180, haceSeisMeses));
 
         return adminColecciones;
+    }
+
+    public List<FuenteDto> getAllFuentes() {
+      return fuenteApiClient.getAllFuentes();
     }
 
     public List<HechoDto> getAdminHechos() {
