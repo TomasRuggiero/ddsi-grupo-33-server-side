@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ColeccionService {
-  public List<ColeccionDto> getTodasLasColecciones() {
+  public List<ColeccionDto> getAllColecciones() {
     List<HechoDto> hechosIncendios = List.of(
         new HechoDto(
             UUID.fromString("550e8400-e29b-41d4-a716-446655440000"),
@@ -80,14 +80,14 @@ public class ColeccionService {
   }
 
   public ColeccionDto getColeccionPorId(Long id) {
-    return getTodasLasColecciones().stream()
+    return getAllColecciones().stream()
         .filter(c -> c.getId().equals(id))
         .findFirst()
         .orElse(null);
   }
 
   public HechoDto getHechoPorId(UUID id) {
-    return getTodasLasColecciones().stream()
+    return getAllColecciones().stream()
         .flatMap(c -> c.getHechos().stream())
         .filter(h -> h.getId().equals(id))
         .findFirst()

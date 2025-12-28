@@ -1,6 +1,7 @@
 package com.example.ddsigrupo33serverside.Dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,8 +18,9 @@ public class HechoDto {
   private UUID id;
   private String titulo;
   private String descripcion;
+  @JsonProperty("fecha")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-  @DateTimeFormat(pattern = "yyyy-MM-dd") // Esto soluciona el binding del formulario web  private Date fecha;
   private Date fecha_acontecimiento;
   private String fuente;
   private String estado;

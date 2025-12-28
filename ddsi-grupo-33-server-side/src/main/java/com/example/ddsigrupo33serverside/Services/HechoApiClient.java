@@ -2,7 +2,10 @@ package com.example.ddsigrupo33serverside.Services;
 
 import com.example.ddsigrupo33serverside.Dtos.HechoDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -10,7 +13,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -26,7 +31,16 @@ public class HechoApiClient {
   }
 
   public List<HechoDto> getAllHechos() {
-    return restTemplate.getForObject(BASE_URL, List.class);
+      ParameterizedTypeReference<List<HechoDto>> typeRef = new ParameterizedTypeReference<List<HechoDto>>() {};
+
+      ResponseEntity<List<HechoDto>> response = restTemplate.exchange(
+              BASE_URL,
+              HttpMethod.GET,
+              null,
+              typeRef
+      );
+
+      return response.getBody();
   }
 
   public UUID crearHecho(HechoDto hechoDto) {
@@ -70,4 +84,30 @@ public class HechoApiClient {
       restTemplate.delete(BASE_URL + "/" + id);
 
   }
+
+    public void aceptar(UUID id, String sugerencia) {
+        Map<String, String> params = new HashMap<>();
+        params.put("id", id.toString());
+        params.put("sugerencia", sugerencia != null ? sugerencia : "");
+
+        restTemplate.postForObject(
+                BASE_URL + "/{id}/aceptar?sugerencia={sugerencia}",
+                null,
+                Void.class,
+                params
+        );
+    }
+
+    public void rechazar(UUID id, String sugerencia) {
+        Map<String, String> params = new HashMap<>();
+        params.put("id", id.toString());
+        params.put("motivo", sugerencia != null ? sugerencia : "Sin motivo especificado");
+
+        restTemplate.postForObject(
+                BASE_URL + "/{id}/rechazar?motivo={motivo}",
+                null,
+                Void.class,
+                params
+        );
+    }
 }

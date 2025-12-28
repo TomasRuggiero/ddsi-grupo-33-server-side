@@ -8,6 +8,6 @@ public class ErrorPagesController {
 
   @GetMapping("/error404")
   public String notFound() {
-    return "error404";
+    return "error/404";
   }
 }

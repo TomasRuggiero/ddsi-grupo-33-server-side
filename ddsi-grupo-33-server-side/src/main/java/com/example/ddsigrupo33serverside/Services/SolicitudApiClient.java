@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SolicitudApiClient {
@@ -22,6 +24,10 @@ public class SolicitudApiClient {
 
   public void rechazar(Integer id) {
     restTemplate.put(BASE_URL + "/rechazada/" + id, null);
+  }
+
+  public List<SolicitudDto> getAllSolicitudes() {
+    return restTemplate.getForObject(BASE_URL, List.class);
   }
 
 }

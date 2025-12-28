@@ -45,7 +45,7 @@
           <div class="d-flex flex-column flex-shrink-0 p-3 pt-5 text-white-50">
             <ul class="nav nav-pills flex-column mb-auto mt-4">
               <li class="nav-item mb-2">
-                <a href="/admin" class="nav-link text-white">
+                <a href="/" class="nav-link text-white">
                   <i class="bi bi-house-fill me-2"></i> Inicio
                 </a>
               </li>
@@ -118,7 +118,7 @@
           <div class="offcanvas-body">
             <ul class="nav nav-pills flex-column mb-auto">
               <li class="nav-item">
-                <a href="/admin/index" class="nav-link text-white">
+                <a href="/admin/" class="nav-link text-white">
                   <i class="bi bi-grid-fill me-2"></i> Resumen
                 </a>
               </li>
@@ -204,14 +204,19 @@
                 <tr th:each="hecho : ${hechos}">
                     <td th:text="${hecho.titulo}"></td>
                     <td th:text="${hecho.descripcion}"></td>
-                    <td th:text="${hecho.fecha}"></td>
+                    <td th:text="${hecho.fecha_acontecimiento}"></td>
                     <td th:text="${hecho.categorias}"></td>
                     <td th:text="${hecho.estado}"></td>
                     <td class="text-nowrap text-end">
                         <button
+                                th:if="${hecho.estado}=='PENDIENTE'"
                                 class="btn btn-sm btn-outline-primary"
                                 data-bs-toggle="modal"
                                 data-bs-target="#reviewFactModal"
+                                th:data-id="${hecho.id}"
+                                th:data-titulo="${hecho.titulo}"
+                                th:data-descripcion="${hecho.descripcion}"
+                                th:data-fecha="${hecho.fecha_acontecimiento}"
                         >
                             <i class="bi bi-check2-circle"></i> Revisar
                         </button>
@@ -640,24 +645,23 @@ Incendio forestal que afectó 500 hectáreas.</textarea
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
-            <h5 class="fw-bold mb-3">Incendio en El Bolsón</h5>
-            <p><strong>Descripción:</strong> Incendio forestal que afectó 500 hectáreas.</p>
-            <p><strong>Fecha:</strong> 2025-09-08</p>
-            <p><strong>Colección:</strong> Incendios Forestales</p>
-
+            <h5 class="fw-bold mb-3" id="modal-titulo">Cargando...</h5>
+            <p><strong>Descripción:</strong> <span id="modal-descripcion"></span></p>
+            <p><strong>Fecha:</strong> <span id="modal-fecha"></span></p>
             <hr />
 
-            <form id="reviewForm">
-              <div class="mb-3">
-                <label for="suggestion" class="form-label">Sugerencia</label>
-                <textarea
-                        id="suggestion"
-                        name="sugerencia"
-                        class="form-control"
-                        rows="3"
-                        placeholder="Escriba una sugerencia si desea aceptar con observaciones..."
-                ></textarea>
-              </div>
+            <form id="reviewForm" th:action="@{/admin/revisar}" method="post">
+              <input type="hidden" name="id" id="modal-id" />
+              <input type="hidden" name="accion" id="modal-accion" /> <div class="mb-3">
+              <label for="suggestion" class="form-label">Sugerencia</label>
+              <textarea
+                      id="suggestion"
+                      name="sugerencia"
+                      class="form-control"
+                      rows="3"
+                      placeholder="Escriba una sugerencia si desea aceptar con observaciones..."
+              ></textarea>
+            </div>
             </form>
           </div>
           <div class="modal-footer">
@@ -674,14 +678,52 @@ Incendio forestal que afectó 500 hectáreas.</textarea
 
       <script>
         document.addEventListener("DOMContentLoaded", () => {
+          const reviewModal = document.getElementById('reviewFactModal');
           const suggestionInput = document.getElementById("suggestion");
           const rejectBtn = document.getElementById("rejectBtn");
+          const acceptBtn = document.getElementById("acceptBtn");
+          const reviewForm = document.getElementById("reviewForm");
+
+          if (reviewModal) {
+            reviewModal.addEventListener('show.bs.modal', (event) => {
+              const button = event.relatedTarget;
+
+              const id = button.getAttribute('data-id');
+              const titulo = button.getAttribute('data-titulo');
+              const descripcion = button.getAttribute('data-descripcion');
+              const fecha = button.getAttribute('data-fecha');
+
+              document.getElementById('modal-id').value = id;
+              document.getElementById('modal-titulo').textContent = titulo;
+              document.getElementById('modal-descripcion').textContent = descripcion;
+              document.getElementById('modal-fecha').textContent = fecha;
+
+              suggestionInput.value = "";
+              rejectBtn.disabled = false;
+            });
+          }
 
           if (suggestionInput && rejectBtn) {
             suggestionInput.addEventListener("input", () => {
-              rejectBtn.disabled = suggestionInput.value.trim().length > 0;
+              rejectBtn.disabled = suggestionInput.value.trim().length === 0;
             });
           }
+
+          acceptBtn.addEventListener("click", () => {
+            document.getElementById("modal-accion").value = "ACEPTAR";
+            reviewForm.submit();
+          });
+
+          rejectBtn.addEventListener("click", () => {
+            const motivo = suggestionInput.value.trim();
+            if (motivo === "") {
+              alert("Por favor, indique un motivo para el rechazo.");
+              return;
+            }
+
+            document.getElementById("modal-accion").value = "RECHAZAR";
+            reviewForm.submit();
+          });
         });
       </script>
 

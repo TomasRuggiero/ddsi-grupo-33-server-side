@@ -8,14 +8,31 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 public class AdminController {
     private final AdminService adminService;
 
-    private final SolicitudApiClient solicitudService;
+    private final SolicitudApiClient solicitudApiClient;
     private final HechoApiClient hechoApiClient;
+
+    @PostMapping("/revisar")
+    public String procesarRevision(
+            @RequestParam("id") UUID id,
+            @RequestParam("accion") String accion,
+            @RequestParam(value = "sugerencia", required = false) String sugerencia
+    ) {
+        if ("ACEPTAR".equals(accion)) {
+            hechoApiClient.aceptar(id, sugerencia);
+        } else if ("RECHAZAR".equals(accion)) {
+            hechoApiClient.rechazar(id, sugerencia);
+        }
+
+        return "redirect:/admin/hechos";
+    }
 
     @GetMapping()
     public String adminHome(Model model) {
@@ -59,14 +76,14 @@ public class AdminController {
 
     @PostMapping("/solicitudes/{id}/aceptar")
     public String aceptarSolicitud(@PathVariable Integer id) {
-      solicitudService.aceptar(id);
+      solicitudApiClient.aceptar(id);
 
       return "redirect:/admin/solicitudes";
     }
 
     @PostMapping("/solicitudes/{id}/rechazar")
     public String rechazarSolicitud(@PathVariable Integer id) {
-      solicitudService.rechazar(id);
+      solicitudApiClient.rechazar(id);
 
       return "redirect:/admin/solicitudes";
     }

@@ -15,35 +15,25 @@ public class AdminService {
   private static final String BASE_URL = "http://localhost:8080";
   private final HechoApiClient hechoApiClient;
   private final FuenteApiClient fuenteApiClient;
+  private final ColeccionService coleccionService;
+  private final SolicitudApiClient solicitudApiClient;
 
   public AdminHomeDto getAdminHome() {
-        List<HechoDto> todosLosHechos = List.of(
-            new HechoDto(
-                UUID.fromString("550e8400-e29b-41d4-a716-446655440000"),
-                "Incendio en Córdoba",
-                "Incencio",
-                new Date(2024/12/3),
-                "Estática",
-                "Pendiente",
-                Set.of("Incendio", "Medioambiente"),
-                new UbicacionDto("Calle falsa 12","Villa Carlos Paz","Cordoba","Argentina","-64.1833","-31.4167")
-            ),
-            new HechoDto(
-                UUID.fromString("550e8400-e29b-41d4-a716-446655440001"),
-                "Reforestación en La Cumbre",
-                "Reforestacion",
-                new Date(2025/1/20),
-                "Dinámica",
-                "Pendiente",
-                Set.of("Reforestación", "Voluntariado"),
-                new UbicacionDto("Calle falsa 23","La Cumbre","Cordoba","Argentina","-64.1833","-31.4167")
-            )
-        );
+        List<HechoDto> todosLosHechos = hechoApiClient.getAllHechos();
 
+        long sieteDiasEnMillis = 7L * 24 * 60 * 60 * 1000;
+        Date limiteHaceUnaSemana = new Date(System.currentTimeMillis() - sieteDiasEnMillis);
+        List<HechoDto> hechosUltimaSemana = todosLosHechos.stream()
+              .filter(h -> h.getFecha_acontecimiento().after(limiteHaceUnaSemana)
+                      && h.getFecha_acontecimiento().before(new Date()))
+              .toList();
 
-        List<HechoDto> hechosUltimaSemana = new ArrayList<>(todosLosHechos.subList(1, 2));
+        Integer totalColecciones = coleccionService.getAllColecciones().size();
+        Integer totalSolicitudes = solicitudApiClient.getAllSolicitudes().size();
+        // TODO: Obtener usuarios
+        Integer totalUsuarios = 2;
 
-        return new AdminHomeDto(todosLosHechos, hechosUltimaSemana, todosLosHechos.size(), 10, 100, 10000);
+        return new AdminHomeDto(todosLosHechos, hechosUltimaSemana, todosLosHechos.size(), totalColecciones, totalSolicitudes, totalUsuarios);
     }
 
     public List<AdminColeccionDto> getAdminColecciones() {
@@ -96,8 +86,7 @@ public class AdminService {
     }
 
     public List<HechoDto> getAdminHechos() {
-      var a = hechoApiClient.getAllHechos();
-      return a;
+      return hechoApiClient.getAllHechos();
     }
 
     public List<SolicitudDto> getSolicitudes() {
