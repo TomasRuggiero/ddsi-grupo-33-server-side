@@ -8,9 +8,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ColeccionDto {
-  public Long id;
-  public String titulo;
-  public String descripcion;
-  public List<HechoDto> hechos;
-  public Integer totalDeHechos;
+  private Long Id;
+  private String Titulo;
+  private String Descripcion;
+  private String AlgoritmoDeConsenso;
+  private List<HechoDto> Hechos;
+  private Integer TotalDeHechos;
 }

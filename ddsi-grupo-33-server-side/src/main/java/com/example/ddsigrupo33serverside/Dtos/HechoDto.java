@@ -23,7 +23,7 @@ public class HechoDto {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private Date fecha_acontecimiento;
   private String fuente;
-  private String estado;
+  private String origen;
   private Set<String> categorias;
   private UbicacionDto ubicacion;
 }

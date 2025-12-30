@@ -64,7 +64,7 @@
 <div class="container my-5">
   <div class="row">
     <h1 class="mb-3" th:text="${hecho.titulo}">Título del Hecho</h1>
-    <p class="text-muted" th:text="'Publicado el ' + ${#dates.format(hecho.fecha, 'dd/MM/yyyy')}"></p>
+    <p class="text-muted" th:text="'Publicado el ' + ${#dates.format(hecho.fecha_acontecimiento, 'dd/MM/yyyy')}"></p>
 
     <div class="col-lg-8">
       <div class="card mb-4">
@@ -83,7 +83,7 @@
             </li>
             <li>
               <strong>Fuente:</strong>
-              <span th:text="${hecho.fuente}">Fuente</span>
+              <span th:text="${hecho.origen}">Fuente</span>
             </li>
           </ul>
         </div>

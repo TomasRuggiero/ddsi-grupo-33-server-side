@@ -191,14 +191,14 @@
                     <tr>
                         <th scope="col">#ID</th>
                         <th scope="col">Tipo de Fuente</th>
-                        <th scope="col">Acciones</th>
+                        <th scope="col" class="text-end">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="fuente : ${fuentes}">
                         <td th:text="${fuente.id}"></td>
                         <td th:text="${fuente.tipo_fuente}"></td>
-                        <td>
+                        <td class="text-end">
                             <button
                                     type="button"
                                     class="btn btn-sm btn-primary me-1"

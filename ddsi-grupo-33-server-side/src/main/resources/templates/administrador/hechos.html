@@ -174,14 +174,6 @@
           >
             <h1 class="h2">Gestión de Hechos</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
-              <button
-                type="button"
-                class="btn btn-sm btn-secondary me-2"
-                data-bs-toggle="modal"
-                data-bs-target="#importCsvModal"
-              >
-                <i class="bi bi-filetype-csv"></i> Importar CSV
-              </button>
               <a href="/hechos/nuevo" class="btn btn-sm btn-success">
                 <i class="bi bi-plus-circle-fill"></i> Nuevo Hecho
               </a>
@@ -460,56 +452,6 @@
 
     <div
       class="modal fade"
-      id="importCsvModal"
-      tabindex="-1"
-      aria-labelledby="importCsvModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="importCsvModalLabel">
-              Importar Hechos desde CSV
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label for="csvFile" class="form-label"
-                  >Selecciona un archivo CSV</label
-                >
-                <input
-                  type="file"
-                  class="form-control"
-                  id="csvFile"
-                  accept=".csv"
-                  required
-                />
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cancelar
-            </button>
-            <button type="button" class="btn btn-primary">Importar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="modal fade"
       id="editFactModal"
       tabindex="-1"
       aria-labelledby="editFactModalLabel"
@@ -653,13 +595,13 @@ Incendio forestal que afectó 500 hectáreas.</textarea
             <form id="reviewForm" th:action="@{/admin/revisar}" method="post">
               <input type="hidden" name="id" id="modal-id" />
               <input type="hidden" name="accion" id="modal-accion" /> <div class="mb-3">
-              <label for="suggestion" class="form-label">Sugerencia</label>
+              <label for="suggestion" class="form-label">Sugerencia / Motivo</label>
               <textarea
                       id="suggestion"
                       name="sugerencia"
                       class="form-control"
                       rows="3"
-                      placeholder="Escriba una sugerencia si desea aceptar con observaciones..."
+                      placeholder="Escriba una sugerencia si desea aceptar con observaciones, o un motivo para rechazar."
               ></textarea>
             </div>
             </form>
