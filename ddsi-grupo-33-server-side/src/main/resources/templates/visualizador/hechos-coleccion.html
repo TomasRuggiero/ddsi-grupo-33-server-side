@@ -227,16 +227,30 @@
         </div>
         <div class="modal-body">
           <p>Por favor, explica por qué crees que este hecho debería ser eliminado.</p>
+
           <form>
             <div class="mb-3">
-              <label for="deleteDescription" class="form-label">Descripción (máx. 500 caracteres)</label>
-              <textarea class="form-control" id="deleteDescription" rows="4" maxlength="500"></textarea>
+              <label class="form-label">
+                Descripción (mín. 500 caracteres)
+              </label>
+              <textarea
+                      class="form-control"
+                      name="justificacion"
+                      rows="4"
+                      minlength="500"
+                      required
+              ></textarea>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-danger">
+                Enviar Solicitud
+              </button>
             </div>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-danger">Enviar Solicitud</button>
         </div>
       </div>
     </div>
