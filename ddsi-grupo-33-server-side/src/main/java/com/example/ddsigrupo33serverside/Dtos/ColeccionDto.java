@@ -11,7 +11,8 @@ public class ColeccionDto {
   private Long Id;
   private String Titulo;
   private String Descripcion;
-  private String AlgoritmoDeConsenso;
+  private CriterioDePertenenciaDto CriterioDePertenencia;
+  private String algoritmoDeConsenso;
   private List<HechoDto> Hechos;
   private Integer TotalDeHechos;
 }

@@ -199,18 +199,16 @@
             <th scope="col">Descripción</th>
             <th scope="col">Algoritmo de Consenso</th>
             <th scope="col">Hechos</th>
-            <th scope="col">Fecha</th>
             <th scope="col">Acciones</th>
           </tr>
           </thead>
           <tbody>
           <tr th:each="coleccion : ${colecciones}">
             <td th:text="${coleccion.id}"></td>
-            <td th:text="${coleccion.nombre}"></td>
+            <td th:text="${coleccion.titulo}"></td>
             <td th:text="${coleccion.descripcion} + '.'"></td>
             <td th:text="${coleccion.algoritmoDeConsenso}"></td>
-            <td th:text="${coleccion.totalHechos}"></td>
-            <td th:text="${#dates.format(coleccion.fecha, 'dd MMM yyyy')}"></td>
+            <td th:text="${coleccion.hechos.size()}"></td>
             <td>
               <button
                       type="button"
@@ -218,7 +216,7 @@
                       data-bs-toggle="modal"
                       data-bs-target="#editCollectionModal"
                       th:data-id="${coleccion.id}"
-                      th:data-nombre="${coleccion.nombre}"
+                      th:data-nombre="${coleccion.titulo}"
                       th:data-descripcion="${coleccion.descripcion}"
                       th:data-consenso="${coleccion.algoritmoDeConsenso}"
               >
@@ -241,7 +239,7 @@
       <div class="d-block d-md-none">
         <div class="card mb-3" th:each="coleccion : ${colecciones}">
           <div class="card-body">
-            <h5 class="card-title fw-bold" th:text="${coleccion.nombre}"></h5>
+            <h5 class="card-title fw-bold" th:text="${coleccion.titulo}"></h5>
             <p class="card-text">
               <small class="fw-bold">ID:</small>
               <small th:text="${coleccion.id}">1</small>
@@ -256,11 +254,7 @@
             </p>
             <p class="card-text">
               <small class="fw-bold">Hechos:</small>
-              <small th:text="${coleccion.totalHechos}"></small>
-            </p>
-            <p class="card-text">
-              <small class="fw-bold">Fecha:</small>
-              <small th:text="${#dates.format(coleccion.fecha, 'dd MMM yyyy')}"></small>
+              <small th:text="${coleccion.hechos.size()}"></small>
             </p>
             <div class="mt-3">
               <button
@@ -269,7 +263,7 @@
                       data-bs-toggle="modal"
                       data-bs-target="#editCollectionModal"
                       th:data-id="${coleccion.id}"
-                      th:data-nombre="${coleccion.nombre}"
+                      th:data-nombre="${coleccion.titulo}"
                       th:data-descripcion="${coleccion.descripcion}"
                       th:data-consenso="${coleccion.algoritmoDeConsenso}"
               >
@@ -380,46 +374,49 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="editCollectionName" class="form-label"
-            >Nombre</label
-            >
-            <input
-                    type="text"
-                    class="form-control"
-                    id="editCollectionName"
-                    value="Incendios Forestales"
-                    required
-            />
-          </div>
-          <div class="mb-3">
-            <label for="editCollectionDescription" class="form-label"
-            >Descripción</label
-            >
-            <textarea
-                    class="form-control"
-                    id="editCollectionDescription"
-                    rows="3"
-            >
-Geolocalización de incendios a nivel nacional.
-                        </textarea>
-          </div>
-          <div class="mb-3">
-            <label for="editConsensusAlgorithm" class="form-label"
-            >Algoritmo de Consenso</label
-            >
-            <select
-                    class="form-select"
-                    id="editConsensusAlgorithm"
-                    required
-            >
-              <option selected>Mayoría simple</option>
-              <option>Aprobar hechos verificados</option>
-              <option>Voto ponderado por usuario</option>
-            </select>
-          </div>
-        </form>
+          <form id="editCollectionForm">
+              <div class="mb-3">
+                  <label class="form-label">Nombre</label>
+                  <input type="text" class="form-control" id="editCollectionName" name="titulo" required />
+              </div>
+
+              <div class="mb-3">
+                  <label class="form-label">Fuentes de Datos</label>
+                  <select class="form-select" id="editFuentes" multiple>
+                      <option th:each="fuente : ${todasLasFuentes}"
+                              th:value="${fuente.id}"
+                              th:text="${fuente.nombre}"></option>
+                  </select>
+                  <small class="text-muted">Mantené Ctrl para seleccionar varias.</small>
+              </div>
+
+              <hr>
+              <h6>Criterio de Pertenencia (Filtros)</h6>
+
+              <div class="row g-2">
+                  <div class="col-md-6">
+                      <label class="small">Fecha Publicación (Desde/Hasta)</label>
+                      <input type="datetime-local" class="form-control form-control-sm" id="editFechaDesde">
+                      <input type="datetime-local" class="form-control form-control-sm mt-1" id="editFechaHasta">
+                  </div>
+                  <div class="col-md-6">
+                      <label class="small">Fecha Hecho (Desde/Hasta)</label>
+                      <input type="datetime-local" class="form-control form-control-sm" id="editFechaHechoDesde">
+                      <input type="datetime-local" class="form-control form-control-sm mt-1" id="editFechaHechoHasta">
+                  </div>
+              </div>
+
+              <div class="row g-2 mt-2">
+                  <div class="col-md-6">
+                      <label class="small">Latitud</label>
+                      <input type="text" class="form-control form-control-sm" id="editLat" placeholder="-34.60">
+                  </div>
+                  <div class="col-md-6">
+                      <label class="small">Longitud</label>
+                      <input type="text" class="form-control form-control-sm" id="editLng" placeholder="-58.38">
+                  </div>
+              </div>
+          </form>
       </div>
       <div class="modal-footer">
         <button
@@ -537,6 +534,48 @@ Geolocalización de incendios a nivel nacional.
         break;
       }
     }
+  });
+
+  const saveEditBtn = editModal.querySelector('.btn-info'); // El botón "Guardar Cambios"
+
+  saveEditBtn.addEventListener('click', async () => {
+      const form = document.getElementById('editCollectionForm');
+      const id = document.getElementById('editCollectionId').value;
+
+      // Construimos el objeto siguiendo la estructura de tu ColeccionInputDto
+      const data = {
+          titulo: form.querySelector('#editCollectionName').value,
+          descripcion: form.querySelector('#editCollectionDescription').value,
+          // Si tu backend requiere el objeto CriterioDePertenenciaInputDto:
+          criterioDePertenencia: {
+              nombre: form.querySelector('#editConsensusAlgorithm').value
+          },
+          // Estos suelen manejarse aparte, pero los inicializamos vacíos
+          // para cumplir con el DTO si son obligatorios
+          hechos_id: [],
+          fuentes_id: []
+      };
+
+      try {
+          const response = await fetch(`/admin/colecciones/${id}`, {
+              method: 'PUT', // O POST según tu API
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+          });
+
+          if (response.ok) {
+              alert('Colección actualizada con éxito');
+              window.location.reload(); // Recarga la página para ver los cambios
+          } else {
+              const errorData = await response.json();
+              alert('Error al actualizar: ' + (errorData.message || 'Error desconocido'));
+          }
+      } catch (error) {
+          console.error('Error en la petición:', error);
+          alert('Error de conexión con el servidor');
+      }
   });
 </script>
 </body>

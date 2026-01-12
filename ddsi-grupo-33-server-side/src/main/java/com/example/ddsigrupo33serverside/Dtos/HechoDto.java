@@ -22,6 +22,7 @@ public class HechoDto {
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private Date fecha_acontecimiento;
+  private String estado;
   private String fuente;
   private String origen;
   private Set<String> categorias;

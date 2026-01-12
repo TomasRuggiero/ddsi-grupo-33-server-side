@@ -15,7 +15,7 @@ public class AdminService {
   private static final String BASE_URL = "http://localhost:8080";
   private final HechoApiClient hechoApiClient;
   private final FuenteApiClient fuenteApiClient;
-  private final ColeccionService coleccionService;
+  private final ColeccionApiClient coleccionApiClient;
   private final SolicitudApiClient solicitudApiClient;
 
   public AdminHomeDto getAdminHome() {
@@ -28,7 +28,7 @@ public class AdminService {
                       && h.getFecha_acontecimiento().before(new Date()))
               .toList();
 
-        Integer totalColecciones = coleccionService.getAllColecciones().size();
+        Integer totalColecciones = coleccionApiClient.getTodasLasColecciones().size();
         Integer totalSolicitudes = solicitudApiClient.getAllSolicitudes().size();
         // TODO: Obtener usuarios
         Integer totalUsuarios = 2;
@@ -37,7 +37,7 @@ public class AdminService {
     }
 
     public List<ColeccionDto> getAdminColecciones() {
-        return coleccionService.getAllColecciones();
+        return coleccionApiClient.getTodasLasColecciones();
     }
 
     public List<FuenteDto> getAllFuentes() {
