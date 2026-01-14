@@ -26,8 +26,8 @@ public class ColeccionApiClient {
     return coleccionesLista;
   }
 
-  public void actualizarColeccion(ColeccionInputDto coleccionInputDto) {
-
+  public void actualizarColeccion(ColeccionInputDto coleccionInputDto, Long id) {
+    restTemplate.put(BASE_URL + "/" + id, coleccionInputDto);
   }
 
   public ColeccionDto getColeccionPorId(Long id) {

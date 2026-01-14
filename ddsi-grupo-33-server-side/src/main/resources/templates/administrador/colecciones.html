@@ -199,7 +199,7 @@
             <th scope="col">Descripción</th>
             <th scope="col">Algoritmo de Consenso</th>
             <th scope="col">Hechos</th>
-            <th scope="col">Acciones</th>
+            <th scope="col" class="text-center">Acciones</th>
           </tr>
           </thead>
           <tbody>
@@ -209,7 +209,7 @@
             <td th:text="${coleccion.descripcion} + '.'"></td>
             <td th:text="${coleccion.algoritmoDeConsenso}"></td>
             <td th:text="${coleccion.hechos.size()}"></td>
-            <td>
+            <td class="text-center">
                 <button
                         type="button"
                         class="btn btn-sm btn-info me-1 text-white"
@@ -220,6 +220,17 @@
                         th:data-descripcion="${coleccion.descripcion}"
                         th:data-consenso="${coleccion.algoritmoDeConsenso}"
                         th:data-fuentes="${#strings.arrayJoin(coleccion.idsFuentesDeDatos, ',')}"
+
+                        th:data-categorias="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Categoria'].empty ? '' : #strings.listJoin(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Categoria'][0].categorias, ', ')}"
+
+                        th:data-fecha-desde="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'].empty ? '' : #dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'][0].fechaDesde, 'yyyy-MM-dd''T''HH:mm')}"
+                        th:data-fecha-hasta="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'].empty ? '' : #dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'][0].fechaHasta, 'yyyy-MM-dd''T''HH:mm')}"
+
+                        th:data-fecha-acon-desde="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'].empty ? '' : #dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'][0].fechaDesde, 'yyyy-MM-dd''T''HH:mm')}"
+                        th:data-fecha-acon-hasta="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'].empty ? '' : #dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'][0].fechaHasta, 'yyyy-MM-dd''T''HH:mm')}"
+
+                        th:data-lat="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'].empty ? '' : coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'][0].latitud}"
+                        th:data-lng="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'].empty ? '' : coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'][0].longitud}"
                 >
                     <i class="bi bi-pencil-square"></i> Editar
                 </button>
@@ -268,6 +279,17 @@
                         th:data-descripcion="${coleccion.descripcion}"
                         th:data-consenso="${coleccion.algoritmoDeConsenso}"
                         th:data-fuentes="${#strings.arrayJoin(coleccion.idsFuentesDeDatos, ',')}"
+
+                        th:data-categorias="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Categoria'].empty ? '' : #strings.listJoin(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Categoria'][0].categorias, ', ')}"
+
+                        th:data-fecha-desde="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'].empty ? '' : #dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'][0].fechaDesde, 'yyyy-MM-dd''T''HH:mm')}"
+                        th:data-fecha-hasta="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'].empty ? '' : #dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'][0].fechaHasta, 'yyyy-MM-dd''T''HH:mm')}"
+
+                        th:data-fecha-acon-desde="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'].empty ? '' : #dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'][0].fechaDesde, 'yyyy-MM-dd''T''HH:mm')}"
+                        th:data-fecha-acon-hasta="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'].empty ? '' : #dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'][0].fechaHasta, 'yyyy-MM-dd''T''HH:mm')}"
+
+                        th:data-lat="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'].empty ? '' : coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'][0].latitud}"
+                        th:data-lng="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'].empty ? '' : coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'][0].longitud}"
                 >
                     <i class="bi bi-pencil-square"></i> Editar
                 </button>
@@ -334,6 +356,7 @@
             >
             <select class="form-select" id="consensusAlgorithm" required>
               <option selected disabled value="">Seleccionar...</option>
+              <option>Sin algoritmo</option>
               <option>Mayoría simple</option>
               <option>Aprobar hechos verificados</option>
               <option>Voto ponderado por usuario</option>
@@ -362,7 +385,7 @@
         aria-labelledby="editCollectionModalLabel"
         aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="editCollectionModalLabel">
@@ -375,84 +398,86 @@
                 aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">
-          <form id="editCollectionForm">
-              <div class="mb-3">
-                  <label class="form-label">Nombre</label>
-                  <input type="text" class="form-control" id="editCollectionName" name="titulo" required />
-                  <label class="form-label">Descripcion</label>
-                  <input type="text" class="form-control" id="editCollectionDescription" name="description" required />
-              </div>
+        <div class="modal-body">
+            <form id="editCollectionForm">
+                <div class="row">
+                    <div class="col-md-4 border-end">
+                        <h6>Información General</h6>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Nombre</label>
+                            <input type="text" class="form-control" id="editCollectionName" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Descripción</label>
+                            <textarea class="form-control" id="editCollectionDescription" rows="4" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editConsensusAlgorithm" class="form-label small fw-bold">Algoritmo de Consenso</label>
+                            <select class="form-select" id="editConsensusAlgorithm" required>
+                                <option>Sin Algoritmo</option>
+                                <option>Mayoría simple</option>
+                                <option>Aprobar hechos verificados</option>
+                                <option>Voto ponderado por usuario</option>
+                            </select>
+                        </div>
+                    </div>
 
-              <div class="mb-3">
-                  <label class="form-label fw-bold">Fuentes de Datos</label>
-                  <div class="row g-2">
-                      <div class="col-5">
-                          <label class="small text-muted">Disponibles</label>
-                          <select id="availableFuentes" class="form-select" size="8" multiple>
-                              <option th:each="fuente : ${todasLasFuentes}"
-                                      th:value="${fuente.id}"
-                                      th:text="${fuente.tipo_fuente == 'FuenteEstatica' ? fuente.tipo_fuente + ' - ' + fuente.nombre_archivo : fuente.tipo_fuente}">
-                              </option>
-                          </select>
-                      </div>
+                    <div class="col-md-8">
+                        <label class="form-label fw-bold">Configuración de Fuentes</label>
+                        <div class="row g-2 align-items-center">
+                            <div class="col-5">
+                                <label class="small text-muted">Disponibles</label>
+                                <select id="availableFuentes" class="form-select" size="10" multiple>
+                                    <option th:each="fuente : ${todasLasFuentes}"
+                                            th:value="${fuente.id}"
+                                            th:text="${fuente.tipo_fuente == 'FuenteEstatica' ? fuente.tipo_fuente + ' - ' + fuente.nombre_archivo : fuente.tipo_fuente}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-2 text-center">
+                                <button type="button" class="btn btn-outline-primary btn-sm mb-2 w-100" onclick="moveSelected('availableFuentes', 'selectedFuentes')">
+                                    Agregar <i class="bi bi-chevron-right"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-sm w-100" onclick="moveSelected('selectedFuentes', 'availableFuentes')">
+                                    <i class="bi bi-chevron-left"></i> Quitar
+                                </button>
+                            </div>
+                            <div class="col-5">
+                                <label class="small text-success fw-bold">Seleccionadas</label>
+                                <select id="selectedFuentes" class="form-select" size="10" multiple></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                      <div class="col-2 d-flex flex-column justify-content-center align-items-center">
-                          <button type="button" class="btn btn-outline-primary btn-sm mb-2" onclick="moveSelected('availableFuentes', 'selectedFuentes')">
-                              <i class="bi bi-chevron-right"></i>
-                          </button>
-                          <button type="button" class="btn btn-outline-danger btn-sm" onclick="moveSelected('selectedFuentes', 'availableFuentes')">
-                              <i class="bi bi-chevron-left"></i>
-                          </button>
-                      </div>
+                <hr>
 
-                      <div class="col-5">
-                          <label class="small text-success fw-bold">En esta Colección</label>
-                          <select id="selectedFuentes" class="form-select" size="8" multiple>
-                          </select>
-                      </div>
-                  </div>
-                  <small class="text-muted d-block mt-1">Doble clic para mover rápidamente.</small>
-              </div>
-              <hr>
-
-              <div class="mb-3">
-                  <label for="editConsensusAlgorithm" class="form-label">Algoritmo de Consenso</label>
-                  <select class="form-select" id="editConsensusAlgorithm" required>
-                      <option>Mayoría simple</option>
-                      <option>Aprobar hechos verificados</option>
-                      <option>Voto ponderado por usuario</option>
-                  </select>
-              </div>
-
-              <hr>
-              <h6>Criterio de Pertenencia (Filtros)</h6>
-
-              <div class="row g-2">
-                  <div class="col-md-6">
-                      <label class="small">Fecha Publicación (Desde/Hasta)</label>
-                      <input type="datetime-local" class="form-control form-control-sm" id="editFechaDesde">
-                      <input type="datetime-local" class="form-control form-control-sm mt-1" id="editFechaHasta">
-                  </div>
-                  <div class="col-md-6">
-                      <label class="small">Fecha Hecho (Desde/Hasta)</label>
-                      <input type="datetime-local" class="form-control form-control-sm" id="editFechaHechoDesde">
-                      <input type="datetime-local" class="form-control form-control-sm mt-1" id="editFechaHechoHasta">
-                  </div>
-              </div>
-
-              <div class="row g-2 mt-2">
-                  <div class="col-md-6">
-                      <label class="small">Latitud</label>
-                      <input type="text" class="form-control form-control-sm" id="editLat" placeholder="-34.60">
-                  </div>
-                  <div class="col-md-6">
-                      <label class="small">Longitud</label>
-                      <input type="text" class="form-control form-control-sm" id="editLng" placeholder="-58.38">
-                  </div>
-              </div>
-          </form>
-      </div>
+                <div class="bg-light p-3 rounded">
+                    <h6 class="mb-3"><i class="bi bi-filter-circle me-2"></i>Criterio de Pertenencia (Filtros)</h6>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="small fw-bold">Publicación (Desde/Hasta)</label>
+                            <input type="datetime-local" class="form-control form-control-sm" id="editFechaDesde">
+                            <input type="datetime-local" class="form-control form-control-sm mt-1" id="editFechaHasta">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="small fw-bold">Hecho (Desde/Hasta)</label>
+                            <input type="datetime-local" class="form-control form-control-sm" id="editFechaHechoDesde">
+                            <input type="datetime-local" class="form-control form-control-sm mt-1" id="editFechaHechoHasta">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="small fw-bold">Categorías</label>
+                            <textarea class="form-control form-control-sm" id="editCategorias" rows="3" placeholder="Salud, Educación, Seguridad..."></textarea>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="small fw-bold">Coordenadas</label>
+                            <input type="text" class="form-control form-control-sm mb-1" id="editLat" placeholder="Latitud">
+                            <input type="text" class="form-control form-control-sm" id="editLng" placeholder="Longitud">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
       <div class="modal-footer">
         <button
                 type="button"
@@ -517,75 +542,75 @@
 <script>
   const editModal = document.getElementById('editCollectionModal');
 
-  // Escucha el evento 'show.bs.modal' cuando el modal está a punto de abrirse
   editModal.addEventListener('show.bs.modal', event => {
-    // Obtiene el botón que activó el modal (el botón "Editar")
-    const button = event.relatedTarget;
+      const button = event.relatedTarget;
 
-    // 1. Obtiene los valores de los atributos data-* del botón
-    const id = button.getAttribute('data-id');
-    const nombre = button.getAttribute('data-nombre');
-    const descripcion = button.getAttribute('data-descripcion');
-    const consenso = button.getAttribute('data-consenso');
+      // 1. Obtiene los valores de los atributos data-* del botón
+      const id = button.getAttribute('data-id');
+      const nombre = button.getAttribute('data-nombre');
+      const descripcion = button.getAttribute('data-descripcion');
+      const consenso = button.getAttribute('data-consenso');
+      const categoriasRaw = button.getAttribute('data-categorias') || "";
 
-    // 2. Encuentra los campos del formulario dentro del modal
-    const modalTitle = editModal.querySelector('.modal-title');
-    const inputName = editModal.querySelector('#editCollectionName');
-    const inputDescription = editModal.querySelector('#editCollectionDescription');
-    const selectConsensus = editModal.querySelector('#editConsensusAlgorithm');
+      // --- NUEVO: Obtener fechas y coordenadas ---
+      const fechaDesde = button.getAttribute('data-fecha-desde') || "";
+      const fechaHasta = button.getAttribute('data-fecha-hasta') || "";
+      const fechaAconDesde = button.getAttribute('data-fecha-acon-desde') || "";
+      const fechaAconHasta = button.getAttribute('data-fecha-acon-hasta') || "";
+      const lat = button.getAttribute('data-lat') || "";
+      const lng = button.getAttribute('data-lng') || "";
 
-    // Asumiendo que quieres un campo para el ID, aunque no lo pediste,
-    // esto es vital si quieres enviar la edición al backend.
-    // Si no existe, puedes crearlo como un input hidden.
-    let inputId = editModal.querySelector('#editCollectionId');
-    if (!inputId) {
-      // Crea un campo oculto para almacenar el ID
-      inputId = document.createElement('input');
-      inputId.type = 'hidden';
-      inputId.id = 'editCollectionId';
-      inputId.name = 'id';
-      // Insértalo en algún lugar del formulario, por ejemplo, al inicio del modal body.
-      editModal.querySelector('.modal-body form').prepend(inputId);
-    }
+      // 2. Encuentra los campos del formulario
+      const modalTitle = editModal.querySelector('.modal-title');
+      const inputName = editModal.querySelector('#editCollectionName');
+      const inputDescription = editModal.querySelector('#editCollectionDescription');
+      const selectConsensus = editModal.querySelector('#editConsensusAlgorithm');
 
-      const fuentesRaw = button.getAttribute('data-fuentes') || "";
-      const fuentesIds = fuentesRaw.split(',').filter(id => id !== "").map(id => id.toString());
+      // Lógica del ID Hidden (Mantener como está)
+      let inputId = editModal.querySelector('#editCollectionId');
+      if (!inputId) {
+          inputId = document.createElement('input');
+          inputId.type = 'hidden';
+          inputId.id = 'editCollectionId';
+          inputId.name = 'id';
+          editModal.querySelector('.modal-body form').prepend(inputId);
+      }
 
+      // Lógica de Fuentes (Mantener como está)
       const availableSelect = document.getElementById('availableFuentes');
       const selectedSelect = document.getElementById('selectedFuentes');
-
-    // 1. Limpiar el de seleccionadas y restaurar todas al de disponibles
-          selectedSelect.innerHTML = '';
-    // (Asumiendo que 'todasLasFuentes' ya están cargadas por Thymeleaf en availableSelect)
-
-    // 2. Mover las que corresponden a la colección a la derecha
-      Array.from(availableSelect.options).forEach(option => {
-          if (fuentesIds.includes(option.value.toString())) {
-              selectedSelect.appendChild(option);
-          }
-      });
-
-    // 3. Rellena los campos del formulario con los nuevos valores
-
-    // Rellena el input oculto con el ID
-    inputId.value = id;
-
-    // Rellena el título del modal
-    modalTitle.textContent = `Editar Colección #${id} (${nombre})`;
-
-    // Rellena los campos de Nombre y Descripción
-    inputName.value = nombre;
-    inputDescription.value = descripcion;
-
-    // Rellena el select de Algoritmo de Consenso
-    // Busca la opción cuyo texto coincida con el valor de 'consenso'
-    for (let i = 0; i < selectConsensus.options.length; i++) {
-      // Usa .trim() para evitar problemas con espacios extra
-      if (selectConsensus.options[i].text.trim() === consenso.trim()) {
-        selectConsensus.selectedIndex = i;
-        break;
+      while (selectedSelect.options.length > 0) {
+          availableSelect.appendChild(selectedSelect.options[0]);
       }
-    }
+      const fuentesRaw = button.getAttribute('data-fuentes') || "";
+      const fuentesIds = fuentesRaw.replace(/[\[\]\s]/g, '').split(',').filter(id => id !== "");
+      const optionsToMove = Array.from(availableSelect.options).filter(option =>
+          fuentesIds.includes(option.value.toString())
+      );
+      optionsToMove.forEach(option => selectedSelect.appendChild(option));
+
+      // 3. Rellena los campos del formulario con los nuevos valores
+      inputId.value = id;
+      modalTitle.textContent = `Editar Colección #${id} (${nombre})`;
+      inputName.value = nombre;
+      inputDescription.value = descripcion;
+
+      // --- NUEVO: Rellenar inputs de Filtros ---
+      document.getElementById('editCategorias').value = categoriasRaw;
+      document.getElementById('editFechaDesde').value = fechaDesde;
+      document.getElementById('editFechaHasta').value = fechaHasta;
+      document.getElementById('editFechaHechoDesde').value = fechaAconDesde;
+      document.getElementById('editFechaHechoHasta').value = fechaAconHasta;
+      document.getElementById('editLat').value = lat;
+      document.getElementById('editLng').value = lng;
+
+      // Rellena el select de Algoritmo de Consenso
+      for (let i = 0; i < selectConsensus.options.length; i++) {
+          if (selectConsensus.options[i].text.trim() === consenso.trim()) {
+              selectConsensus.selectedIndex = i;
+              break;
+          }
+      }
   });
 
   const saveEditBtn = editModal.querySelector('.btn-info'); // El botón "Guardar Cambios"
@@ -598,18 +623,19 @@
       const selectedSelect = document.getElementById('selectedFuentes');
       const selectedFuentesIds = Array.from(selectedSelect.options).map(opt => parseInt(opt.value));
 
+      const categoriasInput = document.getElementById('editCategorias').value;
+      const categoriasArray = categoriasInput
+          ? categoriasInput.split(',').map(c => c.trim()).filter(c => c !== "")
+          : [];
+
       // Construcción del objeto siguiendo tus DTOs
       const data = {
           titulo: document.getElementById('editCollectionName').value,
+
           descripcion: document.getElementById('editCollectionDescription').value,
 
-          // Coincide con ColeccionInputDto (@JsonProperty("hechos_id"))
-          hechos_id: [],
-
-          // Coincide con ColeccionInputDto (@JsonProperty("fuentes_id"))
           fuentes_id: selectedFuentesIds,
 
-          // Coincide con CriterioDePertenenciaInputDto
           criterioDePertenencia: {
               fecha_desde: document.getElementById('editFechaDesde').value || null,
               fecha_hasta: document.getElementById('editFechaHasta').value || null,
@@ -617,7 +643,7 @@
               fecha_acontecimiento_hasta: document.getElementById('editFechaHechoHasta').value || null,
               latitud: document.getElementById('editLat').value || null,
               longitud: document.getElementById('editLng').value || null,
-              categorias: [] // Puedes llenarlo si tienes un select de categorías
+              categorias: categoriasArray
           }
       };
 

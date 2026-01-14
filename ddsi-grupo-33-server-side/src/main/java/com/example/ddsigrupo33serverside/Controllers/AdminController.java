@@ -6,6 +6,7 @@ import com.example.ddsigrupo33serverside.Services.ColeccionApiClient;
 import com.example.ddsigrupo33serverside.Services.HechoApiClient;
 import com.example.ddsigrupo33serverside.Services.SolicitudApiClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,17 +24,13 @@ public class AdminController {
     private final ColeccionApiClient coleccionApiClient;
 
     @PutMapping("/colecciones/{id}")
-    public String actualizar(
+    public ResponseEntity<?> actualizar(
         @PathVariable Long id,
         @RequestBody ColeccionInputDto dto) {
 
-      System.out.println("Titulo recibido: " + dto.getTitulo());
-      System.out.println(dto.getIdsFuentesDeDatos());
-      System.out.println(dto.getCriterioDePertenencia().getLatitud());
+      coleccionApiClient.actualizarColeccion(dto, id);
 
-      coleccionApiClient.actualizarColeccion(dto);
-
-      return "redirect:/admin/colecciones/";
+      return ResponseEntity.ok().build();
     }
 
     @PostMapping("/revisar")

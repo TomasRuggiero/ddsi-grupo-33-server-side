@@ -10,8 +10,6 @@ import lombok.Data;
 public class ColeccionInputDto {
   private String titulo;
   private String descripcion;
-  @JsonProperty("hechos_id")
-  private List<UUID> idHechos;
   private CriterioDePertenenciaInputDto criterioDePertenencia;
   @JsonProperty("fuentes_id")
   private List<Long> idsFuentesDeDatos;
