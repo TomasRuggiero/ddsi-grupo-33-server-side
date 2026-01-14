@@ -1,6 +1,8 @@
 package com.example.ddsigrupo33serverside.Controllers;
 
+import com.example.ddsigrupo33serverside.Dtos.ColeccionInputDto;
 import com.example.ddsigrupo33serverside.Services.AdminService;
+import com.example.ddsigrupo33serverside.Services.ColeccionApiClient;
 import com.example.ddsigrupo33serverside.Services.HechoApiClient;
 import com.example.ddsigrupo33serverside.Services.SolicitudApiClient;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,21 @@ public class AdminController {
 
     private final SolicitudApiClient solicitudApiClient;
     private final HechoApiClient hechoApiClient;
+    private final ColeccionApiClient coleccionApiClient;
+
+    @PutMapping("/colecciones/{id}")
+    public String actualizar(
+        @PathVariable Long id,
+        @RequestBody ColeccionInputDto dto) {
+
+      System.out.println("Titulo recibido: " + dto.getTitulo());
+      System.out.println(dto.getIdsFuentesDeDatos());
+      System.out.println(dto.getCriterioDePertenencia().getLatitud());
+
+      coleccionApiClient.actualizarColeccion(dto);
+
+      return "redirect:/admin/colecciones/";
+    }
 
     @PostMapping("/revisar")
     public String procesarRevision(
@@ -49,6 +66,7 @@ public class AdminController {
     @GetMapping("/colecciones")
     public String colecciones(Model model) {
         model.addAttribute("colecciones", adminService.getAdminColecciones());
+        model.addAttribute("todasLasFuentes", adminService.getAllFuentes());
 
         return "administrador/colecciones";
     }

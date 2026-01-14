@@ -210,18 +210,19 @@
             <td th:text="${coleccion.algoritmoDeConsenso}"></td>
             <td th:text="${coleccion.hechos.size()}"></td>
             <td>
-              <button
-                      type="button"
-                      class="btn btn-sm btn-info me-1 text-white"
-                      data-bs-toggle="modal"
-                      data-bs-target="#editCollectionModal"
-                      th:data-id="${coleccion.id}"
-                      th:data-nombre="${coleccion.titulo}"
-                      th:data-descripcion="${coleccion.descripcion}"
-                      th:data-consenso="${coleccion.algoritmoDeConsenso}"
-              >
-                <i class="bi bi-pencil-square"></i> Editar
-              </button>
+                <button
+                        type="button"
+                        class="btn btn-sm btn-info me-1 text-white"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editCollectionModal"
+                        th:data-id="${coleccion.id}"
+                        th:data-nombre="${coleccion.titulo}"
+                        th:data-descripcion="${coleccion.descripcion}"
+                        th:data-consenso="${coleccion.algoritmoDeConsenso}"
+                        th:data-fuentes="${#strings.arrayJoin(coleccion.idsFuentesDeDatos, ',')}"
+                >
+                    <i class="bi bi-pencil-square"></i> Editar
+                </button>
               <button
                       type="button"
                       class="btn btn-sm btn-danger me-1 text-white"
@@ -257,18 +258,19 @@
               <small th:text="${coleccion.hechos.size()}"></small>
             </p>
             <div class="mt-3">
-              <button
-                      type="button"
-                      class="btn btn-sm btn-info me-1 text-white"
-                      data-bs-toggle="modal"
-                      data-bs-target="#editCollectionModal"
-                      th:data-id="${coleccion.id}"
-                      th:data-nombre="${coleccion.titulo}"
-                      th:data-descripcion="${coleccion.descripcion}"
-                      th:data-consenso="${coleccion.algoritmoDeConsenso}"
-              >
-                <i class="bi bi-pencil-square"></i> Editar
-              </button>
+                <button
+                        type="button"
+                        class="btn btn-sm btn-info me-1 text-white"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editCollectionModal"
+                        th:data-id="${coleccion.id}"
+                        th:data-nombre="${coleccion.titulo}"
+                        th:data-descripcion="${coleccion.descripcion}"
+                        th:data-consenso="${coleccion.algoritmoDeConsenso}"
+                        th:data-fuentes="${#strings.arrayJoin(coleccion.idsFuentesDeDatos, ',')}"
+                >
+                    <i class="bi bi-pencil-square"></i> Editar
+                </button>
               <button
                       type="button"
                       class="btn btn-sm btn-danger"
@@ -378,16 +380,49 @@
               <div class="mb-3">
                   <label class="form-label">Nombre</label>
                   <input type="text" class="form-control" id="editCollectionName" name="titulo" required />
+                  <label class="form-label">Descripcion</label>
+                  <input type="text" class="form-control" id="editCollectionDescription" name="description" required />
               </div>
 
               <div class="mb-3">
-                  <label class="form-label">Fuentes de Datos</label>
-                  <select class="form-select" id="editFuentes" multiple>
-                      <option th:each="fuente : ${todasLasFuentes}"
-                              th:value="${fuente.id}"
-                              th:text="${fuente.nombre}"></option>
+                  <label class="form-label fw-bold">Fuentes de Datos</label>
+                  <div class="row g-2">
+                      <div class="col-5">
+                          <label class="small text-muted">Disponibles</label>
+                          <select id="availableFuentes" class="form-select" size="8" multiple>
+                              <option th:each="fuente : ${todasLasFuentes}"
+                                      th:value="${fuente.id}"
+                                      th:text="${fuente.tipo_fuente == 'FuenteEstatica' ? fuente.tipo_fuente + ' - ' + fuente.nombre_archivo : fuente.tipo_fuente}">
+                              </option>
+                          </select>
+                      </div>
+
+                      <div class="col-2 d-flex flex-column justify-content-center align-items-center">
+                          <button type="button" class="btn btn-outline-primary btn-sm mb-2" onclick="moveSelected('availableFuentes', 'selectedFuentes')">
+                              <i class="bi bi-chevron-right"></i>
+                          </button>
+                          <button type="button" class="btn btn-outline-danger btn-sm" onclick="moveSelected('selectedFuentes', 'availableFuentes')">
+                              <i class="bi bi-chevron-left"></i>
+                          </button>
+                      </div>
+
+                      <div class="col-5">
+                          <label class="small text-success fw-bold">En esta Colección</label>
+                          <select id="selectedFuentes" class="form-select" size="8" multiple>
+                          </select>
+                      </div>
+                  </div>
+                  <small class="text-muted d-block mt-1">Doble clic para mover rápidamente.</small>
+              </div>
+              <hr>
+
+              <div class="mb-3">
+                  <label for="editConsensusAlgorithm" class="form-label">Algoritmo de Consenso</label>
+                  <select class="form-select" id="editConsensusAlgorithm" required>
+                      <option>Mayoría simple</option>
+                      <option>Aprobar hechos verificados</option>
+                      <option>Voto ponderado por usuario</option>
                   </select>
-                  <small class="text-muted">Mantené Ctrl para seleccionar varias.</small>
               </div>
 
               <hr>
@@ -513,6 +548,23 @@
       editModal.querySelector('.modal-body form').prepend(inputId);
     }
 
+      const fuentesRaw = button.getAttribute('data-fuentes') || "";
+      const fuentesIds = fuentesRaw.split(',').filter(id => id !== "").map(id => id.toString());
+
+      const availableSelect = document.getElementById('availableFuentes');
+      const selectedSelect = document.getElementById('selectedFuentes');
+
+    // 1. Limpiar el de seleccionadas y restaurar todas al de disponibles
+          selectedSelect.innerHTML = '';
+    // (Asumiendo que 'todasLasFuentes' ya están cargadas por Thymeleaf en availableSelect)
+
+    // 2. Mover las que corresponden a la colección a la derecha
+      Array.from(availableSelect.options).forEach(option => {
+          if (fuentesIds.includes(option.value.toString())) {
+              selectedSelect.appendChild(option);
+          }
+      });
+
     // 3. Rellena los campos del formulario con los nuevos valores
 
     // Rellena el input oculto con el ID
@@ -539,44 +591,70 @@
   const saveEditBtn = editModal.querySelector('.btn-info'); // El botón "Guardar Cambios"
 
   saveEditBtn.addEventListener('click', async () => {
-      const form = document.getElementById('editCollectionForm');
       const id = document.getElementById('editCollectionId').value;
+      const form = document.getElementById('editCollectionForm');
 
-      // Construimos el objeto siguiendo la estructura de tu ColeccionInputDto
+      // Obtener IDs del Dual Listbox (Cuadro de la derecha)
+      const selectedSelect = document.getElementById('selectedFuentes');
+      const selectedFuentesIds = Array.from(selectedSelect.options).map(opt => parseInt(opt.value));
+
+      // Construcción del objeto siguiendo tus DTOs
       const data = {
-          titulo: form.querySelector('#editCollectionName').value,
-          descripcion: form.querySelector('#editCollectionDescription').value,
-          // Si tu backend requiere el objeto CriterioDePertenenciaInputDto:
-          criterioDePertenencia: {
-              nombre: form.querySelector('#editConsensusAlgorithm').value
-          },
-          // Estos suelen manejarse aparte, pero los inicializamos vacíos
-          // para cumplir con el DTO si son obligatorios
+          titulo: document.getElementById('editCollectionName').value,
+          descripcion: document.getElementById('editCollectionDescription').value,
+
+          // Coincide con ColeccionInputDto (@JsonProperty("hechos_id"))
           hechos_id: [],
-          fuentes_id: []
+
+          // Coincide con ColeccionInputDto (@JsonProperty("fuentes_id"))
+          fuentes_id: selectedFuentesIds,
+
+          // Coincide con CriterioDePertenenciaInputDto
+          criterioDePertenencia: {
+              fecha_desde: document.getElementById('editFechaDesde').value || null,
+              fecha_hasta: document.getElementById('editFechaHasta').value || null,
+              fecha_acontecimiento_desde: document.getElementById('editFechaHechoDesde').value || null,
+              fecha_acontecimiento_hasta: document.getElementById('editFechaHechoHasta').value || null,
+              latitud: document.getElementById('editLat').value || null,
+              longitud: document.getElementById('editLng').value || null,
+              categorias: [] // Puedes llenarlo si tienes un select de categorías
+          }
       };
+
+      console.log("Enviando datos:", data); // Para debug
 
       try {
           const response = await fetch(`/admin/colecciones/${id}`, {
-              method: 'PUT', // O POST según tu API
-              headers: {
-                  'Content-Type': 'application/json'
-              },
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(data)
           });
 
           if (response.ok) {
               alert('Colección actualizada con éxito');
-              window.location.reload(); // Recarga la página para ver los cambios
+              window.location.reload();
           } else {
               const errorData = await response.json();
-              alert('Error al actualizar: ' + (errorData.message || 'Error desconocido'));
+              alert('Error: ' + (errorData.message || 'No se pudo actualizar'));
           }
       } catch (error) {
-          console.error('Error en la petición:', error);
-          alert('Error de conexión con el servidor');
+          console.error('Error en fetch:', error);
       }
   });
+
+  function moveSelected(fromId, toId) {
+      const fromSelect = document.getElementById(fromId);
+      const toSelect = document.getElementById(toId);
+
+      Array.from(fromSelect.selectedOptions).forEach(option => {
+          toSelect.appendChild(option); // Mueve la opción al otro select
+          option.selected = false;
+      });
+  }
+
+  // Opcional: Doble clic para mover
+  document.getElementById('availableFuentes').ondblclick = () => moveSelected('availableFuentes', 'selectedFuentes');
+  document.getElementById('selectedFuentes').ondblclick = () => moveSelected('selectedFuentes', 'availableFuentes');
 </script>
 </body>
 </html>

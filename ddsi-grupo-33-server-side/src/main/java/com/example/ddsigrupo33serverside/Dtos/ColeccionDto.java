@@ -2,6 +2,7 @@ package com.example.ddsigrupo33serverside.Dtos;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -15,4 +16,6 @@ public class ColeccionDto {
   private String algoritmoDeConsenso;
   private List<HechoDto> Hechos;
   private Integer TotalDeHechos;
+  @JsonProperty("fuentes_id")
+  private List<Long> idsFuentesDeDatos;
 }

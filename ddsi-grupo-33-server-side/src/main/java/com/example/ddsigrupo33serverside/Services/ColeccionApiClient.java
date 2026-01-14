@@ -1,6 +1,7 @@
 package com.example.ddsigrupo33serverside.Services;
 
 import com.example.ddsigrupo33serverside.Dtos.ColeccionDto;
+import com.example.ddsigrupo33serverside.Dtos.ColeccionInputDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -23,6 +24,10 @@ public class ColeccionApiClient {
     coleccionesLista.forEach(c -> c.setTotalDeHechos(c.getHechos().size()));
 
     return coleccionesLista;
+  }
+
+  public void actualizarColeccion(ColeccionInputDto coleccionInputDto) {
+
   }
 
   public ColeccionDto getColeccionPorId(Long id) {
