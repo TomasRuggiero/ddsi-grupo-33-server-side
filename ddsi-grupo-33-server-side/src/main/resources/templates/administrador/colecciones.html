@@ -234,14 +234,16 @@
                 >
                     <i class="bi bi-pencil-square"></i> Editar
                 </button>
-              <button
-                      type="button"
-                      class="btn btn-sm btn-danger me-1 text-white"
-                      data-bs-toggle="modal"
-                      data-bs-target="#deleteCollectionModal"
-              >
-                <i class="bi bi-trash"></i> Eliminar
-              </button>
+                <button
+                        type="button"
+                        class="btn btn-sm btn-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteCollectionModal"
+                        th:data-id="${coleccion.id}"
+                        th:data-nombre="${coleccion.titulo}"
+                >
+                    <i class="bi bi-trash"></i> Eliminar
+                </button>
             </td>
           </tr>
           </tbody>
@@ -293,14 +295,16 @@
                 >
                     <i class="bi bi-pencil-square"></i> Editar
                 </button>
-              <button
-                      type="button"
-                      class="btn btn-sm btn-danger"
-                      data-bs-toggle="modal"
-                      data-bs-target="#deleteCollectionModal"
-              >
-                <i class="bi bi-trash"></i> Eliminar
-              </button>
+                <button
+                        type="button"
+                        class="btn btn-sm btn-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteCollectionModal"
+                        th:data-id="${coleccion.id}"
+                        th:data-nombre="${coleccion.titulo}"
+                >
+                    <i class="bi bi-trash"></i> Eliminar
+                </button>
             </div>
           </div>
         </div>
@@ -514,22 +518,14 @@
                 aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">
-        <p>
-          ¿Estás seguro de que querés eliminar la colección seleccionada?
-          Esta acción no se puede deshacer.
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-        >
-          Cancelar
-        </button>
-        <button type="button" class="btn btn-danger">Eliminar</button>
-      </div>
+        <div class="modal-body">
+            <p>¿Estás seguro de que querés eliminar la colección <strong id="deleteNombreColeccion"></strong>?</p>
+            <input type="hidden" id="deleteCollectionId">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button>
+        </div>
     </div>
   </div>
 </div>
@@ -681,6 +677,40 @@
   // Opcional: Doble clic para mover
   document.getElementById('availableFuentes').ondblclick = () => moveSelected('availableFuentes', 'selectedFuentes');
   document.getElementById('selectedFuentes').ondblclick = () => moveSelected('selectedFuentes', 'availableFuentes');
+
+
+  // Lógica para el Modal de Eliminación
+  const deleteModal = document.getElementById('deleteCollectionModal');
+  const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+  deleteModal.addEventListener('show.bs.modal', event => {
+      const button = event.relatedTarget;
+      const id = button.getAttribute('data-id');
+      const nombre = button.getAttribute('data-nombre');
+
+      document.getElementById('deleteCollectionId').value = id;
+      document.getElementById('deleteNombreColeccion').textContent = nombre;
+  });
+
+  confirmDeleteBtn.addEventListener('click', async () => {
+      const id = document.getElementById('deleteCollectionId').value;
+
+      try {
+          const response = await fetch(`/admin/colecciones/${id}`, {
+              method: 'DELETE'
+          });
+
+          if (response.ok) {
+              alert('Colección eliminada correctamente');
+              window.location.reload();
+          } else {
+              alert('Error al intentar eliminar la colección');
+          }
+      } catch (error) {
+          console.error('Error:', error);
+          alert('Error de conexión con el servidor');
+      }
+  });
 </script>
 </body>
 </html>
