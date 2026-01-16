@@ -23,6 +23,15 @@ public class AdminController {
     private final HechoApiClient hechoApiClient;
     private final ColeccionApiClient coleccionApiClient;
 
+    @PostMapping("/colecciones")
+    public ResponseEntity<?> crearColeccion(
+        @RequestBody ColeccionInputDto dto) {
+
+      coleccionApiClient.crearColeccion(dto);
+
+      return ResponseEntity.ok().build();
+    }
+
     @PutMapping("/colecciones/{id}")
     public ResponseEntity<?> actualizar(
         @PathVariable Long id,

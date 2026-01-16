@@ -313,73 +313,89 @@
   </div>
 </div>
 
-<div
-        class="modal fade"
-        id="createCollectionModal"
-        tabindex="-1"
-        aria-labelledby="createCollectionModalLabel"
-        aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="createCollectionModalLabel">
-          Crear Nueva Colección
-        </h5>
-        <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="collectionName" class="form-label">Nombre</label>
-            <input
-                    type="text"
-                    class="form-control"
-                    id="collectionName"
-                    required
-            />
-          </div>
-          <div class="mb-3">
-            <label for="collectionDescription" class="form-label"
-            >Descripción</label
-            >
-            <textarea
-                    class="form-control"
-                    id="collectionDescription"
-                    rows="3"
-            ></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="consensusAlgorithm" class="form-label"
-            >Algoritmo de Consenso</label
-            >
-            <select class="form-select" id="consensusAlgorithm" required>
-              <option selected disabled value="">Seleccionar...</option>
-              <option>Sin algoritmo</option>
-              <option>Mayoría simple</option>
-              <option>Aprobar hechos verificados</option>
-              <option>Voto ponderado por usuario</option>
-            </select>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-        >
-          Cancelar
-        </button>
-        <button type="button" class="btn btn-primary">Crear</button>
-      </div>
+<div class="modal fade" id="createCollectionModal" tabindex="-1" aria-labelledby="createCollectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="createCollectionModalLabel"><i class="bi bi-plus-circle me-2"></i>Nueva Colección</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createCollectionForm">
+                    <div class="row">
+                        <div class="col-md-4 border-end">
+                            <h6><i class="bi bi-info-circle me-2"></i>Información General</h6>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Nombre</label>
+                                <input type="text" class="form-control" id="createName" placeholder="Ej: Reportes 2026" required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Descripción</label>
+                                <textarea class="form-control" id="createDescription" rows="4" placeholder="Breve descripción de la colección..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <label class="form-label fw-bold">Configuración de Fuentes</label>
+                            <div class="row g-2 align-items-center">
+                                <div class="col-5">
+                                    <label class="small text-muted">Disponibles</label>
+                                    <select id="createAvailableFuentes" class="form-select" size="10" multiple>
+                                        <option th:each="fuente : ${todasLasFuentes}" th:value="${fuente.id}"
+                                                th:text="${fuente.tipo_fuente == 'FuenteEstatica' ? fuente.tipo_fuente + ' - ' + fuente.nombre_archivo : fuente.tipo_fuente}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-2 text-center">
+                                    <button type="button" class="btn btn-outline-primary btn-sm mb-2 w-100" onclick="moveSelected('createAvailableFuentes', 'createSelectedFuentes')">
+                                        Agregar <i class="bi bi-chevron-right"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm w-100" onclick="moveSelected('createSelectedFuentes', 'createAvailableFuentes')">
+                                        <i class="bi bi-chevron-left"></i> Quitar
+                                    </button>
+                                </div>
+                                <div class="col-5">
+                                    <label class="small text-success fw-bold">Seleccionadas</label>
+                                    <select id="createSelectedFuentes" class="form-select" size="10" multiple></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="bg-light p-3 rounded">
+                        <h6 class="mb-3"><i class="bi bi-filter-circle me-2"></i>Criterio de Pertenencia (Filtros)</h6>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="small fw-bold">Publicación (Desde/Hasta)</label>
+                                <input type="datetime-local" class="form-control form-control-sm" id="createFechaDesde">
+                                <input type="datetime-local" class="form-control form-control-sm mt-1" id="createFechaHasta">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="small fw-bold">Hecho (Desde/Hasta)</label>
+                                <input type="datetime-local" class="form-control form-control-sm" id="createFechaHechoDesde">
+                                <input type="datetime-local" class="form-control form-control-sm mt-1" id="createFechaHechoHasta">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="small fw-bold">Categorías</label>
+                                <textarea class="form-control form-control-sm" id="createCategorias" rows="3" placeholder="Salud, Seguridad..."></textarea>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="small fw-bold">Coordenadas</label>
+                                <input type="text" class="form-control form-control-sm mb-1" id="createLat" placeholder="Latitud">
+                                <input type="text" class="form-control form-control-sm" id="createLng" placeholder="Longitud">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="submitCreateBtn">Crear Colección</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div
@@ -711,6 +727,65 @@
           alert('Error de conexión con el servidor');
       }
   });
+
+  const submitCreateBtn = document.getElementById('submitCreateBtn');
+
+  submitCreateBtn.addEventListener('click', async () => {
+      // 1. Obtener Fuentes Seleccionadas
+      const selectedSelect = document.getElementById('createSelectedFuentes');
+      const selectedFuentesIds = Array.from(selectedSelect.options).map(opt => parseInt(opt.value));
+
+      // 2. Procesar Categorías
+      const categoriasInput = document.getElementById('createCategorias').value;
+      const categoriasArray = categoriasInput
+          ? categoriasInput.split(',').map(c => c.trim()).filter(c => c !== "")
+          : [];
+
+      // 3. Armar DTO (Igual que en edición)
+      const data = {
+          titulo: document.getElementById('createName').value,
+          descripcion: document.getElementById('createDescription').value,
+          fuentes_id: selectedFuentesIds,
+          hechos_id: [],
+          criterioDePertenencia: {
+              fecha_desde: document.getElementById('createFechaDesde').value || null,
+              fecha_hasta: document.getElementById('createFechaHasta').value || null,
+              fecha_acontecimiento_desde: document.getElementById('createFechaHechoDesde').value || null,
+              fecha_acontecimiento_hasta: document.getElementById('createFechaHechoHasta').value || null,
+              latitud: document.getElementById('createLat').value || null,
+              longitud: document.getElementById('createLng').value || null,
+              categorias: categoriasArray
+          }
+      };
+
+      if (!data.titulo) {
+          alert("El nombre de la colección es obligatorio.");
+          return;
+      }
+
+      try {
+          const response = await fetch('/admin/colecciones', {
+              method: 'POST', // IMPORTANTE: Usamos POST para crear
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data)
+          });
+
+          if (response.ok) {
+              alert('¡Colección creada exitosamente!');
+              window.location.reload();
+          } else {
+              const errorData = await response.json();
+              alert('Error al crear: ' + (errorData.message || 'Error del servidor'));
+          }
+      } catch (error) {
+          console.error('Error:', error);
+          alert('Error de conexión con el servidor.');
+      }
+  });
+
+  // Doble clic para el nuevo modal también
+  document.getElementById('createAvailableFuentes').ondblclick = () => moveSelected('createAvailableFuentes', 'createSelectedFuentes');
+  document.getElementById('createSelectedFuentes').ondblclick = () => moveSelected('createSelectedFuentes', 'createAvailableFuentes');
 </script>
 </body>
 </html>
