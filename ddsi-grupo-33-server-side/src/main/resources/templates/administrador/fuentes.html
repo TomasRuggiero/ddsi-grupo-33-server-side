@@ -747,27 +747,41 @@ Incendio forestal que afectó 500 hectáreas.</textarea
         // 2. Manejo de la creación (Peticiones al Back)
         btnGuardar.addEventListener("click", async () => {
             const tipo = selector.value;
-            let url = `/admin/fuentes/${tipo}`; // Ajustar segun ruta real si es necesario
-            let options = { method: 'POST' };
+            const url = `/admin/fuentes/${tipo}`;
+
+            // 1. Creamos el FormData aquí para que esté disponible en todos los casos
+            const formData = new FormData();
+            let options = {
+                method: 'POST'
+            };
 
             try {
                 if (tipo === "estatica") {
                     const fileInput = document.getElementById("archivoFuente");
                     if (fileInput.files.length === 0) return alert("Seleccione un archivo");
 
-                    const formData = new FormData();
-                    formData.append("archivo", fileInput.files[0]);
-                    options.body = formData;
-                    // No setear Content-Type en Multipart, el navegador lo hace solo
-                }
-                else if (tipo === "proxy") {
-                    const username = document.getElementById("proxyUser").value;
-                    const password = document.getElementById("proxyPass").value;
+                    const originalFile = fileInput.files[0];
+                    // Forzamos el tipo text/csv para evitar el error 415 si viene de Excel
+                    const blob = new Blob([originalFile], { type: 'text/csv' });
 
-                    options.headers = { 'Content-Type': 'application/json' };
-                    options.body = JSON.stringify({ username, password });
+                    formData.append("archivo", blob, originalFile.name);
+                    options.body = formData;
+
+                } else if (tipo === "proxy") {
+                    const user = document.getElementById("proxyUser").value;
+                    const pass = document.getElementById("proxyPass").value;
+
+                    if (!user || !pass) return alert("Usuario y contraseña son obligatorios");
+
+                    formData.append("username", user);
+                    formData.append("password", pass);
+                    options.body = formData;
+
+                } else if (tipo === "dinamica") {
+                    // No necesita body, pero mandamos el formData vacío o nada
+                    // Si el backend espera Multipart, mejor mandar el formData aunque esté vacío
+                    options.body = formData;
                 }
-                // Dinamica no necesita body segun tu endpoint
 
                 const response = await fetch(url, options);
 
@@ -775,7 +789,9 @@ Incendio forestal que afectó 500 hectáreas.</textarea
                     alert(`Fuente creada con éxito.`);
                     window.location.reload();
                 } else {
-                    alert("Error al crear la fuente");
+                    // Intentar obtener mensaje de error del servidor si existe
+                    const errorMsg = await response.text();
+                    alert("Error al crear la fuente: " + (errorMsg || response.status));
                 }
             } catch (error) {
                 console.error("Error:", error);

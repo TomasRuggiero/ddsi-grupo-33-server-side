@@ -27,14 +27,18 @@ public class AdminController {
   public ResponseEntity<Long> crearFuente(
       @PathVariable String tipo,
       @RequestParam(value = "archivo", required = false) MultipartFile archivo,
-      @RequestBody(required = false) FuenteProxyInputDto dto
+      @RequestParam(value = "username", required = false) String username,
+      @RequestParam(value = "password", required = false) String password
   ) {
     if ("estatica".equals(tipo) && archivo != null) {
       fuenteApiClient.crearFuenteEstatica(archivo);
       return ResponseEntity.ok().build();
     }
 
-    if ("proxy".equals(tipo) && dto.getUsername() != null && dto.getPassword() != null) {
+    if ("proxy".equals(tipo) && username != null && password != null) {
+      FuenteProxyInputDto dto = new FuenteProxyInputDto();
+      dto.setUsername(username);
+      dto.setPassword(password);
       fuenteApiClient.crearFuenteProxy(dto);
       return ResponseEntity.ok().build();
     }
