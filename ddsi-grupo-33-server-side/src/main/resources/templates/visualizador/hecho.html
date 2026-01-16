@@ -72,6 +72,10 @@
           <h5 class="card-title">Información del Hecho</h5>
           <ul class="list-unstyled">
             <li>
+              <strong>Descripción:</strong>
+              <span th:text="${hecho.descripcion}">Descripción</span>
+            </li>
+            <li>
               <strong>Ubicación:</strong>
               <span th:text="${hecho.ubicacion.direccion}">Ubicación</span>
             </li>
