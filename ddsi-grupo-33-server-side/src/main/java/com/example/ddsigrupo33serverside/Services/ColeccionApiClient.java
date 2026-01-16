@@ -17,6 +17,10 @@ public class ColeccionApiClient {
   // URL base del backend
   private static final String BASE_URL = "http://localhost:8080/colecciones";
 
+  public void eliminarColeccion(Long id) {
+    restTemplate.delete(BASE_URL + "/" + id);
+  }
+
   public List<ColeccionDto> getTodasLasColecciones() {
     ColeccionDto[] colecciones = restTemplate.getForObject(BASE_URL, ColeccionDto[].class);
     List<ColeccionDto> coleccionesLista = Arrays.asList(colecciones);

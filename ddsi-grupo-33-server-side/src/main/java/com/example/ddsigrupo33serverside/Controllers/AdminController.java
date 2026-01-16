@@ -33,6 +33,13 @@ public class AdminController {
       return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/colecciones/{id}")
+    public ResponseEntity<?> eliminar(@PathVariable Long id) {
+      coleccionApiClient.eliminarColeccion(id);
+
+      return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/revisar")
     public String procesarRevision(
             @RequestParam("id") UUID id,
