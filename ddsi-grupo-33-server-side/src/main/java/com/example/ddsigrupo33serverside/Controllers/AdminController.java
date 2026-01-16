@@ -1,15 +1,14 @@
 package com.example.ddsigrupo33serverside.Controllers;
 
 import com.example.ddsigrupo33serverside.Dtos.ColeccionInputDto;
-import com.example.ddsigrupo33serverside.Services.AdminService;
-import com.example.ddsigrupo33serverside.Services.ColeccionApiClient;
-import com.example.ddsigrupo33serverside.Services.HechoApiClient;
-import com.example.ddsigrupo33serverside.Services.SolicitudApiClient;
+import com.example.ddsigrupo33serverside.Dtos.FuenteProxyInputDto;
+import com.example.ddsigrupo33serverside.Services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -22,6 +21,31 @@ public class AdminController {
     private final SolicitudApiClient solicitudApiClient;
     private final HechoApiClient hechoApiClient;
     private final ColeccionApiClient coleccionApiClient;
+    private final FuenteApiClient fuenteApiClient;
+
+  @PostMapping("/fuentes/{tipo}")
+  public ResponseEntity<Long> crearFuente(
+      @PathVariable String tipo,
+      @RequestParam(value = "archivo", required = false) MultipartFile archivo,
+      @RequestBody(required = false) FuenteProxyInputDto dto
+  ) {
+    if ("estatica".equals(tipo) && archivo != null) {
+      fuenteApiClient.crearFuenteEstatica(archivo);
+      return ResponseEntity.ok().build();
+    }
+
+    if ("proxy".equals(tipo) && dto.getUsername() != null && dto.getPassword() != null) {
+      fuenteApiClient.crearFuenteProxy(dto);
+      return ResponseEntity.ok().build();
+    }
+
+    if ("dinamica".equals(tipo)) {
+      fuenteApiClient.crearFuenteDinamica();
+      return ResponseEntity.ok().build();
+    }
+
+    return ResponseEntity.badRequest().build();
+  }
 
     @PostMapping("/colecciones")
     public ResponseEntity<?> crearColeccion(

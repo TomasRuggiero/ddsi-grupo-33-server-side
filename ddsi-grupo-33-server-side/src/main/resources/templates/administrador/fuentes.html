@@ -14,6 +14,15 @@
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
+    <style>
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark fixed-top">
@@ -178,7 +187,7 @@
                             type="button"
                             class="btn btn-primary"
                             data-bs-toggle="modal"
-                            data-bs-target="#createCollectionModal"
+                            data-bs-target="#createFuenteModal"
                     >
                         <i class="bi bi-plus-circle me-2"></i> Crear Nueva Fuente
                     </button>
@@ -653,16 +662,126 @@ Incendio forestal que afectó 500 hectáreas.</textarea
     </div>
 </div>
 
+<div class="modal fade" id="createFuenteModal" tabindex="-1" aria-labelledby="createFuenteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="createFuenteModalLabel">Nueva Fuente de Datos</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createFuenteForm">
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Seleccione el Tipo de Fuente</label>
+                        <select class="form-select border-primary" id="tipoFuenteSelector" required>
+                            <option value="" selected disabled>Seleccionar...</option>
+                            <option value="estatica">Fuente Estática</option>
+                            <option value="dinamica">Fuente Dinámica</option>
+                            <option value="proxy">Fuente Proxy</option>
+                        </select>
+                    </div>
+
+                    <hr>
+
+                    <div id="camposEstatica" class="d-none animate-fade-in">
+                        <div class="mb-3">
+                            <label for="archivoFuente" class="form-label">Subir Archivo</label>
+                            <input type="file" class="form-control" id="archivoFuente">
+                            <div class="form-text">Formatos permitidos: .csv</div>
+                        </div>
+                    </div>
+
+                    <div id="camposDinamica" class="d-none animate-fade-in">
+                        <div class="alert alert-info py-2">
+                            <i class="bi bi-info-circle me-2"></i>Esta fuente se conectará automáticamente a los servicios configurados.
+                        </div>
+                    </div>
+
+                    <div id="camposProxy" class="d-none animate-fade-in">
+                        <div class="mb-3">
+                            <label for="proxyUser" class="form-label">Usuario</label>
+                            <input type="text" class="form-control" id="proxyUser" placeholder="Username">
+                        </div>
+                        <div class="mb-3">
+                            <label for="proxyPass" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="proxyPass" placeholder="Password">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardarFuente" disabled>
+                    <i class="bi bi-cloud-upload me-1"></i> Crear Fuente
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const suggestionInput = document.getElementById("suggestion");
-        const rejectBtn = document.getElementById("rejectBtn");
+        const selector = document.getElementById("tipoFuenteSelector");
+        const btnGuardar = document.getElementById("btnGuardarFuente");
 
-        if (suggestionInput && rejectBtn) {
-            suggestionInput.addEventListener("input", () => {
-                rejectBtn.disabled = suggestionInput.value.trim().length > 0;
-            });
-        }
+        const secciones = {
+            estatica: document.getElementById("camposEstatica"),
+            dinamica: document.getElementById("camposDinamica"),
+            proxy: document.getElementById("camposProxy")
+        };
+
+        // 1. Manejo de visibilidad de campos
+        selector.addEventListener("change", () => {
+            const seleccion = selector.value;
+
+            // Ocultar todas las secciones
+            Object.values(secciones).forEach(s => s.classList.add("d-none"));
+
+            // Mostrar la seleccionada
+            if (seleccion) {
+                secciones[seleccion].classList.remove("d-none");
+                btnGuardar.disabled = false;
+            }
+        });
+
+        // 2. Manejo de la creación (Peticiones al Back)
+        btnGuardar.addEventListener("click", async () => {
+            const tipo = selector.value;
+            let url = `/admin/fuentes/${tipo}`; // Ajustar segun ruta real si es necesario
+            let options = { method: 'POST' };
+
+            try {
+                if (tipo === "estatica") {
+                    const fileInput = document.getElementById("archivoFuente");
+                    if (fileInput.files.length === 0) return alert("Seleccione un archivo");
+
+                    const formData = new FormData();
+                    formData.append("archivo", fileInput.files[0]);
+                    options.body = formData;
+                    // No setear Content-Type en Multipart, el navegador lo hace solo
+                }
+                else if (tipo === "proxy") {
+                    const username = document.getElementById("proxyUser").value;
+                    const password = document.getElementById("proxyPass").value;
+
+                    options.headers = { 'Content-Type': 'application/json' };
+                    options.body = JSON.stringify({ username, password });
+                }
+                // Dinamica no necesita body segun tu endpoint
+
+                const response = await fetch(url, options);
+
+                if (response.ok) {
+                    alert(`Fuente creada con éxito.`);
+                    window.location.reload();
+                } else {
+                    alert("Error al crear la fuente");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error de conexión con el servidor");
+            }
+        });
     });
 </script>
 
