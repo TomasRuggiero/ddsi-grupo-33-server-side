@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -19,9 +20,11 @@ public class HechoDto {
   private String titulo;
   private String descripcion;
   @JsonProperty("fecha")
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private Date fecha_acontecimiento;
+  @JsonProperty("fechaDeCarga")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  private Date fecha_de_carga;
   private String estado;
   private String fuente;
   private String origen;
