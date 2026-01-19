@@ -57,14 +57,14 @@
     <div class="container">
       <div class="login-container mx-auto">
         <h2 class="text-center text-primary fw-bold">MetaMapa</h2>
-        <form action="/login.html" method="POST">
+        <form th:action="@{/login}" method="POST">
           <div class="mb-3">
             <label for="email" class="form-label">Correo</label>
             <input
               type="email"
               class="form-control"
               id="email"
-              name="email"
+              name="username"
               placeholder="nombre@ejemplo.com"
               required
               aria-describedby="emailHelp"
@@ -92,7 +92,7 @@
         <div class="text-center">
           <p class="mb-0 text-muted">
             ¿No tenés cuenta?
-            <a href="register.html" class="link-primary text-decoration-none"
+            <a th:href="@{/register}" class="link-primary text-decoration-none"
               >Registrate acá</a
             >
           </p>
