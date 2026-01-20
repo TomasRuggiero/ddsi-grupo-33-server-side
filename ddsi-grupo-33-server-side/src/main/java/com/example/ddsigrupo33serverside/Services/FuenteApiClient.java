@@ -22,6 +22,15 @@ public class FuenteApiClient {
 
   private static final String BASE_URL = "http://localhost:8080/fuentes";
 
+  public void eliminar(Long id) {
+    try {
+      restTemplate.delete(BASE_URL + "/" + id);
+    } catch (Exception e) {
+      System.out.println("Error al eliminar la fuente " + id);
+      throw e;
+    }
+  }
+
   public List<FuenteDto> getAllFuentes() {
     ParameterizedTypeReference<List<FuenteDto>> typeRef = new ParameterizedTypeReference<List<FuenteDto>>() {};
 

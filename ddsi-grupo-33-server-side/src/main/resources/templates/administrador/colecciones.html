@@ -194,7 +194,7 @@
         <table class="table table-striped table-sm">
           <thead>
           <tr>
-            <th scope="col">ID</th>
+            <th scope="col">#ID</th>
             <th scope="col">Nombre</th>
             <th scope="col">Descripción</th>
             <th scope="col">Algoritmo de Consenso</th>
@@ -209,6 +209,7 @@
             <td th:text="${coleccion.descripcion} + '.'"></td>
             <td th:text="${coleccion.algoritmoDeConsenso}"></td>
             <td th:text="${coleccion.hechos.size()}"></td>
+            <td class="text-center">
             <td class="text-center">
                 <button
                         type="button"
@@ -787,5 +788,7 @@
   document.getElementById('createAvailableFuentes').ondblclick = () => moveSelected('createAvailableFuentes', 'createSelectedFuentes');
   document.getElementById('createSelectedFuentes').ondblclick = () => moveSelected('createSelectedFuentes', 'createAvailableFuentes');
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

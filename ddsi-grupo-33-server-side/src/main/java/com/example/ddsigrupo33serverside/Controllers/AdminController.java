@@ -133,6 +133,13 @@ public class AdminController {
       return "administrador/fuentes";
     }
 
+    @DeleteMapping("/fuentes/{id}")
+    public ResponseEntity<?> eliminarFuente(@PathVariable Long id) {
+      fuenteApiClient.eliminar(id);
+
+      return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/solicitudes/{id}/aceptar")
     public String aceptarSolicitud(@PathVariable Integer id) {
       solicitudApiClient.aceptar(id);

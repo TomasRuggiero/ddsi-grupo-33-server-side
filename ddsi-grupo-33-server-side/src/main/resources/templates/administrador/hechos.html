@@ -212,22 +212,7 @@
                         >
                             <i class="bi bi-check2-circle"></i> Revisar
                         </button>
-                        <button
-                                type="button"
-                                class="btn btn-sm btn-primary me-1"
-                                data-bs-toggle="modal"
-                                data-bs-target="#editFactModal"
-                        >
-                            <i class="bi bi-pencil-square"></i> Editar
-                        </button>
-<!--                        <button-->
-<!--                                type="button"-->
-<!--                                class="btn btn-sm btn-danger"-->
-<!--                                data-bs-toggle="modal"-->
-<!--                                data-bs-target="#deleteFactModal"-->
-<!--                        >-->
-<!--                            <i class="bi bi-trash3"></i> Eliminar-->
-<!--                        </button>-->
+                        <p th:if="${hecho.estado}!='PENDIENTE'" class="text-muted"> No hay acciones disponibles. </p>
                     </td>
                 </tr>
               </tbody>
@@ -263,22 +248,6 @@
                   >
                     <i class="bi bi-check2-circle"></i> Revisar
                   </button>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-primary me-1"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editFactModal"
-                  >
-                    <i class="bi bi-pencil-square"></i> Editar
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteFactModal"
-                  >
-                    <i class="bi bi-trash3"></i> Eliminar
-                  </button>
                 </div>
               </div>
             </div>
@@ -308,22 +277,6 @@
                   <a href="/hecho" class="btn btn-sm btn-outline-info me-1">
                     <i class="bi bi-eye"></i> Ver
                   </a>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-primary me-1"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editFactModal"
-                  >
-                    <i class="bi bi-pencil-square"></i> Editar
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteFactModal"
-                  >
-                    <i class="bi bi-trash3"></i> Eliminar
-                  </button>
                 </div>
               </div>
             </div>
@@ -351,22 +304,6 @@
                   <a href="/hecho" class="btn btn-sm btn-outline-info me-1">
                     <i class="bi bi-eye"></i> Ver
                   </a>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-primary me-1"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editFactModal"
-                  >
-                    <i class="bi bi-pencil-square"></i> Editar
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteFactModal"
-                  >
-                    <i class="bi bi-trash3"></i> Eliminar
-                  </button>
                 </div>
               </div>
             </div>
@@ -449,129 +386,6 @@
         </div>
       </div>
     </div>
-
-    <div
-      class="modal fade"
-      id="editFactModal"
-      tabindex="-1"
-      aria-labelledby="editFactModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editFactModalLabel">Editar Hecho</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label for="editFactTitle" class="form-label">Título</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="editFactTitle"
-                  value="Incendio en El Bolsón"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="editFactDescription" class="form-label"
-                  >Descripción</label
-                >
-                <textarea
-                  class="form-control"
-                  id="editFactDescription"
-                  rows="3"
-                >
-Incendio forestal que afectó 500 hectáreas.</textarea
-                >
-              </div>
-              <div class="mb-3">
-                <label for="editFactDate" class="form-label">Fecha</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="editFactDate"
-                  value="2025-09-08"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="editFactCollection" class="form-label"
-                  >Colección</label
-                >
-                <select class="form-select" id="editFactCollection" required>
-                  <option selected>Incendios Forestales</option>
-                  <option>Desastres Naturales</option>
-                  <option>Accidentes Viales</option>
-                </select>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cancelar
-            </button>
-            <button type="button" class="btn btn-primary">
-              Guardar Cambios
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-<!--    <div-->
-<!--      class="modal fade"-->
-<!--      id="deleteFactModal"-->
-<!--      tabindex="-1"-->
-<!--      aria-labelledby="deleteFactModalLabel"-->
-<!--      aria-hidden="true"-->
-<!--    >-->
-<!--      <div class="modal-dialog">-->
-<!--        <div class="modal-content">-->
-<!--          <div class="modal-header">-->
-<!--            <h5 class="modal-title" id="deleteFactModalLabel">-->
-<!--              Eliminar Hecho-->
-<!--            </h5>-->
-<!--            <button-->
-<!--              type="button"-->
-<!--              class="btn-close"-->
-<!--              data-bs-dismiss="modal"-->
-<!--              aria-label="Close"-->
-<!--            ></button>-->
-<!--          </div>-->
-<!--          <div class="modal-body">-->
-<!--            <p>-->
-<!--              ¿Estás seguro de que deseas eliminar el hecho **"Incendio en El-->
-<!--              Bolsón"**? Esta acción no se puede deshacer.-->
-<!--            </p>-->
-<!--          </div>-->
-<!--          <div class="modal-footer">-->
-<!--            <button-->
-<!--              type="button"-->
-<!--              class="btn btn-secondary"-->
-<!--              data-bs-dismiss="modal"-->
-<!--            >-->
-<!--              Cancelar-->
-<!--            </button>-->
-<!--            <form th:action="@{/admin/eliminar-hecho}" method="post">-->
-<!--              <input type="hidden" name="id" id="deleteFactId" value="" />-->
-<!--              <button type="submit" class="btn btn-danger">Eliminar</button>-->
-<!--            </form>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
 
     <div
             class="modal fade"
