@@ -207,7 +207,9 @@
             <td th:text="${coleccion.id}"></td>
             <td th:text="${coleccion.titulo}"></td>
             <td th:text="${coleccion.descripcion} + '.'"></td>
-            <td th:text="${coleccion.algoritmoDeConsenso}"></td>
+            <td>
+                <span class="badge bg-primary" th:text="${coleccion.algoritmoDeConsenso}"></span>
+            </td>
             <td th:text="${coleccion.hechos.size()}"></td>
             <td class="text-center">
             <td class="text-center">
@@ -265,7 +267,7 @@
             </p>
             <p class="card-text">
               <small class="fw-bold">Consenso:</small>
-              <small th:text="${coleccion.algoritmoDeConsenso}"></small>
+              <small th:text="${coleccion.algoritmoDeConsenso}" class="badge bg-primary"></small>
             </p>
             <p class="card-text">
               <small class="fw-bold">Hechos:</small>

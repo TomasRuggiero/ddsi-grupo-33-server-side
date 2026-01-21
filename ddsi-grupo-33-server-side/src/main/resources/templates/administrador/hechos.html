@@ -198,7 +198,11 @@
                     <td th:text="${hecho.descripcion}"></td>
                     <td th:text="${hecho.fecha_acontecimiento}"></td>
                     <td th:text="${hecho.categorias}"></td>
-                    <td th:text="${hecho.estado}"></td>
+                    <td th:switch="${hecho.estado}">
+                      <span class="badge bg-warning" th:case="PENDIENTE">PENDIENTE</span>
+                      <span class="badge bg-success" th:case="DISPONIBLE">DISPONIBLE</span>
+                      <span class="badge bg-danger" th:case="RECHAZADO">RECHAZADO</span>
+                    </td>
                     <td class="text-nowrap text-end">
                         <button
                                 th:if="${hecho.estado}=='PENDIENTE'"
@@ -220,90 +224,43 @@
           </div>
 
           <div class="d-block d-md-none">
-            <div class="card mb-3">
+            <div th:each="hecho : ${hechos}" class="card mb-3">
               <div class="card-body">
-                <h5 class="card-title fw-bold">Incendio en El Bolsón</h5>
+                <h5 class="card-title fw-bold" th:text="${hecho.getTitulo()}"></h5>
                 <p class="card-text">
                   <small class="fw-bold">ID:</small>
-                  <small>1</small>
+                  <small th:text="${hecho.getId()}"></small>
                 </p>
                 <p class="card-text">
                   <small class="fw-bold">Descripción:</small>
-                  <small>Incendio forestal que afectó 500 hectáreas.</small>
+                  <small th:text="${hecho.getDescripcion()}"></small>
                 </p>
                 <p class="card-text">
-                  <small class="fw-bold">Fecha:</small>
-                  <small>2025-09-08</small>
+                  <small class="fw-bold">Fecha de acontecimiento:</small>
+                  <small th:text="${hecho.getFecha_acontecimiento()}"></small>
                 </p>
                 <p class="card-text">
-                  <small class="fw-bold">Colección:</small>
-                  <small>Incendios Forestales</small>
+                  <small class="fw-bold">Fecha de carga:</small>
+                  <small th:text="${hecho.getFecha_de_carga()}"></small>
                 </p>
-                <td><span class="badge bg-warning text-dark">Pendiente</span></td>
+                <div th:switch="${hecho.getEstado()}">
+                  <span class="badge bg-warning" th:case="PENDIENTE">Pendiente</span>
+                  <span class="badge bg-success" th:case="DISPONIBLE">Disponible</span>
+                  <span class="badge bg-danger" th:case="RECHAZADO">Rechazado</span>
+                </div>
                 <div class="mt-3">
                   <button
+                          th:if="${hecho.estado}=='PENDIENTE'"
                           class="btn btn-sm btn-outline-primary"
                           data-bs-toggle="modal"
                           data-bs-target="#reviewFactModal"
+                          th:data-id="${hecho.id}"
+                          th:data-titulo="${hecho.titulo}"
+                          th:data-descripcion="${hecho.descripcion}"
+                          th:data-fecha="${hecho.fecha_acontecimiento}"
                   >
                     <i class="bi bi-check2-circle"></i> Revisar
                   </button>
-                </div>
-              </div>
-            </div>
-            <div class="card mb-3">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">Inundación en La Matanza</h5>
-                <p class="card-text">
-                  <small class="fw-bold">ID:</small>
-                  <small>2</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Descripción:</small>
-                  <small
-                    >Fuertes lluvias provocan inundaciones en barrios.</small
-                  >
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Fecha:</small>
-                  <small>2025-08-15</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Colección:</small>
-                  <small>Desastres Naturales</small>
-                </p>
-                <td><span class="badge bg-success">Aceptado</span></td>
-                <div class="mt-3">
-                  <a href="/hecho" class="btn btn-sm btn-outline-info me-1">
-                    <i class="bi bi-eye"></i> Ver
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="card mb-3">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">Accidente vial en Ruta 2</h5>
-                <p class="card-text">
-                  <small class="fw-bold">ID:</small>
-                  <small>3</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Descripción:</small>
-                  <small>Colisión entre dos vehículos, 3 heridos.</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Fecha:</small>
-                  <small>2025-07-20</small>
-                </p>
-                <p class="card-text">
-                  <small class="fw-bold">Colección:</small>
-                  <small>Accidentes Viales</small>
-                </p>
-                <td><span class="badge bg-info text-dark">Aceptado con sugerencia</span></td>
-                <div class="mt-3">
-                  <a href="/hecho" class="btn btn-sm btn-outline-info me-1">
-                    <i class="bi bi-eye"></i> Ver
-                  </a>
                 </div>
               </div>
             </div>
