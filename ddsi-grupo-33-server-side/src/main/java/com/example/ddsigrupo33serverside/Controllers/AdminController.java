@@ -64,9 +64,10 @@ public class AdminController {
     @PutMapping("/colecciones/{id}")
     public ResponseEntity<?> actualizar(
         @PathVariable Long id,
-        @RequestBody ColeccionInputDto dto) {
+        @RequestBody ColeccionInputDto dto,
+        @RequestParam(required = false) String algoritmoDeConsenso) {
 
-      coleccionApiClient.actualizarColeccion(dto, id);
+      coleccionApiClient.actualizarColeccion(dto, id, algoritmoDeConsenso);
 
       return ResponseEntity.ok().build();
     }
@@ -164,5 +165,23 @@ public class AdminController {
       model.addAttribute("usuariosFiltrados", usuarioApiClient.listarUsuarios(nombre, correo, rol));
 
       return "administrador/usuarios";
+    }
+
+    @PutMapping("usuarios/{id}")
+    public ResponseEntity<?> promoverUsuario(
+        @PathVariable Long id
+    ) {
+      usuarioApiClient.promoverUsuario(id);
+
+      return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("usuarios/{id}")
+    public ResponseEntity<?> eliminarUsuario(
+        @PathVariable Long id
+    ) {
+      usuarioApiClient.borrarUsuario(id);
+
+      return ResponseEntity.noContent().build();
     }
 }

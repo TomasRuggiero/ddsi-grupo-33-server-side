@@ -18,6 +18,14 @@ public class UsuarioApiClient {
 
     private final String BASE_URL = "http://localhost:8080/user";
 
+    public void promoverUsuario(Long id) {
+      restTemplate.put(BASE_URL + "/promover/" + id, null);
+    }
+
+    public void borrarUsuario(Long id) {
+      restTemplate.delete(BASE_URL + "/" + id);
+    }
+
     public List<AdminUsersDto> listarUsuarios(String nombre, String correo, String rol) {
         ParameterizedTypeReference<List<AdminUsersDto>> typeRef = new ParameterizedTypeReference<List<AdminUsersDto>>() {};
 

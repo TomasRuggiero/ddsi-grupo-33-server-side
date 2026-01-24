@@ -34,8 +34,9 @@ public class ColeccionApiClient {
     return coleccionesLista;
   }
 
-  public void actualizarColeccion(ColeccionInputDto coleccionInputDto, Long id) {
+  public void actualizarColeccion(ColeccionInputDto coleccionInputDto, Long id, String algoritmoDeConsenso) {
     restTemplate.put(BASE_URL + "/" + id, coleccionInputDto);
+    restTemplate.put(BASE_URL + "/" + id + "/consenso/" + algoritmoDeConsenso, null);
   }
 
   public ColeccionDto getColeccionPorId(Long id) {

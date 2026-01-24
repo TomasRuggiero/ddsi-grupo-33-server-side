@@ -437,10 +437,10 @@
                         <div class="mb-3">
                             <label for="editConsensusAlgorithm" class="form-label small fw-bold">Algoritmo de Consenso</label>
                             <select class="form-select" id="editConsensusAlgorithm" required>
-                                <option>Sin Algoritmo</option>
-                                <option>Mayoría simple</option>
-                                <option>Aprobar hechos verificados</option>
-                                <option>Voto ponderado por usuario</option>
+                                <option value="SIN_ALGORITMO">Sin Algoritmo</option>
+                                <option value="MAYORIA_SIMPLE">Mayoría simple</option>
+                                <option value="MAYORIA_ABSOLUTA">Mayoria absoluta</option>
+                                <option value="MULTIPLES_MENCIONES">Multiples menciones</option>
                             </select>
                         </div>
                     </div>
@@ -632,6 +632,7 @@
 
   saveEditBtn.addEventListener('click', async () => {
       const id = document.getElementById('editCollectionId').value;
+      const algoritmoDeConsenso = document.getElementById('editConsensusAlgorithm').value;
       const form = document.getElementById('editCollectionForm');
 
       // Obtener IDs del Dual Listbox (Cuadro de la derecha)
@@ -665,7 +666,7 @@
       console.log("Enviando datos:", data); // Para debug
 
       try {
-          const response = await fetch(`/admin/colecciones/${id}`, {
+          const response = await fetch(`/admin/colecciones/${id}?algoritmoDeConsenso=${algoritmoDeConsenso}`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(data)
