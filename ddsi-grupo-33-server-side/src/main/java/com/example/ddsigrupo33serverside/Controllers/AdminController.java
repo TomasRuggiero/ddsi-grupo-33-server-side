@@ -22,6 +22,7 @@ public class AdminController {
     private final HechoApiClient hechoApiClient;
     private final ColeccionApiClient coleccionApiClient;
     private final FuenteApiClient fuenteApiClient;
+    private final UsuarioApiClient usuarioApiClient;
 
   @PostMapping("/fuentes/{tipo}")
   public ResponseEntity<Long> crearFuente(
@@ -152,5 +153,16 @@ public class AdminController {
       solicitudApiClient.rechazar(id);
 
       return "redirect:/admin/solicitudes";
+    }
+
+    @GetMapping("usuarios")
+    public String usuarios(Model model,
+                           @RequestParam(required = false) String nombre,
+                           @RequestParam(required = false) String correo,
+                           @RequestParam(required = false) String rol) {
+
+      model.addAttribute("usuariosFiltrados", usuarioApiClient.listarUsuarios(nombre, correo, rol));
+
+      return "administrador/usuarios";
     }
 }
