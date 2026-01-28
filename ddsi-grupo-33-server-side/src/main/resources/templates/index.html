@@ -14,7 +14,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
     />
-    <link rel="stylesheet" href="../static/css/custom.css" />
+    <link rel="stylesheet" href="/css/custom.css" th:href="@{/css/custom.css}" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -99,72 +99,26 @@
         <h2 class="text-center display-6 fw-bold mb-5">
           Colecciones destacadas
         </h2>
+
+        <div th:if="${#lists.isEmpty(colecciones)}" class="text-center text-muted mb-4">
+          Todavía no hay colecciones disponibles.
+        </div>
+
         <div class="row g-4">
-          <div class="col-md-6 col-lg-3">
+          <div class="col-md-6 col-lg-3" th:each="coleccion : ${colecciones}">
             <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center">
-                <h5 class="card-title fw-bold">
-                  Hechos de Desastres Naturales
+              <div class="card-body text-center d-flex flex-column">
+                <h5 class="card-title fw-bold" th:text="${coleccion.titulo}">
+                  Título colección
                 </h5>
-                <p class="card-text text-muted">
-                  Colección para mapear y monitorear eventos naturales.
+                <p
+                        class="card-text text-muted"
+                        th:text="${#strings.abbreviate(coleccion.descripcion, 120)}"
+                        th:title="${coleccion.descripcion}">
                 </p>
-                <a
-                  href="/visualizador/colecciones"
-                  class="btn btn-outline-primary mt-3"
-                  >Ver Colección</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center">
-                <h5 class="card-title fw-bold">
-                  Hechos de Incendios Forestales en España
-                </h5>
-                <p class="card-text text-muted">
-                  Información georreferenciada sobre incendios.
-                </p>
-                <a
-                  href="/visualizador/colecciones"
-                  class="btn btn-outline-primary mt-3"
-                  >Ver Colección</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center">
-                <h5 class="card-title fw-bold">
-                  Hechos y víctimas de muertes viales
-                </h5>
-                <p class="card-text text-muted">
-                  Mapeo de incidentes de tránsito en la República Argentina.
-                </p>
-                <a
-                  href="/visualizador/colecciones"
-                  class="btn btn-outline-primary mt-3"
-                  >Ver Colección</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center">
-                <h5 class="card-title fw-bold">
-                  Hechos de personas asesinadas
-                </h5>
-                <p class="card-text text-muted">
-                  Colección sobre casos de violencia institucional.
-                </p>
-                <a
-                  href="/visualizador/colecciones"
-                  class="btn btn-outline-primary mt-3"
-                  >Ver Colección</a
-                >
+                <a th:href="@{/visualizador/colecciones/{id}(id=${coleccion.id})}" class="btn btn-outline-primary mt-auto">
+                  Ver Colección
+                </a>
               </div>
             </div>
           </div>
