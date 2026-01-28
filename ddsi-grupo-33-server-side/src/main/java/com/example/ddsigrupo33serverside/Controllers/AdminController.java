@@ -5,6 +5,7 @@ import com.example.ddsigrupo33serverside.Dtos.FuenteProxyInputDto;
 import com.example.ddsigrupo33serverside.Services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class AdminController {
     private final UsuarioApiClient usuarioApiClient;
 
   @PostMapping("/fuentes/{tipo}")
+  @PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<Long> crearFuente(
       @PathVariable String tipo,
       @RequestParam(value = "archivo", required = false) MultipartFile archivo,
@@ -53,6 +55,7 @@ public class AdminController {
   }
 
     @PostMapping("/colecciones")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> crearColeccion(
         @RequestBody ColeccionInputDto dto) {
 
@@ -62,6 +65,7 @@ public class AdminController {
     }
 
     @PutMapping("/colecciones/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> actualizar(
         @PathVariable Long id,
         @RequestBody ColeccionInputDto dto,
@@ -73,6 +77,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/colecciones/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
       coleccionApiClient.eliminarColeccion(id);
 
@@ -80,6 +85,7 @@ public class AdminController {
     }
 
     @PostMapping("/revisar")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String procesarRevision(
             @RequestParam("id") UUID id,
             @RequestParam("accion") String accion,
@@ -95,6 +101,7 @@ public class AdminController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String adminHome(Model model) {
         model.addAttribute("todosLosHechos", adminService.getAdminHome().getHechosPorCategoria());
         model.addAttribute("hechosUltimaSemana", adminService.getAdminHome().getHechosUltimaSemana());
@@ -107,6 +114,7 @@ public class AdminController {
     }
 
     @GetMapping("/colecciones")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String colecciones(Model model) {
         model.addAttribute("colecciones", adminService.getAdminColecciones());
         model.addAttribute("todasLasFuentes", adminService.getAllFuentes());
@@ -115,6 +123,7 @@ public class AdminController {
     }
 
     @GetMapping("/solicitudes")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String solicitudes(Model model) {
       model.addAttribute("solicitudes", adminService.getSolicitudes());
 
@@ -122,6 +131,7 @@ public class AdminController {
     }
 
     @GetMapping("hechos")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String hechos(Model model) {
       model.addAttribute("hechos", adminService.getAdminHechos());
 
@@ -129,6 +139,7 @@ public class AdminController {
     }
 
     @GetMapping("fuentes")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String fuentes(Model model) {
       model.addAttribute("fuentes", adminService.getAllFuentes());
 
@@ -136,6 +147,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/fuentes/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> eliminarFuente(@PathVariable Long id) {
       fuenteApiClient.eliminar(id);
 
@@ -143,6 +155,7 @@ public class AdminController {
     }
 
     @PostMapping("/solicitudes/{id}/aceptar")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String aceptarSolicitud(@PathVariable Integer id) {
       solicitudApiClient.aceptar(id);
 
@@ -150,6 +163,7 @@ public class AdminController {
     }
 
     @PostMapping("/solicitudes/{id}/rechazar")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String rechazarSolicitud(@PathVariable Integer id) {
       solicitudApiClient.rechazar(id);
 
@@ -157,6 +171,7 @@ public class AdminController {
     }
 
     @GetMapping("usuarios")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String usuarios(Model model,
                            @RequestParam(required = false) String nombre,
                            @RequestParam(required = false) String correo,
@@ -168,6 +183,7 @@ public class AdminController {
     }
 
     @PutMapping("usuarios/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> promoverUsuario(
         @PathVariable Long id
     ) {
@@ -177,6 +193,7 @@ public class AdminController {
     }
 
     @DeleteMapping("usuarios/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> eliminarUsuario(
         @PathVariable Long id
     ) {
