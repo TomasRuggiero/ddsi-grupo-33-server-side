@@ -20,11 +20,9 @@ public class HechoDto {
   private String titulo;
   private String descripcion;
   @JsonProperty("fecha")
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-  private Date fecha_acontecimiento;
+  private LocalDate fecha_acontecimiento;
   @JsonProperty("fechaDeCarga")
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-  private Date fecha_de_carga;
+  private LocalDate fecha_de_carga;
   private String estado;
   private String fuente;
   private String origen;

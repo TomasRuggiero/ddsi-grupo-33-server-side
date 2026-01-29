@@ -196,7 +196,7 @@
                 <tr th:each="hecho : ${hechos}">
                     <td th:text="${hecho.titulo}"></td>
                     <td th:text="${hecho.descripcion}"></td>
-                    <td th:text="${hecho.fecha_acontecimiento}"></td>
+                    <td th:text="${#temporals.format(hecho.fecha_acontecimiento, 'dd/MM/yyyy')}"></td>
                     <td th:text="${hecho.categorias}"></td>
                     <td th:switch="${hecho.estado}">
                       <span class="badge bg-warning" th:case="PENDIENTE">PENDIENTE</span>
@@ -212,7 +212,7 @@
                                 th:data-id="${hecho.id}"
                                 th:data-titulo="${hecho.titulo}"
                                 th:data-descripcion="${hecho.descripcion}"
-                                th:data-fecha="${hecho.fecha_acontecimiento}"
+                                th:data-fecha="${#temporals.format(hecho.fecha_acontecimiento, 'dd/MM/yyyy')}"
                         >
                             <i class="bi bi-check2-circle"></i> Revisar
                         </button>
@@ -237,11 +237,11 @@
                 </p>
                 <p class="card-text">
                   <small class="fw-bold">Fecha de acontecimiento:</small>
-                  <small th:text="${hecho.getFecha_acontecimiento()}"></small>
+                  <small th:text="${#temporals.format(hecho.fecha_acontecimiento, 'dd/MM/yyyy')}"></small>
                 </p>
                 <p class="card-text">
                   <small class="fw-bold">Fecha de carga:</small>
-                  <small th:text="${hecho.getFecha_de_carga()}"></small>
+                  <small th:text="${#temporals.format(hecho.fecha_de_carga, 'dd/MM/yyyy')}"></small>
                 </p>
                 <div th:switch="${hecho.getEstado()}">
                   <span class="badge bg-warning" th:case="PENDIENTE">Pendiente</span>
@@ -257,7 +257,7 @@
                           th:data-id="${hecho.id}"
                           th:data-titulo="${hecho.titulo}"
                           th:data-descripcion="${hecho.descripcion}"
-                          th:data-fecha="${hecho.fecha_acontecimiento}"
+                          th:data-fecha="${#temporals.format(hecho.fecha_acontecimiento, 'dd/MM/yyyy')}"
                   >
                     <i class="bi bi-check2-circle"></i> Revisar
                   </button>

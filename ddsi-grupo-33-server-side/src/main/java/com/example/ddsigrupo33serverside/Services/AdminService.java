@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -19,22 +20,35 @@ public class AdminService {
   private final SolicitudApiClient solicitudApiClient;
 
   public AdminHomeDto getAdminHome() {
-        List<HechoDto> todosLosHechos = hechoApiClient.getAllHechos();
+    List<HechoDto> todosLosHechos = hechoApiClient.getAllHechos();
 
-        long sieteDiasEnMillis = 7L * 24 * 60 * 60 * 1000;
-        Date limiteHaceUnaSemana = new Date(System.currentTimeMillis() - sieteDiasEnMillis);
-        List<HechoDto> hechosUltimaSemana = todosLosHechos.stream()
-              .filter(h -> h.getFecha_acontecimiento().after(limiteHaceUnaSemana)
-                      && h.getFecha_acontecimiento().before(new Date()))
-              .toList();
+    LocalDate hoy = LocalDate.now();
+    LocalDate haceUnaSemana = hoy.minusDays(7);
 
-        Integer totalColecciones = coleccionApiClient.getTodasLasColecciones().size();
-        Integer totalSolicitudes = solicitudApiClient.getAllSolicitudes().size();
-        // TODO: Obtener usuarios
-        Integer totalUsuarios = 2;
+    List<HechoDto> hechosUltimaSemana = todosLosHechos.stream()
+        .filter(h -> {
+          LocalDate fecha = h.getFecha_acontecimiento();
+          return fecha != null
+              && !fecha.isBefore(haceUnaSemana)
+              && !fecha.isAfter(hoy);
+        })
+        .toList();
 
-        return new AdminHomeDto(todosLosHechos, hechosUltimaSemana, todosLosHechos.size(), totalColecciones, totalSolicitudes, totalUsuarios);
-    }
+    Integer totalColecciones = coleccionApiClient.getTodasLasColecciones().size();
+    Integer totalSolicitudes = solicitudApiClient.getAllSolicitudes().size();
+
+    // TODO: obtener usuarios reales
+    Integer totalUsuarios = 2;
+
+    return new AdminHomeDto(
+        todosLosHechos,
+        hechosUltimaSemana,
+        todosLosHechos.size(),
+        totalColecciones,
+        totalSolicitudes,
+        totalUsuarios
+    );
+  }
 
     public List<ColeccionDto> getAdminColecciones() {
         return coleccionApiClient.getTodasLasColecciones();
