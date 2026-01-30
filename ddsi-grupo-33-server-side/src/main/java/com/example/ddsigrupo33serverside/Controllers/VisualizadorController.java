@@ -3,9 +3,7 @@ package com.example.ddsigrupo33serverside.Controllers;
 import java.util.List;
 import java.util.UUID;
 
-import com.example.ddsigrupo33serverside.Dtos.ColeccionDto;
-import com.example.ddsigrupo33serverside.Dtos.HechoDto;
-import com.example.ddsigrupo33serverside.Dtos.SolicitudDto;
+import com.example.ddsigrupo33serverside.Dtos.*;
 import com.example.ddsigrupo33serverside.Services.ColeccionApiClient;
 import com.example.ddsigrupo33serverside.Services.HechoApiClient;
 import com.example.ddsigrupo33serverside.Services.SolicitudApiClient;
@@ -35,8 +33,8 @@ public class VisualizadorController {
   }
 
   @GetMapping("/colecciones/{id}")
-  public String hechosPorColeccion(@PathVariable Long id, Model model) {
-    ColeccionDto coleccion = coleccionService.getColeccionPorId(id);
+  public String hechosPorColeccion(@PathVariable Long id, FiltroHechosDto filtros, Model model) {
+    ColeccionDto coleccion = coleccionService.getColeccionPorId(id, filtros);
     if (coleccion == null) {
       return "error/404"; // opcional
     }
