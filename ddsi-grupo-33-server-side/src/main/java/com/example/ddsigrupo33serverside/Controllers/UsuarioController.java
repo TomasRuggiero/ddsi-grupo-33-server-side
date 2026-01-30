@@ -44,7 +44,7 @@ public class UsuarioController {
       log.error("Error al crear usuario", e);
       model.addAttribute("error", "Error al crear el usuario: " + e.getMessage());
       model.addAttribute("titulo", "Crear Nuevo Usuario");
-      return "redirect";
+      return "redirect:/register";
     }
   }
 

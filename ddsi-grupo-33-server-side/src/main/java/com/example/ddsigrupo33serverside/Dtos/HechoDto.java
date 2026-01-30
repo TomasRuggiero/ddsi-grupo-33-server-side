@@ -19,7 +19,7 @@ public class HechoDto {
   private UUID id;
   private String titulo;
   private String descripcion;
-  @JsonProperty("fecha")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private LocalDate fecha_acontecimiento;
   @JsonProperty("fechaDeCarga")
   private LocalDate fecha_de_carga;
