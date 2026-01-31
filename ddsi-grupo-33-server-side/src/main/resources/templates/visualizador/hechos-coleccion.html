@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title th:text="'MetaMapa | ' + ${coleccion.titulo}">MetaMapa</title>
   <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet"
   />
   <link
@@ -20,28 +20,15 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand" href="/">MetaMapa</a>
-    <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-    >
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/admin">Administrador</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/visualizador/colecciones">Colecciones</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{'/hechos/nuevo'}">Subir Hecho</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/login">Iniciar Sesión</a>
-        </li>
+        <li class="nav-item"><a class="nav-link" href="/admin">Administrador</a></li>
+        <li class="nav-item"><a class="nav-link" href="/visualizador/colecciones">Colecciones</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{'/hechos/nuevo'}">Subir Hecho</a></li>
+        <li class="nav-item"><a class="nav-link" href="/login">Iniciar Sesión</a></li>
       </ul>
     </div>
   </div>
@@ -49,95 +36,71 @@
 
 <main class="flex-grow-1">
 
-  <!-- Selector de modo de navegación -->
   <div class="bg-light py-3 border-bottom">
     <div class="container d-flex justify-content-center">
       <div class="btn-group" role="group" aria-label="Modo de navegación">
-        <input type="radio" class="btn-check" name="modo" id="modoCurada" autocomplete="off" />
-        <label class="btn btn-outline-primary" for="modoCurada">
-          Curada
-        </label>
+        <input type="radio" class="btn-check" name="modo_nav" id="modoCurada" value="true"
+               th:checked="${param.curado != null and param.curado[0] == 'true'}" autocomplete="off" />
+        <label class="btn btn-outline-primary" for="modoCurada">Curada</label>
 
-        <input type="radio" class="btn-check" name="modo" id="modoIrrestricta" autocomplete="off" checked />
-        <label class="btn btn-outline-secondary" for="modoIrrestricta">
-          Irrestricta
-        </label>
+        <input type="radio" class="btn-check" name="modo_nav" id="modoIrrestricta" value="false"
+               th:checked="${param.curado == null or param.curado[0] == 'false'}" autocomplete="off" />
+        <label class="btn btn-outline-secondary" for="modoIrrestricta">Irrestricta</label>
       </div>
     </div>
   </div>
 
 
   <div class="container my-5">
-    <h1 class="mb-3" th:text="${coleccion.titulo}">Título de la colección</h1>
-    <p class="mb-4 text-muted" th:text="${coleccion.descripcion}">Descripción de la colección</p>
+    <h1 class="mb-3" th:text="${coleccion.titulo}">Título</h1>
+    <p class="mb-4 text-muted" th:text="${coleccion.descripcion}">Descripción</p>
 
     <div class="accordion mb-4" id="filtersAccordion">
       <div class="accordion-item">
         <h2 class="accordion-header" id="filtersHeading">
-          <button
-                  class="accordion-button"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#filtersCollapse"
-                  aria-expanded="true"
-                  aria-controls="filtersCollapse"
-          >
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#filtersCollapse">
             <i class="bi bi-funnel me-2"></i> Filtros de búsqueda
           </button>
         </h2>
-        <div
-                id="filtersCollapse"
-                class="accordion-collapse collapse"
-                aria-labelledby="filtersHeading"
-                data-bs-parent="#filtersAccordion"
-        >
+        <div id="filtersCollapse" class="accordion-collapse collapse" data-bs-parent="#filtersAccordion">
           <div class="accordion-body">
-            <form class="row g-3" th:action="@{'/visualizador/colecciones/' + ${coleccion.id}}" method="get">
+            <form class="row g-3" id="formFiltros" th:action="@{'/visualizador/colecciones/' + ${coleccion.id}}" method="get">
+
+              <input type="hidden" name="curado" id="curadoHidden" th:value="${param.curado ?: 'false'}" />
+
               <div class="col-md-6 col-lg-4">
                 <label for="titulo" class="form-label">Título del hecho</label>
-                <input type="text" class="form-control" id="titulo" name="titulo"
-                       placeholder="Ej: Incendio" th:value="${param.titulo}" />
+                <input type="text" class="form-control" id="titulo" name="titulo" th:value="${param.titulo}" />
               </div>
 
               <div class="col-md-6 col-lg-4">
                 <label for="categoria" class="form-label">Categoría</label>
-                <input type="text" class="form-control" id="categoria" name="categoria"
-                       placeholder="Ej: Ambiental" th:value="${param.categoria}" />
+                <input type="text" class="form-control" id="categoria" name="categoria" th:value="${param.categoria}" />
               </div>
 
               <div class="col-12 border-bottom my-3"></div>
 
-              <p class="text-muted small"><i class="bi bi-info-circle"></i> Los rangos de fecha y coordenadas solo se aplicarán si completas ambos campos.</p>
-
               <div class="col-md-6 col-lg-3">
                 <label for="fecha_desde" class="form-label">Fecha Registro (Desde)</label>
-                <input type="date" class="form-control" id="fecha_desde" name="fecha_desde"
-                       th:value="${param.fecha_desde}" />
+                <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" th:value="${param.fecha_desde}" />
               </div>
               <div class="col-md-6 col-lg-3">
                 <label for="fecha_hasta" class="form-label">Fecha Registro (Hasta)</label>
-                <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta"
-                       th:value="${param.fecha_hasta}" />
+                <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" th:value="${param.fecha_hasta}" />
               </div>
 
               <div class="col-md-6 col-lg-3">
                 <label for="latitud" class="form-label">Latitud</label>
-                <input type="text" class="form-control" id="latitud" name="latitud"
-                       placeholder="Ej: -34.60" th:value="${param.latitud}" />
+                <input type="text" class="form-control" id="latitud" name="latitud" th:value="${param.latitud}" />
               </div>
               <div class="col-md-6 col-lg-3">
                 <label for="longitud" class="form-label">Longitud</label>
-                <input type="text" class="form-control" id="longitud" name="longitud"
-                       placeholder="Ej: -58.38" th:value="${param.longitud}" />
+                <input type="text" class="form-control" id="longitud" name="longitud" th:value="${param.longitud}" />
               </div>
 
               <div class="col-12 d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary me-2">
-                  <i class="bi bi-search"></i> Buscar
-                </button>
-                <a th:href="@{'/visualizador/colecciones/' + ${coleccion.id}}" class="btn btn-outline-secondary">
-                  <i class="bi bi-x-circle"></i> Limpiar Filtros
-                </a>
+                <button type="submit" class="btn btn-primary me-2"><i class="bi bi-search"></i> Buscar</button>
+                <a th:href="@{'/visualizador/colecciones/' + ${coleccion.id} + '?curado=false'}" class="btn btn-outline-secondary">Limpiar</a>
               </div>
             </form>
           </div>
@@ -145,111 +108,43 @@
       </div>
     </div>
 
-
-    <!-- Tabla de hechos -->
     <div class="table-responsive d-none d-md-block">
       <table class="table table-striped">
         <thead>
         <tr>
-          <th scope="col">Título</th>
-          <th scope="col">Fecha</th>
-          <th scope="col">Ubicación</th>
-          <th scope="col">Fuente</th>
-          <th scope="col">Categoría</th>
-          <th scope="col">Acciones</th>
+          <th>Título</th>
+          <th>Fecha</th>
+          <th>Ubicación</th>
+          <th>Fuente</th>
+          <th>Categoría</th>
+          <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="hecho : ${coleccion.hechos}">
-          <td th:text="${hecho.titulo}">Título</td>
-          <td th:text="${#temporals.format(hecho.fecha_acontecimiento, 'dd/MM/yyyy')}">01/01/2025</td>
-          <td th:text="${hecho.ubicacion.direccion}">Ubicación</td>
-          <td th:text="${hecho.origen}">Fuente</td>
-          <td th:text="${hecho.categorias}">Categoría</td>
+          <td th:text="${hecho.titulo}"></td>
+          <td th:text="${#temporals.format(hecho.fecha_acontecimiento, 'dd/MM/yyyy')}"></td>
+          <td th:text="${hecho.ubicacion != null ? hecho.ubicacion.direccion : 'N/A'}"></td>
+          <td th:text="${hecho.origen}"></td>
+          <td th:text="${hecho.categorias}"></td>
           <td>
-            <a
-                    th:href="@{/visualizador/hecho/{id}(id=${hecho.id})}"
-                    class="btn btn-sm btn-primary text-white"
-            >
-              <i class="bi bi-eye"></i>
-            </a>
-            <button
-                    class="btn btn-sm btn-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteRequestModal"
-            >
-              <i class="bi bi-trash"></i>
-            </button>
+            <a th:href="@{/visualizador/hecho/{id}(id=${hecho.id})}" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></a>
           </td>
         </tr>
         </tbody>
       </table>
     </div>
 
-    <!-- Versión mobile (cards) -->
     <div class="d-block d-md-none">
-      <div class="row g-3">
-        <div class="col-12" th:each="hecho : ${coleccion.hechos}">
-          <div class="card">
+      <div class="row g-3" th:each="hecho : ${coleccion.hechos}">
+        <div class="col-12">
+          <div class="card shadow-sm">
             <div class="card-body">
-              <h5 class="card-title" th:text="${hecho.titulo}">Título del hecho</h5>
-              <span th:text="${#temporals.format(hecho.fecha_acontecimiento, 'dd/MM/yyyy')}">Fecha</span>
-              <p class="card-text mb-1"><strong>Ubicación:</strong> <span th:text="${hecho.ubicacion}">Ubicación</span></p>
-              <p class="card-text mb-1"><strong>Fuente:</strong> <span th:text="${hecho.origen}">Fuente</span></p>
-              <p class="card-text mb-3"><strong>Categoría:</strong> <span th:text="${hecho.categorias}">Categoría</span></p>
-              <a th:href="@{/visualizador/hecho/{id}(id=${hecho.id})}" class="btn btn-sm btn-primary text-white">
-                <i class="bi bi-eye"></i>
-              </a>
-              <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteRequestModal">
-                <i class="bi bi-trash"></i>
-              </button>
+              <h5 class="card-title fw-bold" th:text="${hecho.titulo}"></h5>
+              <p class="card-text mb-1 small"><strong>Ubicación:</strong> <span th:text="${hecho.ubicacion?.direccion}"></span></p>
+              <a th:href="@{/visualizador/hecho/{id}(id=${hecho.id})}" class="btn btn-sm btn-primary">Ver Hecho</a>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal de solicitud de eliminación -->
-  <div
-          class="modal fade"
-          id="deleteRequestModal"
-          tabindex="-1"
-          aria-labelledby="deleteRequestModalLabel"
-          aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteRequestModalLabel">Solicitar Eliminación</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <p>Por favor, explica por qué crees que este hecho debería ser eliminado.</p>
-
-          <form>
-            <div class="mb-3">
-              <label class="form-label">
-                Descripción (mín. 500 caracteres)
-              </label>
-              <textarea
-                      class="form-control"
-                      name="justificacion"
-                      rows="4"
-                      minlength="500"
-                      required
-              ></textarea>
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                Cancelar
-              </button>
-              <button type="submit" class="btn btn-danger">
-                Enviar Solicitud
-              </button>
-            </div>
-          </form>
         </div>
       </div>
     </div>
@@ -257,46 +152,41 @@
 </main>
 
 <footer class="bg-dark text-white-50 py-4 mt-5">
-  <div class="container text-center text-md-start">
-    <div class="row align-items-center">
-      <div class="col-md-6 mb-3 mb-md-0">
-        <p class="mb-0">© 2025 MetaMapa. Todos los derechos reservados.</p>
-      </div>
-      <div class="col-md-6 text-md-end">
-        <a href="#" class="text-white-50 text-decoration-none">Información legal y de privacidad</a>
-      </div>
-    </div>
+  <div class="container text-center">
+    <p class="mb-0 small">© 2025 MetaMapa.</p>
   </div>
 </footer>
 
 <script>
-  document.querySelector('form').addEventListener('submit', function(e) {
+  const radios = document.querySelectorAll('input[name="modo_nav"]');
+  const hiddenCurado = document.getElementById('curadoHidden');
+  const form = document.getElementById('formFiltros');
+
+  // Cada vez que cambia el radio button, se actualiza el hidden y se envía el form
+  radios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      hiddenCurado.value = radio.value;
+      form.submit();
+    });
+  });
+
+  form.addEventListener('submit', function(e) {
     const fDesde = document.getElementById('fecha_desde').value;
     const fHasta = document.getElementById('fecha_hasta').value;
     const lat = document.getElementById('latitud').value;
     const lon = document.getElementById('longitud').value;
 
     let errores = [];
-
-    // Validación de Par de Fechas
-    if ((fDesde && !fHasta) || (!fDesde && fHasta)) {
-      errores.push("Para filtrar por fecha de registro, debés completar ambos campos (Desde y Hasta).");
-    }
-
-    // Validación de Par de Coordenadas
-    if ((lat && !lon) || (!lat && lon)) {
-      errores.push("Para filtrar por ubicación, debés completar Latitud y Longitud.");
-    }
+    if ((fDesde && !fHasta) || (!fDesde && fHasta)) errores.push("Completa ambos campos de fecha registro.");
+    if ((lat && !lon) || (!lat && lon)) errores.push("Completa Latitud y Longitud.");
 
     if (errores.length > 0) {
       alert(errores.join("\n"));
-      e.preventDefault(); // Detiene el envío del formulario
+      e.preventDefault();
     }
   });
 </script>
 
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -46,9 +46,13 @@ public class ColeccionApiClient {
     restTemplate.put(BASE_URL + "/" + id + "/consenso/" + algoritmoDeConsenso, null);
   }
 
-  public ColeccionDto getColeccionPorId(Long id, FiltroHechosDto filtros) {
+  public ColeccionDto getColeccionPorId(Long id, FiltroHechosDto filtros, Boolean curado) {
     UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(BASE_URL + "/" + id);
 
+    if (curado != null && curado)
+      builder.queryParam("curado", true);
+    else
+      builder.queryParam("curado", false);
     if (filtros.getFecha_desde() != null) {
       builder.queryParam("fecha_desde", new SimpleDateFormat("yyyy-MM-dd").format(filtros.getFecha_desde()));
     }
@@ -61,11 +65,9 @@ public class ColeccionApiClient {
     if (!isBlank(filtros.getLongitud())) {
       builder.queryParam("longitud", filtros.getLongitud());
     }
-
     if (!isBlank(filtros.getTitulo())) {
       builder.queryParam("titulo", filtros.getTitulo());
     }
-
     if (!isBlank(filtros.getCategoria())) {
       builder.queryParam("categoria", filtros.getCategoria());
     }

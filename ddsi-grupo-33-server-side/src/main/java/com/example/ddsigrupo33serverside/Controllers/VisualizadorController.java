@@ -33,8 +33,8 @@ public class VisualizadorController {
   }
 
   @GetMapping("/colecciones/{id}")
-  public String hechosPorColeccion(@PathVariable Long id, FiltroHechosDto filtros, Model model) {
-    ColeccionDto coleccion = coleccionService.getColeccionPorId(id, filtros);
+  public String hechosPorColeccion(@PathVariable Long id, FiltroHechosDto filtros, @RequestParam(required = false) Boolean curado, Model model) {
+    ColeccionDto coleccion = coleccionService.getColeccionPorId(id, filtros, curado);
     if (coleccion == null) {
       return "error/404"; // opcional
     }

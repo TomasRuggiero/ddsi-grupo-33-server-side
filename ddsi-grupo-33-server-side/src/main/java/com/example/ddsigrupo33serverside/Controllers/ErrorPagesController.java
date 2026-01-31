@@ -10,4 +10,10 @@ public class ErrorPagesController {
   public String notFound() {
     return "error/404";
   }
+
+  @GetMapping("error403")
+  public String forbidden() {
+    return "error/403";
+  }
 }
+

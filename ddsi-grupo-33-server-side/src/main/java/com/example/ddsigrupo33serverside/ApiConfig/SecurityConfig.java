@@ -52,7 +52,7 @@ public class SecurityConfig {
             )
             // Usuario autenticado pero sin permisos → redirigir a página de error
             .accessDeniedHandler((request, response, accessDeniedException) ->
-                response.sendRedirect("/403")
+                response.sendRedirect("error403")
             )
         );
 
