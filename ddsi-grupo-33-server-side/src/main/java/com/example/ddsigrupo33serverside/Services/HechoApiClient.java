@@ -4,7 +4,10 @@ import com.example.ddsigrupo33serverside.Dtos.HechoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -72,12 +75,17 @@ public class HechoApiClient {
          });
      }
 
-     try {
-       restTemplate.postForEntity(BASE_URL + "/" + id + "/multimedia", body, Void.class);
-     }
-     catch (Exception e) {
-       throw new RuntimeException("Error al agregar multimedia: " + e.getMessage());
-     }
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+    HttpEntity<MultiValueMap<String, Object>> requestEntity =
+        new HttpEntity<>(body, headers);
+
+    restTemplate.postForEntity(
+        BASE_URL + "/" + id + "/multimedia",
+        requestEntity,
+        Void.class
+    );
   }
 
   public void eliminarHecho(UUID id) {

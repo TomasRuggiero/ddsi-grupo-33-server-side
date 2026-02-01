@@ -10,6 +10,10 @@
         ¡El hecho se creó correctamente!
     </div>
 
+    <div th:if="${error}" class="alert alert-danger">
+      <span th:text="${error}"></span>
+    </div>
+
   <div class="row justify-content-center">
     <div class="col-lg-8">
       <div class="card shadow-lg">
@@ -100,7 +104,7 @@
               />
               <div class="form-text">
                 Podés subir hasta 5 archivos. Tamaño máximo por archivo:
-                10MB.
+                5MB.
               </div>
             </div>
 

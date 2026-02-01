@@ -1,8 +1,12 @@
 package com.example.ddsigrupo33serverside.Exceptions;
 
+import com.example.ddsigrupo33serverside.Dtos.HechoDto;
+import com.example.ddsigrupo33serverside.Dtos.UbicacionDto;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
@@ -21,4 +25,22 @@ public class GlobalExceptionHandler {
     mav.setViewName("error403");
     return mav;
   }
+
+  @ExceptionHandler(MaxUploadSizeExceededException.class)
+  public String handleMaxUploadSize(
+      MaxUploadSizeExceededException ex,
+      Model model
+  ) {
+    HechoDto hecho = new HechoDto();
+    hecho.setUbicacion(new UbicacionDto());
+
+    model.addAttribute("hecho", hecho);
+    model.addAttribute(
+        "errorMaxUpload",
+        "Uno o más archivos superan el tamaño máximo permitido (5MB)"
+    );
+    return "subir";
+  }
+
+
 }

@@ -22,7 +22,7 @@ import java.util.UUID;
 @RequestMapping("/hechos")
 @RequiredArgsConstructor
 public class HechoController {
-
+  private static final long MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
   private final HechoApiClient hechoApiClient;
 
   @GetMapping("/nuevo")
@@ -50,10 +50,32 @@ public class HechoController {
       return "subir";
     }
 
+    if (archivos != null) {
+      boolean hayArchivoGrande = archivos.stream()
+          .filter(a -> !a.isEmpty())
+          .anyMatch(a -> a.getSize() > MAX_FILE_SIZE);
+
+      if (hayArchivoGrande) {
+        model.addAttribute("hecho", hechoDto);
+        model.addAttribute(
+            "error",
+            "Uno o más archivos superan el tamaño máximo permitido (5MB)"
+        );
+        return "subir";
+      }
+    }
+
     UUID idHecho = hechoApiClient.crearHecho(hechoDto);
 
-    if (idHecho != null && !archivos.isEmpty()) {
-      hechoApiClient.agregarMultimedia(idHecho, archivos);
+    if (idHecho != null && archivos != null) {
+
+      List<MultipartFile> archivosValidos = archivos.stream()
+          .filter(a -> !a.isEmpty())
+          .toList();
+
+      if (!archivosValidos.isEmpty()) {
+        hechoApiClient.agregarMultimedia(idHecho, archivosValidos);
+      }
     }
 
     // 4. Redirigir
