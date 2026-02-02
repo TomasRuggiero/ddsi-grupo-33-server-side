@@ -25,6 +25,13 @@ public class VisualizadorController {
   private final SolicitudApiClient solicitudService;
 
 
+  @GetMapping("mis-hechos")
+  public String misHechos(Model model) {
+    List<HechoDto> hechos = hechoService.getMisHechos();
+    model.addAttribute("hechos", hechos);
+    return "/visualizador/hechos-subidos";
+  }
+
   @GetMapping("/colecciones")
   public String colecciones(Model model){
     List<ColeccionDto> colecciones = coleccionService.getTodasLasColecciones();

@@ -29,6 +29,19 @@ public class HechoApiClient {
 
   private static final String BASE_URL = "http://localhost:8080/hechos";
 
+  public List<HechoDto> getMisHechos() {
+      ParameterizedTypeReference<List<HechoDto>> typeRef = new ParameterizedTypeReference<List<HechoDto>>() {};
+
+      ResponseEntity<List<HechoDto>> response = restTemplate.exchange(
+              "http://localhost:8080/user/hechos-subidos",
+              HttpMethod.GET,
+              null,
+              typeRef
+      );
+
+      return response.getBody();
+  }
+
   public HechoDto getHechoPorId(UUID id) {
     return restTemplate.getForObject(BASE_URL + "/" + id, HechoDto.class);
   }

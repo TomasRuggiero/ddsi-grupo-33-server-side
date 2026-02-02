@@ -34,29 +34,30 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
-                        <a class="nav-link" href="/admin"
-                        >Administrador</a
-                        >
+                        <a class="nav-link" href="/admin">Administrador</a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link" href="/visualizador/colecciones"
-                        >Colecciones</a
-                        >
+                        <a class="nav-link" href="/visualizador/colecciones">Colecciones</a>
                     </li>
+
+                    <li sec:authorize="isAuthenticated()" class="nav-item">
+                        <a class="nav-link text-info" th:href="@{/visualizador/mis-hechos}">
+                            <i class="bi bi-person-badge me-1"></i> Mis Hechos
+                        </a>
+                    </li>
+
                     <li class="nav-item">
-                        <a
-                                class="nav-link"
-                                th:href="@{'/hechos/nuevo'}">
-                            Subir Hecho</a
-                        >
+                        <a class="nav-link" th:href="@{'/hechos/nuevo'}">Subir Hecho</a>
                     </li>
+
                     <li sec:authorize="isAnonymous()" class="nav-item">
                         <a class="nav-link" href="/login">Iniciar Sesión</a>
                     </li>
                     <li sec:authorize="isAuthenticated()" class="nav-item">
                         <form th:action="@{/logout}" method="post" class="d-inline">
-                            <button class="nav-link" type="submit">
-                                Cerrar sesión
+                            <button class="nav-link border-0 bg-transparent" type="submit">
+                                Cerrar sesión <i class="bi bi-box-arrow-right ms-1"></i>
                             </button>
                         </form>
                     </li>

@@ -52,8 +52,20 @@
 
 
   <div class="container my-5">
-    <h1 class="mb-3" th:text="${coleccion.titulo}">Título</h1>
-    <p class="mb-4 text-muted" th:text="${coleccion.descripcion}">Descripción</p>
+    <h1 class="mb-2" th:text="${coleccion.titulo}">Título de la colección</h1>
+
+    <div class="mb-4">
+      <span class="text-muted fw-bold small text-uppercase">Algoritmo de consenso:</span>
+      <span class="badge bg-light text-dark border shadow-sm ms-1 px-3 py-2" style="font-size: 0.9rem;">
+            <i th:class="${coleccion.algoritmoDeConsenso == 'SIN_ALGORITMO' ? 'bi bi-cpu-fill text-danger me-1' : 'bi bi-cpu text-primary me-1'}"></i>
+
+            <span th:text="${coleccion.algoritmoDeConsenso}">
+                Nombre del Algoritmo
+            </span>
+        </span>
+    </div>
+
+    <p class="mb-4 text-muted" th:text="${coleccion.descripcion}">Descripción de la colección</p>
 
     <div class="accordion mb-4" id="filtersAccordion">
       <div class="accordion-item">
