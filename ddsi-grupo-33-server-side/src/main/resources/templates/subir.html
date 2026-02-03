@@ -104,8 +104,13 @@
               />
               <div class="form-text">
                 Podés subir hasta 5 archivos. Tamaño máximo por archivo:
-                5MB.
+                Videos 10MB y Fotos 5MB.
               </div>
+
+              <div id="error-archivos" class="alert alert-danger mt-2 d-none">
+                Podés subir como máximo 5 archivos.
+              </div>
+
             </div>
 
             <div class="d-grid gap-2">
@@ -135,6 +140,30 @@
       setTimeout(() => alertaExito.remove(), 500);
     }, 4000);
   }
+</script>
+
+<script>
+  const MAX_FILES = 5;
+
+  const fileInput = document.getElementById("factMedia");
+  const errorArchivos = document.getElementById("error-archivos");
+  const form = document.getElementById("submitFactForm");
+
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files.length > MAX_FILES) {
+      errorArchivos.classList.remove("d-none");
+      fileInput.value = ""; // limpia selección
+    } else {
+      errorArchivos.classList.add("d-none");
+    }
+  });
+
+  form.addEventListener("submit", (e) => {
+    if (fileInput.files.length > MAX_FILES) {
+      e.preventDefault();
+      errorArchivos.classList.remove("d-none");
+    }
+  });
 </script>
 
 

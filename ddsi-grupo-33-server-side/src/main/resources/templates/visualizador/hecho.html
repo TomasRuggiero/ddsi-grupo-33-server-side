@@ -99,6 +99,77 @@
         </div>
       </div>
 
+      <div
+              class="card mb-4"
+              th:if="${hecho.multimedia != null and !hecho.multimedia.isEmpty()}"
+      >
+        <div class="card-body">
+          <h5 class="card-title">Multimedia</h5>
+
+          <div class="row g-3">
+
+            <div
+                    class="col-12 col-md-6 col-lg-4"
+                    th:each="media, iterStat : ${hecho.multimedia}"
+            >
+
+              <!-- IMÁGENES -->
+              <div
+                      th:if="${media.tipoMime != null and #strings.startsWith(media.tipoMime, 'image')}"
+              >
+                <img
+                        th:src="${media.url}"
+                        class="img-fluid rounded shadow-sm"
+                        style="cursor: pointer"
+                        data-bs-toggle="modal"
+                        th:data-bs-target="'#mediaModal-' + ${iterStat.index}"
+                        alt="Imagen del hecho"
+                />
+
+                <!-- Modal imagen -->
+                <div
+                        class="modal fade"
+                        th:id="'mediaModal-' + ${iterStat.index}"
+                        tabindex="-1"
+                >
+                  <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content bg-dark">
+                      <div class="modal-body p-0 text-center">
+                        <img
+                                th:src="${media.url}"
+                                class="img-fluid"
+                                alt="Imagen ampliada"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- VIDEOS -->
+              <div
+                      th:if="${media.tipoMime != null and #strings.startsWith(media.tipoMime, 'video')}"
+              >
+                <video
+                        class="w-100 rounded shadow-sm"
+                        controls
+                >
+                  <source
+                          th:src="${media.url}"
+                          th:type="${media.tipoMime}"
+                  />
+                  Tu navegador no soporta la reproducción de video.
+                </video>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
       <div class="card mb-4">
         <div class="card-body">
           <h5 class="card-title">Ubicación en el Mapa</h5>

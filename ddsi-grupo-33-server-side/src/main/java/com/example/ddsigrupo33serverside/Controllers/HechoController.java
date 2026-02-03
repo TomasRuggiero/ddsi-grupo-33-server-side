@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,7 +23,9 @@ import java.util.UUID;
 @RequestMapping("/hechos")
 @RequiredArgsConstructor
 public class HechoController {
-  private static final long MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+  private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+  private static final int MAX_FILES = 5;
+
   private final HechoApiClient hechoApiClient;
 
   @GetMapping("/nuevo")
@@ -41,9 +44,8 @@ public class HechoController {
   @PostMapping("/nuevo")
   public String crearHecho(@ModelAttribute("hecho") HechoDto hechoDto,
                            BindingResult result,
-                           @RequestParam("archivos") List<MultipartFile> archivos,
+                           @RequestParam(value = "archivos",required = false) List<MultipartFile> archivos,
                            Model model) throws IOException {
-
     if (result.hasErrors()) {
       model.addAttribute("hecho", hechoDto);
       model.addAttribute("hechoRechazado", true);
@@ -59,7 +61,22 @@ public class HechoController {
         model.addAttribute("hecho", hechoDto);
         model.addAttribute(
             "error",
-            "Uno o más archivos superan el tamaño máximo permitido (5MB)"
+            "Uno o más archivos superan el tamaño máximo permitido (10MB)"
+        );
+        return "subir";
+      }
+    }
+
+    if (archivos != null) {
+      long cantidadArchivos = archivos.stream()
+          .filter(a -> !a.isEmpty())
+          .count();
+
+      if (cantidadArchivos > MAX_FILES) {
+        model.addAttribute("hecho", hechoDto);
+        model.addAttribute(
+            "error",
+            "No se pueden subir más de 5 archivos. El máximo permitido es 5."
         );
         return "subir";
       }
@@ -73,8 +90,21 @@ public class HechoController {
           .filter(a -> !a.isEmpty())
           .toList();
 
-      if (!archivosValidos.isEmpty()) {
-        hechoApiClient.agregarMultimedia(idHecho, archivosValidos);
+      try {
+        if (!archivosValidos.isEmpty()) {
+          hechoApiClient.agregarMultimedia(idHecho, archivosValidos);
+        }
+      } catch (HttpClientErrorException e) {
+
+        model.addAttribute("hecho", hechoDto);
+        model.addAttribute(
+            "error",
+            e.getResponseBodyAsString() != null
+                ? e.getResponseBodyAsString()
+                : "Error al subir archivos"
+        );
+
+        return "subir";
       }
     }
 

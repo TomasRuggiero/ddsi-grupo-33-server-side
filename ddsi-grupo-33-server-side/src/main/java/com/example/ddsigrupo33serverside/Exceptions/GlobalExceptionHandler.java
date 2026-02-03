@@ -42,5 +42,21 @@ public class GlobalExceptionHandler {
     return "subir";
   }
 
+  @ExceptionHandler(Exception.class)
+  public String handleAny(Exception ex, Model model) {
+    ex.printStackTrace();
+
+    HechoDto hecho = new HechoDto();
+    hecho.setUbicacion(new UbicacionDto()); // 👈 CLAVE
+
+    model.addAttribute("hecho", hecho);
+    model.addAttribute(
+        "error",
+        "No se pudieron procesar los archivos subidos (máx. 5)"
+    );
+
+    return "subir";
+  }
+
 
 }

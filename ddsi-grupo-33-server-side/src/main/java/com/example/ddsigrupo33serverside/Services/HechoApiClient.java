@@ -79,14 +79,28 @@ public class HechoApiClient {
 
   public void agregarMultimedia(UUID id, List<MultipartFile> archivos) throws IOException {
      MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-     for (MultipartFile file : archivos) {
-         body.add("archivos", new ByteArrayResource(file.getBytes()) {
-             @Override
-             public String getFilename() {
-                 return file.getOriginalFilename();
-             }
-         });
-     }
+
+    if (archivos.size() > 5) {
+      throw new IllegalArgumentException("No se pueden subir más de 5 archivos");
+    }
+
+    for (MultipartFile file : archivos) {
+
+      HttpHeaders partHeaders = new HttpHeaders();
+      partHeaders.setContentType(MediaType.parseMediaType(file.getContentType()));
+
+      HttpEntity<ByteArrayResource> part = new HttpEntity<>(
+          new ByteArrayResource(file.getBytes()) {
+            @Override
+            public String getFilename() {
+              return file.getOriginalFilename();
+            }
+          },
+          partHeaders
+      );
+
+      body.add("archivos", part);
+    }
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.MULTIPART_FORM_DATA);
