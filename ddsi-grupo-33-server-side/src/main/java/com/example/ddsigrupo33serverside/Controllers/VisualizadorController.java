@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 @Controller
 @RequestMapping("/visualizador")
@@ -23,9 +24,13 @@ public class VisualizadorController {
 
   @GetMapping("mis-hechos")
   public String misHechos(Model model) {
-    List<HechoDto> hechos = hechoService.getMisHechos();
-    model.addAttribute("hechos", hechos);
-    return "/visualizador/hechos-subidos";
+    try {
+      List<HechoDto> hechos = hechoService.getMisHechos();
+      model.addAttribute("hechos", hechos);
+      return "/visualizador/hechos-subidos";
+    } catch (HttpClientErrorException.Unauthorized e) {
+      return "/error/401";
+    }
   }
 
   @GetMapping("/colecciones")
@@ -71,7 +76,7 @@ public class VisualizadorController {
     }
 
     hechoService.actualizarHecho(id, hechoDto);
-    return "redirect:/visualizador/hechos-subidos?editado=true";
+    return "redirect:/visualizador/mis-hechos?editado=true";
   }
 
   @PostMapping("/hecho/{id}/solicitar-eliminacion")

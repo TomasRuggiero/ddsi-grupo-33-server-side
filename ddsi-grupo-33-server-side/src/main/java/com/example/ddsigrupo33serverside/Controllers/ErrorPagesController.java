@@ -15,5 +15,10 @@ public class ErrorPagesController {
   public String forbidden() {
     return "error/403";
   }
+
+  @GetMapping("error401")
+  public String unauthorized() {
+    return "error/401";
+  }
 }
 

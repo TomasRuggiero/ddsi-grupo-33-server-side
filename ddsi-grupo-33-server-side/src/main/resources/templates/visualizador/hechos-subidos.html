@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: html}">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,20 +9,19 @@
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="/">MetaMapa</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="/visualizador/colecciones">Colecciones</a></li>
-                <li class="nav-item"><a class="nav-link active" href="/visualizador/hechos-subidos">Mis Hechos</a></li>
-                <li class="nav-item"><form th:action="@{/logout}" method="post"><button class="nav-link btn btn-link" type="submit">Cerrar Sesión</button></form></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:fragment="contenido" class="flex-grow-1">
 
 <main class="container my-5 flex-grow-1">
+    <div th:if="${param.editado}" class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-check-circle-fill me-2 fs-4"></i>
+            <div>
+                <strong>¡Hecho actualizado!</strong> Los cambios se han guardado correctamente.
+            </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h1 class="fw-bold h2">Mis Hechos Subidos</h1>
@@ -195,12 +194,7 @@
     </div>
 </main>
 
-<footer class="bg-dark text-white-50 py-4 mt-auto">
-    <div class="container text-center">
-        <p class="mb-0 small">© 2026 MetaMapa. Todos los derechos reservados.</p>
-    </div>
-</footer>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</div>
 </body>
 </html>
