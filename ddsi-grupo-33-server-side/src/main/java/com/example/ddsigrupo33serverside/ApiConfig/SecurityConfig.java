@@ -27,11 +27,9 @@ public class SecurityConfig {
     http
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(auth -> auth
-            // Recursos estáticos y login público
-            .requestMatchers("/**").permitAll()
-            //.requestMatchers("/login", "/register","/css/**", "/js/**", "/images/**", "/").permitAll()
-            // Ejemplo: Acceso a alumnos: ADMIN y DOCENTE
-            //.requestMatchers("/admin/**").hasAnyRole("ADMIN")
+            .requestMatchers("/error403", "/error404", "/login", "/css/**", "/js/**").permitAll()
+            .requestMatchers("/admin/**").hasRole("ADMIN")
+            .requestMatchers("/visualizador/**").permitAll()
             // Lo demás requiere autenticación
             .anyRequest().authenticated()
         )
@@ -52,7 +50,7 @@ public class SecurityConfig {
             )
             // Usuario autenticado pero sin permisos → redirigir a página de error
             .accessDeniedHandler((request, response, accessDeniedException) ->
-                response.sendRedirect("error403")
+                response.sendRedirect("/error403")
             )
         );
 

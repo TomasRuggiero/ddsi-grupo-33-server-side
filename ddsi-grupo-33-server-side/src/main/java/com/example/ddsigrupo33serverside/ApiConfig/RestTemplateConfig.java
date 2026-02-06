@@ -1,5 +1,7 @@
 package com.example.ddsigrupo33serverside.ApiConfig;
 
+import java.util.Collections;
+
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
@@ -29,6 +31,10 @@ public class RestTemplateConfig {
     requestFactory.setConnectTimeout(30_000); // 30s
     requestFactory.setReadTimeout(300_000);   // 5min
 
-    return new RestTemplate(requestFactory);
+    RestTemplate restTemplate = new RestTemplate(requestFactory);
+
+    restTemplate.setInterceptors(Collections.singletonList(new JwtInterceptor()));
+
+    return restTemplate;
   }
 }

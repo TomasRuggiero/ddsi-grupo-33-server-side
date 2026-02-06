@@ -98,7 +98,8 @@
                 <p class="card-text text-muted small mb-3" th:text="${hecho.descripcion}">Descripción...</p>
                 <div class="d-flex justify-content-between align-items-center">
                         <span class="small text-muted">
-                            <i class="bi bi-geo-alt me-1"></i> <span th:text="${hecho.ubicacion.direccion}">Dirección</span>
+                            <i class="bi bi-geo-alt me-1"></i>
+                            <span th:text="${hecho.ubicacion?.direccion}">Dirección</span>
                         </span>
                     <a th:href="@{/visualizador/hecho/{id}(id=${hecho.id})}" class="btn btn-sm btn-outline-primary">Ver detalle</a>
                 </div>
