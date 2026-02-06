@@ -77,9 +77,96 @@
                         <a th:href="@{/visualizador/hecho/{id}(id=${hecho.id})}" class="btn btn-white btn-sm border" title="Ver detalle">
                             <i class="bi bi-eye"></i>
                         </a>
-                        <button class="btn btn-white btn-sm border text-danger" title="Eliminar">
-                            <i class="bi bi-trash"></i>
-                        </button>
+
+                        <th:block th:with="hoy=${T(java.time.LocalDate).now()},
+                   fechaCarga=${hecho.fecha_de_carga},
+                   limite=${fechaCarga.plusDays(7)},
+                   puedeEditar=${hoy.isBefore(limite) || hoy.isEqual(limite)}">
+
+                            <button type="button" class="btn btn-white btn-sm border text-primary"
+                                    th:if="${puedeEditar}"
+                                    data-bs-toggle="modal"
+                                    th:data-bs-target="'#modalEditar-' + ${hecho.id}"
+                                    title="Editar Hecho">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+
+                            <button class="btn btn-white btn-sm border text-muted"
+                                    th:unless="${puedeEditar}"
+                                    disabled
+                                    title="Plazo de edición vencido (7 días)">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                        </th:block>
+                    </div>
+
+                    <div th:id="'modalEditar-' + ${hecho.id}" class="modal fade" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <form th:action="@{/visualizador/hecho/editar/{id}(id=${hecho.id})}" method="post">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Editar Hecho</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-start">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-bold">Título</label>
+                                                <input type="text" name="titulo" class="form-control" th:value="${hecho.titulo}" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-bold">Fecha Acontecimiento</label>
+                                                <input type="date" name="fecha_acontecimiento" class="form-control"
+                                                       th:value="${hecho.fecha_acontecimiento}" required>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label fw-bold">Descripción</label>
+                                                <textarea name="descripcion" class="form-control" rows="3" th:text="${hecho.descripcion}"></textarea>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label fw-bold">Categorías</label>
+                                                <input type="text"
+                                                       name="categorias"
+                                                       class="form-control"
+                                                       th:value="${hecho.categorias != null ? #strings.listJoin(hecho.categorias, ', ') : ''}"
+                                                       placeholder="Ej: Ambiente, Incendio, Urgente">
+                                                <div class="form-text">Escribe las categorías separadas por comas.</div>
+                                            </div>
+
+                                            <div class="col-12"><hr><h6 class="text-muted">Ubicación</h6></div>
+
+                                            <div class="col-md-4">
+                                                <label class="small">País</label>
+                                                <input type="text" name="ubicacion.pais" class="form-control form-control-sm" th:value="${hecho.ubicacion?.pais}">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="small">Provincia</label>
+                                                <input type="text" name="ubicacion.provincia" class="form-control form-control-sm" th:value="${hecho.ubicacion?.provincia}">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="small">Ciudad</label>
+                                                <input type="text" name="ubicacion.ciudad" class="form-control form-control-sm" th:value="${hecho.ubicacion?.ciudad}">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <label class="small">Dirección</label>
+                                                <input type="text" name="ubicacion.direccion" class="form-control form-control-sm" th:value="${hecho.ubicacion?.direccion}">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="small">Cód. Postal</label>
+                                                <input type="text" name="ubicacion.codigoPostal" class="form-control form-control-sm" th:value="${hecho.ubicacion?.codigoPostal}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary px-4">Guardar Cambios</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </td>
             </tr>

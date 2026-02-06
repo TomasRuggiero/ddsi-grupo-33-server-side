@@ -12,6 +12,7 @@ public class UbicacionDto {
   private String ciudad;
   private String provincia;
   private String pais;
-  private String longitud;
+  private String codigoPostal;
   private String latitud;
+  private String longitud;
 }

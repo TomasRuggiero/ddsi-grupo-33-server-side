@@ -29,6 +29,10 @@ public class HechoApiClient {
 
   private static final String BASE_URL = "http://localhost:8080/hechos";
 
+  public void actualizarHecho(UUID id, HechoDto hechoInput) {
+    restTemplate.patchForObject(BASE_URL + "/" + id, hechoInput, String.class);
+  }
+
   public List<HechoDto> getMisHechos() {
       ParameterizedTypeReference<List<HechoDto>> typeRef = new ParameterizedTypeReference<List<HechoDto>>() {};
 

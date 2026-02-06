@@ -1,7 +1,7 @@
 package com.example.ddsigrupo33serverside.Controllers;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import com.example.ddsigrupo33serverside.Dtos.*;
 import com.example.ddsigrupo33serverside.Services.ColeccionApiClient;
@@ -10,11 +10,7 @@ import com.example.ddsigrupo33serverside.Services.SolicitudApiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/visualizador")
@@ -57,6 +53,25 @@ public class VisualizadorController {
     }
     model.addAttribute("hecho", hecho);
     return "/visualizador/hecho";
+  }
+
+  @PostMapping("/hecho/editar/{id}")
+  public String procesarEdicion(@PathVariable UUID id, @ModelAttribute HechoDto hechoDto,
+                                @RequestParam(value = "categorias", required = false) String categoriasRaw) {
+
+    if (categoriasRaw != null && !categoriasRaw.isBlank()) {
+      Set<String> categoriasLimpias = Arrays.stream(categoriasRaw.split(","))
+          .map(String::trim)
+          .filter(c -> !c.isEmpty())
+          .collect(Collectors.toSet());
+
+      hechoDto.setCategorias(categoriasLimpias);
+    } else {
+      hechoDto.setCategorias(new HashSet<>());
+    }
+
+    hechoService.actualizarHecho(id, hechoDto);
+    return "redirect:/visualizador/hechos-subidos?editado=true";
   }
 
   @PostMapping("/hecho/{id}/solicitar-eliminacion")
