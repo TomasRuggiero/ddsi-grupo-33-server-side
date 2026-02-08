@@ -11,7 +11,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.apache.logging.log4j.util.Strings.isBlank;
 
@@ -24,8 +26,10 @@ public class ColeccionApiClient {
   // URL base del backend
   private static final String BASE_URL = "http://localhost:8080/colecciones";
 
-  public void crearColeccion(ColeccionInputDto coleccionInputDto) {
-    restTemplate.postForObject(BASE_URL, coleccionInputDto, Void.class);
+  public void crearColeccion(ColeccionInputDto coleccionInputDto, String algoritmoDeConsenso) {
+    Map<String, Object> responseBody = new HashMap<>();
+    responseBody = restTemplate.postForObject(BASE_URL, coleccionInputDto, Map.class);
+    restTemplate.put(BASE_URL + "/" + responseBody.get("id").toString() + "/consenso/" + algoritmoDeConsenso, null);
   }
 
   public void eliminarColeccion(Long id) {

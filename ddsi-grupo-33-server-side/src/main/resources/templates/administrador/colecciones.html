@@ -104,13 +104,20 @@
                                     th:data-descripcion="${coleccion.descripcion}"
                                     th:data-consenso="${coleccion.algoritmoDeConsenso}"
                                     th:data-fuentes="${coleccion.idsFuentesDeDatos != null ? #strings.arrayJoin(coleccion.idsFuentesDeDatos, ',') : ''}"
-                                    th:data-categorias="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Categoria'].empty ? '' : #strings.listJoin(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Categoria'][0].categorias, ', ')}"
-                                    th:data-fecha-desde="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'][0]?.fechaDesde, 'yyyy-MM-dd HH:mm') ?: '')}"
-                                    th:data-fecha-hasta="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'][0]?.fechaHasta, 'yyyy-MM-dd HH:mm') ?: '')}"
-                                    th:data-fecha-acon-desde="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'][0]?.fechaDesde, 'yyyy-MM-dd HH:mm') ?: '')}"
-                                    th:data-fecha-acon-hasta="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'][0]?.fechaHasta, 'yyyy-MM-dd HH:mm') ?: '')}"
-                                    th:data-lat="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'].empty ? '' : coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'][0].latitud}"
-                                    th:data-lng="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'].empty ? '' : coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'][0].longitud}"
+
+                                    th:data-categorias="${coleccion.criterioDePertenencia?.filtros == null || coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Categoria'].empty ? '' : #strings.listJoin(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Categoria'][0].categorias, ', ')}"
+
+                                    th:data-fecha-desde="${coleccion.criterioDePertenencia?.filtros == null || coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'][0]?.fechaDesde, 'yyyy-MM-dd HH:mm') ?: '')}"
+
+                                    th:data-fecha-hasta="${coleccion.criterioDePertenencia?.filtros == null || coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'][0]?.fechaHasta, 'yyyy-MM-dd HH:mm') ?: '')}"
+
+                                    th:data-fecha-acon-desde="${coleccion.criterioDePertenencia?.filtros == null || coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'][0]?.fechaDesde, 'yyyy-MM-dd HH:mm') ?: '')}"
+
+                                    th:data-fecha-acon-hasta="${coleccion.criterioDePertenencia?.filtros == null || coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'][0]?.fechaHasta, 'yyyy-MM-dd HH:mm') ?: '')}"
+
+                                    th:data-lat="${coleccion.criterioDePertenencia?.filtros == null || coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'].empty ? '' : coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'][0].latitud}"
+
+                                    th:data-lng="${coleccion.criterioDePertenencia?.filtros == null || coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'].empty ? '' : coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'][0].longitud}"
                             >
                                 <i class="bi bi-pencil-square"></i> Editar
                             </button>
@@ -139,19 +146,31 @@
                             <small th:text="${coleccion.id}"></small>
                         </p>
                         <div class="mt-3">
-                            <button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#editCollectionModal"
+                            <button
+                                    type="button"
+                                    class="btn btn-sm btn-info me-1 text-white"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editCollectionModal"
                                     th:data-id="${coleccion.id}"
                                     th:data-nombre="${coleccion.titulo}"
                                     th:data-descripcion="${coleccion.descripcion}"
                                     th:data-consenso="${coleccion.algoritmoDeConsenso}"
                                     th:data-fuentes="${coleccion.idsFuentesDeDatos != null ? #strings.arrayJoin(coleccion.idsFuentesDeDatos, ',') : ''}"
-                                    th:data-categorias="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Categoria'].empty ? '' : #strings.listJoin(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Categoria'][0].categorias, ', ')}"
-                                    th:data-fecha-desde="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'][0]?.fechaDesde, 'yyyy-MM-dd HH:mm') ?: '')}"
-                                    th:data-fecha-hasta="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'][0]?.fechaHasta, 'yyyy-MM-dd HH:mm') ?: '')}"
-                                    th:data-fecha-acon-desde="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'][0]?.fechaDesde, 'yyyy-MM-dd HH:mm') ?: '')}"
-                                    th:data-fecha-acon-hasta="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'][0]?.fechaHasta, 'yyyy-MM-dd HH:mm') ?: '')}"
-                                    th:data-lat="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'].empty ? '' : coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'][0].latitud}"
-                                    th:data-lng="${coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'].empty ? '' : coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'][0].longitud}">
+
+                                    th:data-categorias="${coleccion.criterioDePertenencia?.filtros == null || coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Categoria'].empty ? '' : #strings.listJoin(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Categoria'][0].categorias, ', ')}"
+
+                                    th:data-fecha-desde="${coleccion.criterioDePertenencia?.filtros == null || coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'][0]?.fechaDesde, 'yyyy-MM-dd HH:mm') ?: '')}"
+
+                                    th:data-fecha-hasta="${coleccion.criterioDePertenencia?.filtros == null || coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaDeCarga'][0]?.fechaHasta, 'yyyy-MM-dd HH:mm') ?: '')}"
+
+                                    th:data-fecha-acon-desde="${coleccion.criterioDePertenencia?.filtros == null || coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'][0]?.fechaDesde, 'yyyy-MM-dd HH:mm') ?: '')}"
+
+                                    th:data-fecha-acon-hasta="${coleccion.criterioDePertenencia?.filtros == null || coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'].empty ? '' : (#dates.format(coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'FechaAcontecimiento'][0]?.fechaHasta, 'yyyy-MM-dd HH:mm') ?: '')}"
+
+                                    th:data-lat="${coleccion.criterioDePertenencia?.filtros == null || coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'].empty ? '' : coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'][0].latitud}"
+
+                                    th:data-lng="${coleccion.criterioDePertenencia?.filtros == null || coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'].empty ? '' : coleccion.criterioDePertenencia.filtros.?[tipoFiltro == 'Ubicacion'][0].longitud}"
+                            >
                                 <i class="bi bi-pencil-square"></i>
                             </button>
                         </div>
@@ -179,23 +198,58 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label small fw-bold">Descripción</label>
-                                <textarea class="form-control" id="createDescription" rows="3"></textarea>
+                                <textarea class="form-control" id="createDescription" rows="4"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Algoritmo de Consenso</label>
+                                <select class="form-select" id="createConsensusAlgorithm">
+                                    <option value="SIN_ALGORITMO">Sin Algoritmo</option>
+                                    <option value="MAYORIA_SIMPLE">Mayoría simple</option>
+                                    <option value="MAYORIA_ABSOLUTA">Mayoría absoluta</option>
+                                    <option value="MULTIPLES_MENCIONES">Múltiples menciones</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-8">
+                            <label class="form-label small fw-bold d-block">Seleccionar Fuentes de Datos</label>
                             <div class="row g-2">
                                 <div class="col-5">
-                                    <select id="createAvailableFuentes" class="form-select" size="8" multiple>
+                                    <select id="createAvailableFuentes" class="form-select" size="10" multiple>
                                         <option th:each="fuente : ${todasLasFuentes}" th:value="${fuente.id}" th:text="${fuente.nombre_archivo ?: fuente.tipo_fuente}"></option>
                                     </select>
                                 </div>
                                 <div class="col-2 text-center align-self-center">
-                                    <button type="button" class="btn btn-sm btn-outline-primary w-100 mb-1" onclick="moveSelected('createAvailableFuentes', 'createSelectedFuentes')">Add</button>
-                                    <button type="button" class="btn btn-sm btn-outline-danger w-100" onclick="moveSelected('createSelectedFuentes', 'createAvailableFuentes')">Del</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary w-100 mb-1" onclick="moveSelected('createAvailableFuentes', 'createSelectedFuentes')">Add <i class="bi bi-chevron-right"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger w-100" onclick="moveSelected('createSelectedFuentes', 'createAvailableFuentes')"><i class="bi bi-chevron-left"></i> Del</button>
                                 </div>
                                 <div class="col-5">
-                                    <select id="createSelectedFuentes" class="form-select" size="8" multiple></select>
+                                    <select id="createSelectedFuentes" class="form-select" size="10" multiple></select>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="bg-light p-3 rounded">
+                        <h6 class="mb-3 fw-bold"><i class="bi bi-filter-circle me-1"></i> Criterios de Pertenencia (Filtros)</h6>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="small fw-bold text-muted">Fecha de Carga</label>
+                                <input type="datetime-local" class="form-control form-control-sm" id="createFechaDesde" title="Desde">
+                                <input type="datetime-local" class="form-control form-control-sm mt-1" id="createFechaHasta" title="Hasta">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="small fw-bold text-muted">Fecha del Hecho</label>
+                                <input type="datetime-local" class="form-control form-control-sm" id="createFechaHechoDesde" title="Desde">
+                                <input type="datetime-local" class="form-control form-control-sm mt-1" id="createFechaHechoHasta" title="Hasta">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="small fw-bold text-muted">Categorías (separadas por coma)</label>
+                                <textarea class="form-control form-control-sm" id="createCategorias" rows="3" placeholder="Ej: Ambiente, Incendio, Salud"></textarea>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="small fw-bold text-muted">Ubicación</label>
+                                <input type="text" class="form-control form-control-sm mb-1" id="createLat" placeholder="Latitud">
+                                <input type="text" class="form-control form-control-sm" id="createLng" placeholder="Longitud">
                             </div>
                         </div>
                     </div>
@@ -203,7 +257,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="submitCreateBtn">Crear</button>
+                <button type="button" class="btn btn-primary px-4" id="submitCreateBtn">Crear Colección</button>
             </div>
         </div>
     </div>
@@ -379,6 +433,44 @@
         const id = document.getElementById('deleteCollectionId').value;
         const res = await fetch(`/admin/colecciones/${id}`, { method: 'DELETE' });
         if(res.ok) window.location.reload();
+    });
+
+    document.getElementById('submitCreateBtn').addEventListener('click', async () => {
+        // Obtenemos el valor del select de algoritmo en el modal de creación
+        const algo = document.getElementById('createConsensusAlgorithm').value;
+
+        const data = {
+            titulo: document.getElementById('createName').value,
+            descripcion: document.getElementById('createDescription').value,
+            fuentes_id: Array.from(document.getElementById('createSelectedFuentes').options)
+                .map(o => parseInt(o.value)),
+            criterioDePertenencia: {
+                // Asegúrate de que los IDs coincidan con los nombres de los inputs del modal
+                fechaDesde: document.getElementById('createFechaDesde').value || null,
+                fechaHasta: document.getElementById('createFechaHasta').value || null,
+                fechaAcontecimientoDesde: document.getElementById('createFechaHechoDesde').value || null,
+                fechaAcontecimientoHasta: document.getElementById('createFechaHechoHasta').value || null,
+                latitud: document.getElementById('createLat').value || null,
+                longitud: document.getElementById('createLng').value || null,
+                categorias: document.getElementById('createCategorias').value
+                    .split(',')
+                    .map(s => s.trim())
+                    .filter(s => s)
+            }
+        };
+
+        // Enviamos el POST al controlador del Front (8081)
+        const res = await fetch(`/admin/colecciones?algoritmoDeConsenso=${algo}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+            window.location.reload();
+        } else {
+            alert("Error al crear la colección.");
+        }
     });
 </script>
 </body>

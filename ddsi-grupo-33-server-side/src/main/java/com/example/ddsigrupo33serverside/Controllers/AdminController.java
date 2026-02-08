@@ -54,15 +54,16 @@ public class AdminController {
     return ResponseEntity.badRequest().build();
   }
 
-    @PostMapping("/colecciones")
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<?> crearColeccion(
-        @RequestBody ColeccionInputDto dto) {
+  @PostMapping("/colecciones")
+  @PreAuthorize("hasAnyRole('ADMIN')")
+  public ResponseEntity<?> crearColeccion(
+          @RequestBody ColeccionInputDto dto,
+          @RequestParam(required = false) String algoritmoDeConsenso) {
 
-      coleccionApiClient.crearColeccion(dto);
+    coleccionApiClient.crearColeccion(dto, algoritmoDeConsenso);
 
-      return ResponseEntity.ok().build();
-    }
+    return ResponseEntity.ok().build();
+  }
 
     @PutMapping("/colecciones/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")

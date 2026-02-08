@@ -9,6 +9,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.net.http.HttpClient;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -23,6 +25,13 @@ public class GlobalExceptionHandler {
   public ModelAndView handleForbiddenException(HttpClientErrorException ex) {
     ModelAndView mav = new ModelAndView();
     mav.setViewName("error403");
+    return mav;
+  }
+
+  @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
+  public ModelAndView handleUnauthorizedException(HttpClientErrorException.Unauthorized ex) {
+    ModelAndView mav = new ModelAndView();
+    mav.setViewName("error401");
     return mav;
   }
 
