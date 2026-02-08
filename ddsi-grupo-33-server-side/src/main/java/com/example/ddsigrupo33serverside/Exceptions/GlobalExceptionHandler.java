@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.net.http.HttpClient;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-  @ExceptionHandler(HttpClientErrorException.NotFound.class)
-  public ModelAndView handleNotFoundException(HttpClientErrorException.NotFound ex) {
+  @ExceptionHandler({HttpClientErrorException.NotFound.class, NoResourceFoundException.class})
+  public ModelAndView handleNotFoundException(RuntimeException ignored) {
     ModelAndView mav = new ModelAndView();
     mav.setViewName("error404");
     return mav;
