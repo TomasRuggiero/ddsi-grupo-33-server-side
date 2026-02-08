@@ -27,7 +27,8 @@ public class SecurityConfig {
     http
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/error403", "/error404", "/login", "/css/**", "/js/**", "/", "/register").permitAll()
+            .requestMatchers("/error403", "/error404", "/login", "/css/**", "/js/**", "/",
+                    "/register", "/favicon.ico").permitAll()
             .requestMatchers("/admin/**").hasRole("ADMIN")
             .requestMatchers("/visualizador/**").permitAll()
             // Lo demás requiere autenticación

@@ -18,6 +18,7 @@ public class AdminService {
   private final FuenteApiClient fuenteApiClient;
   private final ColeccionApiClient coleccionApiClient;
   private final SolicitudApiClient solicitudApiClient;
+  private final UsuarioApiClient usuarioApiClient;
 
   public AdminHomeDto getAdminHome() {
     List<HechoDto> todosLosHechos = hechoApiClient.getAllHechos();
@@ -37,8 +38,7 @@ public class AdminService {
     Integer totalColecciones = coleccionApiClient.getTodasLasColecciones().size();
     Integer totalSolicitudes = solicitudApiClient.getAllSolicitudes().size();
 
-    // TODO: obtener usuarios reales
-    Integer totalUsuarios = 2;
+    Integer totalUsuarios = usuarioApiClient.listarUsuarios().size();
 
     return new AdminHomeDto(
         todosLosHechos,

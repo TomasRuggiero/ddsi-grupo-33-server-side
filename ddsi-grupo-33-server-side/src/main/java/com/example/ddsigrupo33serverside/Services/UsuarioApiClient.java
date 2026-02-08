@@ -26,6 +26,10 @@ public class UsuarioApiClient {
       restTemplate.delete(BASE_URL + "/" + id);
     }
 
+    public List<AdminUsersDto> listarUsuarios() {
+        return listarUsuarios(null, null, null);
+    }
+
     public List<AdminUsersDto> listarUsuarios(String nombre, String correo, String rol) {
         ParameterizedTypeReference<List<AdminUsersDto>> typeRef = new ParameterizedTypeReference<List<AdminUsersDto>>() {};
 
