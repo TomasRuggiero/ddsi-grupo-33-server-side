@@ -33,6 +33,7 @@ public class HechoController {
                                          @RequestParam(required = false) Boolean hechoCreado) {
 
     model.addAttribute("hecho", new HechoDto());
+    model.addAttribute("titulo", "Subir Hecho");
 
     if (hechoCreado != null && hechoCreado) {
       model.addAttribute("hechoCreado", true);

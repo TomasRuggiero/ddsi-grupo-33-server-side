@@ -37,6 +37,7 @@ public class VisualizadorController {
   public String colecciones(Model model){
     List<ColeccionDto> colecciones = coleccionService.getTodasLasColecciones();
     model.addAttribute("colecciones", colecciones);
+    model.addAttribute("titulo", "Visualizador de Colecciones");
     return "/visualizador/colecciones";
   }
 

@@ -25,6 +25,7 @@ public class UsuarioController {
   @GetMapping
   public String registrar(Model model){
     model.addAttribute("usuario", new UsuarioDto());
+    model.addAttribute("titulo", "Registro de usuario");
     return "/register";
   }
 

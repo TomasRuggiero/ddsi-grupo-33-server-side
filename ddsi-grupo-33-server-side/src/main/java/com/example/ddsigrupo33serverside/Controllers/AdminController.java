@@ -110,6 +110,8 @@ public class AdminController {
         model.addAttribute("totalSolicitudesDeEliminacion", adminService.getAdminHome().getTotalSolicitudesDeEliminacion());
         model.addAttribute("totalUsuarios", adminService.getAdminHome().getTotalUsers());
         model.addAttribute("totalColecciones", adminService.getAdminHome().getTotalColecciones());
+        model.addAttribute("titulo", "Administración");
+        model.addAttribute("menu", "admin");
 
         return "administrador/index";
     }
@@ -119,6 +121,8 @@ public class AdminController {
     public String colecciones(Model model) {
         model.addAttribute("colecciones", adminService.getAdminColecciones());
         model.addAttribute("todasLasFuentes", adminService.getAllFuentes());
+        model.addAttribute("titulo", "Colecciones");
+        model.addAttribute("menu", "colecciones");
 
         return "administrador/colecciones";
     }
@@ -127,6 +131,8 @@ public class AdminController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     public String solicitudes(Model model) {
       model.addAttribute("solicitudes", adminService.getSolicitudes());
+      model.addAttribute("titulo", "Solicitudes");
+      model.addAttribute("menu", "solicitudes");
 
       return "administrador/solicitudes";
     }
@@ -135,6 +141,8 @@ public class AdminController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     public String hechos(Model model) {
       model.addAttribute("hechos", adminService.getAdminHechos());
+      model.addAttribute("titulo", "Hechos");
+      model.addAttribute("menu", "hechos");
 
       return "administrador/hechos";
     }
@@ -143,6 +151,8 @@ public class AdminController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     public String fuentes(Model model) {
       model.addAttribute("fuentes", adminService.getAllFuentes());
+      model.addAttribute("titulo", "Fuentes");
+      model.addAttribute("menu", "fuentes");
 
       return "administrador/fuentes";
     }
@@ -179,6 +189,8 @@ public class AdminController {
                            @RequestParam(required = false) String rol) {
 
       model.addAttribute("usuariosFiltrados", usuarioApiClient.listarUsuarios(nombre, correo, rol));
+      model.addAttribute("titulo", "Gestión de Usuarios");
+      model.addAttribute("menu", "usuarios");
 
       return "administrador/usuarios";
     }

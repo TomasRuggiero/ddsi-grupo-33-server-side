@@ -24,6 +24,7 @@ public class LandingController {
         .toList();
 
     model.addAttribute("colecciones", coleccionesHome);
+    model.addAttribute("titulo", "Mapeo Colaborativo");
 
     return "index";
   }
