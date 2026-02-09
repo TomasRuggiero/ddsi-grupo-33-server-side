@@ -2,6 +2,7 @@ package com.example.ddsigrupo33serverside.Services;
 
 import com.example.ddsigrupo33serverside.Dtos.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,7 +14,9 @@ import java.util.*;
 public class AdminService {
   private final RestTemplate restTemplate;
 
-  private static final String BASE_URL = "http://localhost:8080";
+  @Value("${BACKEND_URL:http://localhost:8080}")
+  private String BASE_URL;
+
   private final HechoApiClient hechoApiClient;
   private final FuenteApiClient fuenteApiClient;
   private final ColeccionApiClient coleccionApiClient;

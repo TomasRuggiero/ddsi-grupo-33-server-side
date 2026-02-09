@@ -28,7 +28,7 @@ public class UsuarioController {
   public String registrar(Model model){
     model.addAttribute("usuario", new UsuarioDto());
     model.addAttribute("titulo", "Registro de usuario");
-    return "/register";
+    return "register";
   }
 
   @PostMapping
