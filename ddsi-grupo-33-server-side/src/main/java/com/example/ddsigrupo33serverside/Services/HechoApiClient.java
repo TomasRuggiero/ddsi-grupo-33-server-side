@@ -28,7 +28,7 @@ public class HechoApiClient {
 
   private final RestTemplate restTemplate;
 
-  @Value("${BACKEND_URL:http://localhost:8080}")
+  @Value("${backend.api.url}")
   private String BASE_URL;
 
   public void actualizarHecho(UUID id, HechoDto hechoInput) {

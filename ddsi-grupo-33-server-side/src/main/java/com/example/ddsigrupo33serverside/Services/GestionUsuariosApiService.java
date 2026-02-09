@@ -23,7 +23,7 @@ public class GestionUsuariosApiService {
   @Autowired
   public GestionUsuariosApiService(
       WebApiCallerService webApiCallerService,
-      @Value("${BACKEND_URL:http://localhost:8080}") String authServiceUrl){
+      @Value("${backend.api.url}") String authServiceUrl){
     this.webClient = WebClient.builder().
     baseUrl(authServiceUrl)
   .build();
