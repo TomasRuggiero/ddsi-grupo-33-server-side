@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  metamapa-frontend:
+    build: .
+    container_name: metamapa-frontend
+    ports:
+      - "8081:8081"
+    environment:
+      # MUY IMPORTANTE: El nombre del contenedor del backend
+      - BACKEND_URL=http://metamapa-backend:8080
+    networks:
+      - monitored_network
+
+networks:
+  monitored_network:
+    external: true
+    # Poné acá el nombre exacto que te dio 'docker network ls'
+    # Generalmente es: nombre-de-la-carpeta-del-back_default
+    name: 2025-tpa-mi-no-grupo-33_default

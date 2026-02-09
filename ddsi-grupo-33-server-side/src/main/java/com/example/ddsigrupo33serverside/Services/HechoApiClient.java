@@ -2,6 +2,7 @@ package com.example.ddsigrupo33serverside.Services;
 
 import com.example.ddsigrupo33serverside.Dtos.HechoDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
@@ -27,17 +28,18 @@ public class HechoApiClient {
 
   private final RestTemplate restTemplate;
 
-  private static final String BASE_URL = "http://localhost:8080/hechos";
+  @Value("${BACKEND_URL:http://localhost:8080}")
+  private String BASE_URL;
 
   public void actualizarHecho(UUID id, HechoDto hechoInput) {
-    restTemplate.patchForObject(BASE_URL + "/" + id, hechoInput, String.class);
+    restTemplate.patchForObject(BASE_URL + "/hechos" + "/" + id, hechoInput, String.class);
   }
 
   public List<HechoDto> getMisHechos() {
       ParameterizedTypeReference<List<HechoDto>> typeRef = new ParameterizedTypeReference<List<HechoDto>>() {};
 
       ResponseEntity<List<HechoDto>> response = restTemplate.exchange(
-              "http://localhost:8080/user/hechos-subidos",
+              BASE_URL + "/user/hechos-subidos",
               HttpMethod.GET,
               null,
               typeRef
@@ -47,14 +49,14 @@ public class HechoApiClient {
   }
 
   public HechoDto getHechoPorId(UUID id) {
-    return restTemplate.getForObject(BASE_URL + "/" + id, HechoDto.class);
+    return restTemplate.getForObject(BASE_URL + "/hechos" + "/" + id, HechoDto.class);
   }
 
   public List<HechoDto> getAllHechos() {
       ParameterizedTypeReference<List<HechoDto>> typeRef = new ParameterizedTypeReference<List<HechoDto>>() {};
 
       ResponseEntity<List<HechoDto>> response = restTemplate.exchange(
-              BASE_URL,
+              BASE_URL + "/hechos",
               HttpMethod.GET,
               null,
               typeRef
@@ -65,7 +67,7 @@ public class HechoApiClient {
 
   public UUID crearHecho(HechoDto hechoDto) {
     try {
-      HechoDto respuestaHecho = restTemplate.postForObject(BASE_URL, hechoDto, HechoDto.class);
+      HechoDto respuestaHecho = restTemplate.postForObject(BASE_URL + "/hechos", hechoDto, HechoDto.class);
 
       if (respuestaHecho != null) {
         return respuestaHecho.getId();
@@ -113,14 +115,14 @@ public class HechoApiClient {
         new HttpEntity<>(body, headers);
 
     restTemplate.postForEntity(
-        BASE_URL + "/" + id + "/multimedia",
+        BASE_URL + "/hechos" + "/" + id + "/multimedia",
         requestEntity,
         Void.class
     );
   }
 
   public void eliminarHecho(UUID id) {
-      restTemplate.delete(BASE_URL + "/" + id);
+      restTemplate.delete(BASE_URL + "/hechos" + "/" + id);
 
   }
 
@@ -130,7 +132,7 @@ public class HechoApiClient {
         params.put("sugerencia", sugerencia != null ? sugerencia : "");
 
         restTemplate.postForObject(
-                BASE_URL + "/{id}/aceptar?sugerencia={sugerencia}",
+                BASE_URL + "/hechos" + "/{id}/aceptar?sugerencia={sugerencia}",
                 null,
                 Void.class,
                 params
@@ -143,7 +145,7 @@ public class HechoApiClient {
         params.put("motivo", sugerencia != null ? sugerencia : "Sin motivo especificado");
 
         restTemplate.postForObject(
-                BASE_URL + "/{id}/rechazar?motivo={motivo}",
+                BASE_URL + "/hechos" + "/{id}/rechazar?motivo={motivo}",
                 null,
                 Void.class,
                 params

@@ -14,6 +14,6 @@ public class AuthController {
     if (authentication != null && authentication.isAuthenticated()) {
       return "redirect:/";
     }
-    return "/login";
+    return "login";
   }
 }

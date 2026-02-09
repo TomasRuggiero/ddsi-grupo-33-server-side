@@ -21,7 +21,7 @@ public class WebApiCallerService {
   private final WebClient webClient;
   private final String authServiceUrl;
 
-  public WebApiCallerService(@Value("${auth.service.url}") String authServiceUrl) {
+  public WebApiCallerService(@Value("${BACKEND_URL:http://localhost:8080}") String authServiceUrl) {
     this.webClient = WebClient.builder().build();
     this.authServiceUrl = authServiceUrl;
   }

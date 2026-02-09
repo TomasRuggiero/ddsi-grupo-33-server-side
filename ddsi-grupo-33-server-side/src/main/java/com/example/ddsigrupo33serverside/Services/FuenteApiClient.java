@@ -6,6 +6,7 @@ import com.example.ddsigrupo33serverside.Dtos.FuenteDto;
 import com.example.ddsigrupo33serverside.Dtos.FuenteProxyInputDto;
 import com.example.ddsigrupo33serverside.Dtos.HechoDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,12 @@ public class FuenteApiClient {
 
   private final RestTemplate restTemplate;
 
-  private static final String BASE_URL = "http://localhost:8080/fuentes";
+  @Value("${BACKEND_URL:http://localhost:8080}")
+  private String BASE_URL;
 
   public void eliminar(Long id) {
     try {
-      restTemplate.delete(BASE_URL + "/" + id);
+      restTemplate.delete(BASE_URL + "/fuentes" + "/" + id);
     } catch (Exception e) {
       System.out.println("Error al eliminar la fuente " + id);
       throw e;
@@ -35,7 +37,7 @@ public class FuenteApiClient {
     ParameterizedTypeReference<List<FuenteDto>> typeRef = new ParameterizedTypeReference<List<FuenteDto>>() {};
 
     ResponseEntity<List<FuenteDto>> response = restTemplate.exchange(
-        BASE_URL,
+        BASE_URL + "/fuentes",
         HttpMethod.GET,
         null,
         typeRef
@@ -45,7 +47,7 @@ public class FuenteApiClient {
   }
 
   public void crearFuenteDinamica() {
-    restTemplate.postForEntity(BASE_URL + "/dinamica", null, String.class);
+    restTemplate.postForEntity(BASE_URL + "/fuentes" + "/dinamica", null, String.class);
   }
 
   public void crearFuenteEstatica(MultipartFile file) {
@@ -61,13 +63,13 @@ public class FuenteApiClient {
 
     HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-    restTemplate.postForEntity(BASE_URL + "/estatica", requestEntity, String.class);
+    restTemplate.postForEntity(BASE_URL + "/fuentes" + "/estatica", requestEntity, String.class);
   }
 
   public void crearFuenteProxy(FuenteProxyInputDto dto) {
     try {
       ResponseEntity<String> response = restTemplate.postForEntity(
-          BASE_URL + "/proxy",
+          BASE_URL + "/fuentes" + "/proxy",
           dto,
           String.class
       );

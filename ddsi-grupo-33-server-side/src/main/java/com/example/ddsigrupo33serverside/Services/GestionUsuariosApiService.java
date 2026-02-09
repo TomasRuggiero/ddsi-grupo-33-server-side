@@ -24,7 +24,7 @@ public class GestionUsuariosApiService {
   @Autowired
   public GestionUsuariosApiService(
       WebApiCallerService webApiCallerService,
-      @Value("${auth.service.url}") String authServiceUrl){
+      @Value("${BACKEND_URL:http://localhost:8080}") String authServiceUrl){
     this.webClient = WebClient.builder().build();
     this.webApiCallerService = webApiCallerService;
     this.authServiceUrl = authServiceUrl;

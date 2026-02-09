@@ -3,6 +3,7 @@ package com.example.ddsigrupo33serverside.Services;
 import com.example.ddsigrupo33serverside.Dtos.AdminUsersDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +17,15 @@ import java.util.List;
 public class UsuarioApiClient {
     private final RestTemplate restTemplate;
 
-    private final String BASE_URL = "http://localhost:8080/user";
+    @Value("${BACKEND_URL:http://localhost:8080}")
+    private String BASE_URL;
 
     public void promoverUsuario(Long id) {
-      restTemplate.put(BASE_URL + "/promover/" + id, null);
+      restTemplate.put(BASE_URL + "/user" + "/promover/" + id, null);
     }
 
     public void borrarUsuario(Long id) {
-      restTemplate.delete(BASE_URL + "/" + id);
+      restTemplate.delete(BASE_URL + "/user" + "/" + id);
     }
 
     public List<AdminUsersDto> listarUsuarios() {
@@ -33,7 +35,7 @@ public class UsuarioApiClient {
     public List<AdminUsersDto> listarUsuarios(String nombre, String correo, String rol) {
         ParameterizedTypeReference<List<AdminUsersDto>> typeRef = new ParameterizedTypeReference<List<AdminUsersDto>>() {};
 
-        String uri = BASE_URL + "?";
+        String uri = BASE_URL + "/user" + "?";
 
         if (!Strings.isBlank(nombre))
             uri += "nombre=" + nombre;

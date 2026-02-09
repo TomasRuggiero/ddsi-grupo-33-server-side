@@ -27,9 +27,9 @@ public class VisualizadorController {
     try {
       List<HechoDto> hechos = hechoService.getMisHechos();
       model.addAttribute("hechos", hechos);
-      return "/visualizador/hechos-subidos";
+      return "visualizador/hechos-subidos";
     } catch (HttpClientErrorException.Unauthorized e) {
-      return "/error/401";
+      return "error/401";
     }
   }
 
@@ -38,7 +38,7 @@ public class VisualizadorController {
     List<ColeccionDto> colecciones = coleccionService.getTodasLasColecciones();
     model.addAttribute("colecciones", colecciones);
     model.addAttribute("titulo", "Visualizador de Colecciones");
-    return "/visualizador/colecciones";
+    return "visualizador/colecciones";
   }
 
   @GetMapping("/colecciones/{id}")
@@ -48,7 +48,7 @@ public class VisualizadorController {
       return "error/404"; // opcional
     }
     model.addAttribute("coleccion", coleccion);
-    return "/visualizador/hechos-coleccion";
+    return "visualizador/hechos-coleccion";
   }
 
   @GetMapping("/hecho/{id}")
@@ -58,7 +58,7 @@ public class VisualizadorController {
       return "error/404"; // opcional
     }
     model.addAttribute("hecho", hecho);
-    return "/visualizador/hecho";
+    return "visualizador/hecho";
   }
 
   @PostMapping("/hecho/editar/{id}")

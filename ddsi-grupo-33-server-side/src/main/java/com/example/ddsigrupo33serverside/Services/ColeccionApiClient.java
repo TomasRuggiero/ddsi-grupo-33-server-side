@@ -4,6 +4,7 @@ import com.example.ddsigrupo33serverside.Dtos.ColeccionDto;
 import com.example.ddsigrupo33serverside.Dtos.ColeccionInputDto;
 import com.example.ddsigrupo33serverside.Dtos.FiltroHechosDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
@@ -23,21 +24,21 @@ public class ColeccionApiClient {
 
   private final RestTemplate restTemplate;
 
-  // URL base del backend
-  private static final String BASE_URL = "http://localhost:8080/colecciones";
+  @Value("${BACKEND_URL:http://localhost:8080}")
+  private String BASE_URL;
 
   public void crearColeccion(ColeccionInputDto coleccionInputDto, String algoritmoDeConsenso) {
     Map<String, Object> responseBody = new HashMap<>();
-    responseBody = restTemplate.postForObject(BASE_URL, coleccionInputDto, Map.class);
-    restTemplate.put(BASE_URL + "/" + responseBody.get("id").toString() + "/consenso/" + algoritmoDeConsenso, null);
+    responseBody = restTemplate.postForObject(BASE_URL + "/colecciones", coleccionInputDto, Map.class);
+    restTemplate.put(BASE_URL + "/colecciones" + "/" + responseBody.get("id").toString() + "/consenso/" + algoritmoDeConsenso, null);
   }
 
   public void eliminarColeccion(Long id) {
-    restTemplate.delete(BASE_URL + "/" + id);
+    restTemplate.delete(BASE_URL + "/colecciones" + "/" + id);
   }
 
   public List<ColeccionDto> getTodasLasColecciones() {
-    ColeccionDto[] colecciones = restTemplate.getForObject(BASE_URL, ColeccionDto[].class);
+    ColeccionDto[] colecciones = restTemplate.getForObject(BASE_URL + "/colecciones", ColeccionDto[].class);
     List<ColeccionDto> coleccionesLista = Arrays.asList(colecciones);
 
     coleccionesLista.forEach(c -> c.setTotalDeHechos(c.getHechos().size()));
@@ -46,12 +47,12 @@ public class ColeccionApiClient {
   }
 
   public void actualizarColeccion(ColeccionInputDto coleccionInputDto, Long id, String algoritmoDeConsenso) {
-    restTemplate.put(BASE_URL + "/" + id, coleccionInputDto);
-    restTemplate.put(BASE_URL + "/" + id + "/consenso/" + algoritmoDeConsenso, null);
+    restTemplate.put(BASE_URL + "/colecciones" + "/" + id, coleccionInputDto);
+    restTemplate.put(BASE_URL + "/colecciones" + "/" + id + "/consenso/" + algoritmoDeConsenso, null);
   }
 
   public ColeccionDto getColeccionPorId(Long id, FiltroHechosDto filtros, Boolean curado) {
-    UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(BASE_URL + "/" + id);
+    UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(BASE_URL + "/colecciones" + "/" + id);
 
     if (curado != null && curado)
       builder.queryParam("curado", true);
