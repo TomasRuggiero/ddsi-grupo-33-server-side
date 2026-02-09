@@ -1,6 +1,8 @@
 package com.example.ddsigrupo33serverside.Controllers;
 
 import com.example.ddsigrupo33serverside.Dtos.UsuarioDto;
+import com.example.ddsigrupo33serverside.Exceptions.DuplicateCorreoException;
+import com.example.ddsigrupo33serverside.Exceptions.ValidationException;
 import com.example.ddsigrupo33serverside.Services.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -40,46 +42,31 @@ public class UsuarioController {
       redirectAttributes.addFlashAttribute("tipoMensaje", "success");
       return "redirect:/login";
     }
-    //luego habría que agregar para casos especiales un redirect a /register y que bindee el usuario
+    catch (ValidationException e) {
+      convertirValidationExceptionABindingResult(e, bindingResult);
+      model.addAttribute("titulo", "Crear Nuevo Alumno");
+      return "/register";
+    }
+    catch (DuplicateCorreoException e) {
+      log.error("El correo ya se encuentra en uso", e);
+      //model.addAttribute("error", "El correo indicado ya se encuentra en uso");
+      model.addAttribute("titulo", "Crear Nuevo Usuario");
+      redirectAttributes.addFlashAttribute("error", "El correo indicado ya se encuentra en uso");
+      return "redirect:/register?error=true";
+    }
     catch (Exception e) {
       log.error("Error al crear usuario", e);
-      model.addAttribute("error", "Error al crear el usuario: " + e.getMessage());
+      //model.addAttribute("error", "Error al crear el usuario: " + e.getMessage());
+      redirectAttributes.addFlashAttribute("error", "Error al crear el usuario. Intentelo nuevamente en un rato");
       model.addAttribute("titulo", "Crear Nuevo Usuario");
       return "redirect:/register?error=true";
     }
   }
 
-}
-
-
-/*
-    @PostMapping("/crear")
-    @PreAuthorize("hasRole('ADMIN') and hasAnyAuthority('CREAR_ALUMNOS')")
-    public String crearAlumno(@ModelAttribute("alumno")AlumnoDTO alumnoDTO,
-                              BindingResult bindingResult,
-                              Model model,
-                              RedirectAttributes redirectAttributes) {
-        try {
-            AlumnoDTO alumnoCreado = alumnoService.crearAlumno(alumnoDTO);
-            redirectAttributes.addFlashAttribute("mensaje", "Alumno creado exitosamente");
-            redirectAttributes.addFlashAttribute("tipoMensaje", "success");
-            return "redirect:/alumnos/" + alumnoCreado.getLegajo();
-        }
-        catch (DuplicateLegajoException ex) {
-            bindingResult.rejectValue("legajo", "error.legajo", ex.getMessage());
-            model.addAttribute("titulo", "Crear Nuevo Alumno");
-            return "alumnos/crear";
-        }
-        catch (ValidationException e) {
-            convertirValidationExceptionABindingResult(e, bindingResult);
-            model.addAttribute("titulo", "Crear Nuevo Alumno");
-            return "alumnos/crear";
-        }
-        catch (Exception e) {
-            log.error("Error al crear alumno", e);
-            model.addAttribute("error", "Error al crear el alumno: " + e.getMessage());
-            model.addAttribute("titulo", "Crear Nuevo Alumno");
-            return "alumnos/crear";
-        }
+  private void convertirValidationExceptionABindingResult(ValidationException e, BindingResult bindingResult) {
+    if(e.hasFieldErrors()) {
+      e.getFieldErrors().forEach((field, error) -> bindingResult.rejectValue(field, "error." + field, error));
     }
- */
+  }
+
+}

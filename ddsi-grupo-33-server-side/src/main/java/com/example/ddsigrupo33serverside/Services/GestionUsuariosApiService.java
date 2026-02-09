@@ -19,22 +19,22 @@ public class GestionUsuariosApiService {
   private static final Logger log = LoggerFactory.getLogger(GestionUsuariosApiService.class);
   private final WebClient webClient;
   private final WebApiCallerService webApiCallerService;
-  private final String authServiceUrl;
 
   @Autowired
   public GestionUsuariosApiService(
       WebApiCallerService webApiCallerService,
       @Value("${auth.service.url}") String authServiceUrl){
-    this.webClient = WebClient.builder().build();
+    this.webClient = WebClient.builder().
+    baseUrl(authServiceUrl)
+  .build();
     this.webApiCallerService = webApiCallerService;
-    this.authServiceUrl = authServiceUrl;
   }
 
   public AuthResponseDto login(String correo, String password) {
     try {
       AuthResponseDto response = webClient
           .post()
-          .uri(authServiceUrl + "/auth")
+          .uri("/auth")
           .bodyValue(Map.of(
               "correo", correo,
               "password", password
@@ -61,7 +61,7 @@ public class GestionUsuariosApiService {
     try {
       ResponseEntity response = webClient
           .post()
-          .uri(authServiceUrl + "/user")
+          .uri("/user")
           .bodyValue(usuarioDto)
           .retrieve()
           .toBodilessEntity()
@@ -82,32 +82,27 @@ public class GestionUsuariosApiService {
     }
   }
 
-  /*
-      public AuthResponseDTO login(String username, String password) {
-        try {
-            AuthResponseDTO response = webClient
-                    .post()
-                    .uri(authServiceUrl + "/auth")
-                    .bodyValue(Map.of(
-                            "username", username,
-                            "password", password
-                    ))
-                    .retrieve()
-                    .bodyToMono(AuthResponseDTO.class)
-                    .block();
-            return response;
-        } catch (WebClientResponseException e) {
-            log.error(e.getMessage());
-            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
-                // Login fallido - credenciales incorrectas
-                return null;
-            }
-            // Otros errores HTTP
-            throw new RuntimeException("Error en el servicio de autenticación: " + e.getMessage(), e);
-        } catch (Exception e) {
-            throw new RuntimeException("Error de conexión con el servicio de autenticación: " + e.getMessage(), e);
-        }
+  public Boolean existeUsuario(String correo) {
+    try {
+//      Boolean existe = webApiCallerService.get(authServiceUrl + "/user/existe" + correo, Boolean.class);
+      Boolean existe = webClient
+          .get()
+          .uri(uriBuilder ->
+              uriBuilder
+                  .path("/user/existe/{correo}")
+                  .build(correo)
+          )
+          .retrieve()
+          .bodyToMono(Boolean.class)
+          .block();
+
+
+      return Boolean.TRUE.equals(existe);
+
+    } catch (Exception e) {
+      throw new RuntimeException("Error al verificar existencia del usuario: " + e.getMessage(), e);
     }
-   */
+
+  }
 
 }
