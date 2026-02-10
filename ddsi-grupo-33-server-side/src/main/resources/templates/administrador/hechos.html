@@ -96,81 +96,79 @@
               </div>
             </div>
           </div>
-      </div>
-
     <div
-      class="modal fade"
-      id="createFactModal"
-      tabindex="-1"
-      aria-labelledby="createFactModalLabel"
-      aria-hidden="true"
+            class="modal fade"
+            id="createFactModal"
+            tabindex="-1"
+            aria-labelledby="createFactModalLabel"
+            aria-hidden="true"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <a href="/hechos/nuevo" class="btn btn-sm btn-success">
-              <i class="bi bi-plus-circle-fill"></i> Nuevo Hecho
-            </a>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label for="factTitle" class="form-label">Título</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="factTitle"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="factDescription" class="form-label"
-                  >Descripción</label
-                >
-                <textarea
-                  class="form-control"
-                  id="factDescription"
-                  rows="3"
-                ></textarea>
-              </div>
-              <div class="mb-3">
-                <label for="factDate" class="form-label">Fecha</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="factDate"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="factCollection" class="form-label">Colección</label>
-                <select class="form-select" id="factCollection" required>
-                  <option selected disabled value="">Seleccionar...</option>
-                  <option>Incendios Forestales</option>
-                  <option>Desastres Naturales</option>
-                  <option>Accidentes Viales</option>
-                </select>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cancelar
-            </button>
-            <button type="button" class="btn btn-success">Crear</button>
-          </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="/hechos/nuevo" class="btn btn-sm btn-success">
+                        <i class="bi bi-plus-circle-fill"></i> Nuevo Hecho
+                    </a>
+                    <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="factTitle" class="form-label">Título</label>
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    id="factTitle"
+                                    required
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="factDescription" class="form-label"
+                            >Descripción</label
+                            >
+                            <textarea
+                                    class="form-control"
+                                    id="factDescription"
+                                    rows="3"
+                            ></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="factDate" class="form-label">Fecha</label>
+                            <input
+                                    type="date"
+                                    class="form-control"
+                                    id="factDate"
+                                    required
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="factCollection" class="form-label">Colección</label>
+                            <select class="form-select" id="factCollection" required>
+                                <option selected disabled value="">Seleccionar...</option>
+                                <option>Incendios Forestales</option>
+                                <option>Desastres Naturales</option>
+                                <option>Accidentes Viales</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                    >
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn btn-success">Crear</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <div
@@ -180,98 +178,100 @@
             aria-labelledby="reviewFactModalLabel"
             aria-hidden="true"
     >
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header bg-primary text-white">
-            <h5 class="modal-title" id="reviewFactModalLabel">Revisar Hecho</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <h5 class="fw-bold mb-3" id="modal-titulo">Cargando...</h5>
-            <p><strong>Descripción:</strong> <span id="modal-descripcion"></span></p>
-            <p><strong>Fecha:</strong> <span id="modal-fecha"></span></p>
-            <hr />
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="reviewFactModalLabel">Revisar Hecho</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="fw-bold mb-3" id="modal-titulo">Cargando...</h5>
+                    <p><strong>Descripción:</strong> <span id="modal-descripcion"></span></p>
+                    <p><strong>Fecha:</strong> <span id="modal-fecha"></span></p>
+                    <hr />
 
-            <form id="reviewForm" th:action="@{/admin/revisar}" method="post">
-              <input type="hidden" name="id" id="modal-id" />
-              <input type="hidden" name="accion" id="modal-accion" /> <div class="mb-3">
-              <label for="suggestion" class="form-label">Sugerencia / Motivo</label>
-              <textarea
-                      id="suggestion"
-                      name="sugerencia"
-                      class="form-control"
-                      rows="3"
-                      placeholder="Escriba una sugerencia si desea aceptar con observaciones, o un motivo para rechazar."
-              ></textarea>
+                    <form id="reviewForm" th:action="@{/admin/revisar}" method="post">
+                        <input type="hidden" name="id" id="modal-id" />
+                        <input type="hidden" name="accion" id="modal-accion" /> <div class="mb-3">
+                        <label for="suggestion" class="form-label">Sugerencia / Motivo</label>
+                        <textarea
+                                id="suggestion"
+                                name="sugerencia"
+                                class="form-control"
+                                rows="3"
+                                placeholder="Escriba una sugerencia si desea aceptar con observaciones, o un motivo para rechazar."
+                        ></textarea>
+                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="rejectBtn" type="button" class="btn btn-danger">
+                        <i class="bi bi-x-circle"></i> Rechazar
+                    </button>
+                    <button id="acceptBtn" type="button" class="btn btn-success">
+                        <i class="bi bi-check-circle"></i> Aceptar
+                    </button>
+                </div>
             </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button id="rejectBtn" type="button" class="btn btn-danger">
-              <i class="bi bi-x-circle"></i> Rechazar
-            </button>
-            <button id="acceptBtn" type="button" class="btn btn-success">
-              <i class="bi bi-check-circle"></i> Aceptar
-            </button>
-          </div>
         </div>
-      </div>
     </div>
 
-      <script>
+
+    <script>
         document.addEventListener("DOMContentLoaded", () => {
-          const reviewModal = document.getElementById('reviewFactModal');
-          const suggestionInput = document.getElementById("suggestion");
-          const rejectBtn = document.getElementById("rejectBtn");
-          const acceptBtn = document.getElementById("acceptBtn");
-          const reviewForm = document.getElementById("reviewForm");
+            const reviewModal = document.getElementById('reviewFactModal');
+            const suggestionInput = document.getElementById("suggestion");
+            const rejectBtn = document.getElementById("rejectBtn");
+            const acceptBtn = document.getElementById("acceptBtn");
+            const reviewForm = document.getElementById("reviewForm");
 
-          if (reviewModal) {
-            reviewModal.addEventListener('show.bs.modal', (event) => {
-              const button = event.relatedTarget;
+            if (reviewModal) {
+                reviewModal.addEventListener('show.bs.modal', (event) => {
+                    const button = event.relatedTarget;
 
-              const id = button.getAttribute('data-id');
-              const titulo = button.getAttribute('data-titulo');
-              const descripcion = button.getAttribute('data-descripcion');
-              const fecha = button.getAttribute('data-fecha');
+                    const id = button.getAttribute('data-id');
+                    const titulo = button.getAttribute('data-titulo');
+                    const descripcion = button.getAttribute('data-descripcion');
+                    const fecha = button.getAttribute('data-fecha');
 
-              document.getElementById('modal-id').value = id;
-              document.getElementById('modal-titulo').textContent = titulo;
-              document.getElementById('modal-descripcion').textContent = descripcion;
-              document.getElementById('modal-fecha').textContent = fecha;
+                    document.getElementById('modal-id').value = id;
+                    document.getElementById('modal-titulo').textContent = titulo;
+                    document.getElementById('modal-descripcion').textContent = descripcion;
+                    document.getElementById('modal-fecha').textContent = fecha;
 
-              suggestionInput.value = "";
-              rejectBtn.disabled = false;
-            });
-          }
-
-          if (suggestionInput && rejectBtn) {
-            suggestionInput.addEventListener("input", () => {
-              rejectBtn.disabled = suggestionInput.value.trim().length === 0;
-            });
-          }
-
-          acceptBtn.addEventListener("click", () => {
-            document.getElementById("modal-accion").value = "ACEPTAR";
-            reviewForm.submit();
-          });
-
-          rejectBtn.addEventListener("click", () => {
-            const motivo = suggestionInput.value.trim();
-            if (motivo === "") {
-              alert("Por favor, indique un motivo para el rechazo.");
-              return;
+                    suggestionInput.value = "";
+                    rejectBtn.disabled = false;
+                });
             }
 
-            document.getElementById("modal-accion").value = "RECHAZAR";
-            reviewForm.submit();
-          });
+            if (suggestionInput && rejectBtn) {
+                suggestionInput.addEventListener("input", () => {
+                    rejectBtn.disabled = suggestionInput.value.trim().length === 0;
+                });
+            }
+
+            acceptBtn.addEventListener("click", () => {
+                document.getElementById("modal-accion").value = "ACEPTAR";
+                reviewForm.submit();
+            });
+
+            rejectBtn.addEventListener("click", () => {
+                const motivo = suggestionInput.value.trim();
+                if (motivo === "") {
+                    alert("Por favor, indique un motivo para el rechazo.");
+                    return;
+                }
+
+                document.getElementById("modal-accion").value = "RECHAZAR";
+                reviewForm.submit();
+            });
         });
-      </script>
+    </script>
 
     <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"
     ></script>
+</div>
 </html>
