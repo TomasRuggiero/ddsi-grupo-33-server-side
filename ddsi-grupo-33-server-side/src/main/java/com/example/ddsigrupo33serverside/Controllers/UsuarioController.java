@@ -45,7 +45,7 @@ public class UsuarioController {
     catch (ValidationException e) {
       convertirValidationExceptionABindingResult(e, bindingResult);
       model.addAttribute("titulo", "Crear Nuevo Alumno");
-      return "/register";
+      return "register";
     }
     catch (DuplicateCorreoException e) {
       log.error("El correo ya se encuentra en uso", e);
