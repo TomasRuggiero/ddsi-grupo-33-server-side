@@ -18,21 +18,21 @@ public class GlobalExceptionHandler {
   @ExceptionHandler({HttpClientErrorException.NotFound.class, NoResourceFoundException.class})
   public ModelAndView handleNotFoundException(RuntimeException ignored) {
     ModelAndView mav = new ModelAndView();
-    mav.setViewName("error404");
+    mav.setViewName("error/404");
     return mav;
   }
 
   @ExceptionHandler(HttpClientErrorException.Forbidden.class)
   public ModelAndView handleForbiddenException(HttpClientErrorException ex) {
     ModelAndView mav = new ModelAndView();
-    mav.setViewName("error403");
+    mav.setViewName("error/403");
     return mav;
   }
 
   @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
   public ModelAndView handleUnauthorizedException(HttpClientErrorException.Unauthorized ex) {
     ModelAndView mav = new ModelAndView();
-    mav.setViewName("error401");
+    mav.setViewName("error/401");
     return mav;
   }
 
