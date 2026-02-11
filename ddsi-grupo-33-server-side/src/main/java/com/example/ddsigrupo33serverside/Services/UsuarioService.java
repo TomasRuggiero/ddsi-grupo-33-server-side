@@ -4,9 +4,11 @@ import com.example.ddsigrupo33serverside.Dtos.UsuarioDto;
 import com.example.ddsigrupo33serverside.Exceptions.DuplicateCorreoException;
 import com.example.ddsigrupo33serverside.Exceptions.ValidationException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UsuarioService {
 
@@ -14,8 +16,11 @@ public class UsuarioService {
 
   public void crearUsuario(UsuarioDto usuarioDto){
 
+    log.info(String.format("Iniciando crear usuario %s", usuarioDto.getNombre()));
     validarDatosBasicos(usuarioDto);
+    log.info("Usuario validado");
     validarUsuarioExistente(usuarioDto);
+    log.info("Usuario validado sin repeticion");
 
     gestionUsuariosApiService.crearUsuario(usuarioDto);
 
