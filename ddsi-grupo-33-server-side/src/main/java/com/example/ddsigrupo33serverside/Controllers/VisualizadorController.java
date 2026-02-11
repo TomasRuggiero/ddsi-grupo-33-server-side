@@ -8,12 +8,14 @@ import com.example.ddsigrupo33serverside.Services.ColeccionApiClient;
 import com.example.ddsigrupo33serverside.Services.HechoApiClient;
 import com.example.ddsigrupo33serverside.Services.SolicitudApiClient;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 @Controller
+@Slf4j
 @RequestMapping("/visualizador")
 @RequiredArgsConstructor
 public class VisualizadorController {
@@ -54,6 +56,13 @@ public class VisualizadorController {
   @GetMapping("/hecho/{id}")
   public String detalleHecho(@PathVariable UUID id, Model model) {
     HechoDto hecho = hechoService.getHechoPorId(id);
+
+    if (hecho.getMultimedia() != null) {
+      log.info(String.format("La url es: %s", hecho.getMultimedia().get(0).getUrl()));
+      log.info(String.format("El tipoMime es: %s", hecho.getMultimedia().get(0).getTipoMime()));
+      log.info(String.format("La url es: %s", hecho.getMultimedia().get(0).getNombre()));
+    }
+
     if (hecho == null) {
       return "error/404"; // opcional
     }
