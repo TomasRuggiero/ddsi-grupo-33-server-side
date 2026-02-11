@@ -2,6 +2,7 @@ package com.example.ddsigrupo33serverside.Exceptions;
 
 import com.example.ddsigrupo33serverside.Dtos.HechoDto;
 import com.example.ddsigrupo33serverside.Dtos.UbicacionDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.net.http.HttpClient;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
