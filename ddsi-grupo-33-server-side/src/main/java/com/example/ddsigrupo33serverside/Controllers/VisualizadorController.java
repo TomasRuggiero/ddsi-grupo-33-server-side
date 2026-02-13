@@ -57,12 +57,6 @@ public class VisualizadorController {
   public String detalleHecho(@PathVariable UUID id, Model model) {
     HechoDto hecho = hechoService.getHechoPorId(id);
 
-    if (hecho.getMultimedia() != null) {
-      log.info(String.format("La url es: %s", hecho.getMultimedia().get(0).getUrl()));
-      log.info(String.format("El tipoMime es: %s", hecho.getMultimedia().get(0).getTipoMime()));
-      log.info(String.format("La url es: %s", hecho.getMultimedia().get(0).getNombre()));
-    }
-
     if (hecho == null) {
       return "error/404"; // opcional
     }
