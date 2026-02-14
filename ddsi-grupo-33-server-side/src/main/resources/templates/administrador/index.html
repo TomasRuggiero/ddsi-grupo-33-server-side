@@ -47,18 +47,16 @@
               <div class="card mb-3">
 
                 <div class="card-header fw-bold bg-dark text-white text-start">
-                  Todos los Hechos
+                  Ultimos 10 Hechos
                 </div>
 
                 <table class="table table-stripped table-sm mb-0">
 
                   <tbody class="bg-dark text-white text-center">
                   <tr th:if="${todosLosHechos.size()}==0">
-                    <td>
-                      No hay hechos para mostrar.
-                    </td>
+                    <td>No hay hechos para mostrar.</td>
                   </tr>
-                  <tr th:each="hecho : ${todosLosHechos}" class="text-muted">
+                  <tr th:each="hecho, iterStat : ${todosLosHechos}" th:if="${iterStat.index < 10}" class="text-muted">
                     <td th:text="${hecho.titulo}"></td>
                   </tr>
                   </tbody>
@@ -69,16 +67,16 @@
               <div class="card mb-3">
 
                 <div class="card-header fw-bold bg-dark text-white text-start">
-                  Hechos en la Ultima Semana
+                  Ultimos 10 hechos (Semana del <span th:text="${rangoSemana}"></span>)
                 </div>
 
                 <table class="table table-stripped table-sm mb-0">
 
                   <tbody class="bg-dark text-white text-center">
                   <tr th:if="${hechosUltimaSemana.size()}==0">
-                    <td> No hay hechos para mostrar. </td>
+                    <td>No hay hechos para mostrar.</td>
                   </tr>
-                  <tr th:each="hecho : ${hechosUltimaSemana}" class="text-muted">
+                  <tr th:each="hecho, iterStat : ${hechosUltimaSemana}" th:if="${iterStat.index < 10}" class="text-muted">
                     <td th:text="${hecho.titulo}"></td>
                   </tr>
                   </tbody>

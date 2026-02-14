@@ -1,5 +1,6 @@
 package com.example.ddsigrupo33serverside.Controllers;
 
+import com.example.ddsigrupo33serverside.Dtos.AdminHomeDto;
 import com.example.ddsigrupo33serverside.Dtos.ColeccionInputDto;
 import com.example.ddsigrupo33serverside.Dtos.FuenteProxyInputDto;
 import com.example.ddsigrupo33serverside.Services.*;
@@ -11,6 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.UUID;
 
 @Controller
@@ -104,14 +108,21 @@ public class AdminController {
     @GetMapping()
     @PreAuthorize("hasAnyRole('ADMIN')")
     public String adminHome(Model model) {
-        model.addAttribute("todosLosHechos", adminService.getAdminHome().getHechosPorCategoria());
-        model.addAttribute("hechosUltimaSemana", adminService.getAdminHome().getHechosUltimaSemana());
-        model.addAttribute("totalHechos", adminService.getAdminHome().getTotalHechos());
-        model.addAttribute("totalSolicitudesDeEliminacion", adminService.getAdminHome().getTotalSolicitudesDeEliminacion());
-        model.addAttribute("totalUsuarios", adminService.getAdminHome().getTotalUsers());
-        model.addAttribute("totalColecciones", adminService.getAdminHome().getTotalColecciones());
+        AdminHomeDto dto = adminService.getAdminHome();
+        model.addAttribute("todosLosHechos", dto.getHechosPorCategoria());
+        model.addAttribute("hechosUltimaSemana", dto.getHechosUltimaSemana());
+        model.addAttribute("totalHechos", dto.getTotalHechos());
+        model.addAttribute("totalSolicitudesDeEliminacion", dto.getTotalSolicitudesDeEliminacion());
+        model.addAttribute("totalUsuarios", dto.getTotalUsers());
+        model.addAttribute("totalColecciones", dto.getTotalColecciones());
         model.addAttribute("titulo", "Administración");
         model.addAttribute("menu", "admin");
+        LocalDate hoy = LocalDate.now();
+        LocalDate inicioSemana = hoy.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate finSemana = inicioSemana.plusDays(6);
+
+        model.addAttribute("rangoSemana", inicioSemana.getDayOfMonth() + "/" + inicioSemana.getMonthValue() +
+                " al " + finSemana.getDayOfMonth() + "/" + finSemana.getMonthValue());
 
         return "administrador/index";
     }
