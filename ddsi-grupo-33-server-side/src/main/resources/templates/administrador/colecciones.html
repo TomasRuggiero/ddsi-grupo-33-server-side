@@ -26,7 +26,7 @@
             <tr th:each="coleccion : ${colecciones}">
                 <td th:text="${coleccion.id}"></td>
                 <td th:text="${coleccion.titulo}"></td>
-                <td th:text="${coleccion.descripcion} + '.'"></td>
+                <td class="text-truncate" style="max-width: 200px;" th:text="${coleccion.descripcion} + ."></td>
                 <td><span class="badge bg-primary" th:text="${coleccion.algoritmoDeConsenso}"></span></td>
                 <td th:text="${coleccion.hechos != null ? coleccion.hechos.size() : 0}"></td>
                 <td class="text-center">
@@ -402,6 +402,18 @@
             } else {
                 alert("Error al crear la colección.");
             }
+        });
+
+        // Agregar esto junto a la lógica del editModal
+        const deleteModal = document.getElementById('deleteCollectionModal');
+        deleteModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget; // Botón que activó el modal
+            const id = button.getAttribute('data-id');
+            const nombre = button.getAttribute('data-nombre');
+
+            // Seteamos los valores en el modal
+            document.getElementById('deleteNombreColeccion').textContent = nombre;
+            document.getElementById('deleteCollectionId').value = id;
         });
     </script>
 </div>
