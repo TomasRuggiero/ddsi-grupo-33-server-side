@@ -23,7 +23,6 @@ public class HechoDto {
   @JsonProperty("fechaDeCarga")
   private LocalDate fecha_de_carga;
   private String estado;
-  private String fuente;
   private String origen;
   private Set<String> categorias;
   private UbicacionDto ubicacion;

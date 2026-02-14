@@ -26,7 +26,7 @@
               <tbody>
                 <tr th:each="hecho : ${hechos}">
                     <td th:text="${hecho.titulo}"></td>
-                    <td th:text="${hecho.descripcion}"></td>
+                    <td class="text-truncate" style="max-width: 250px;" th:text="${hecho.descripcion}"></td>
                     <td th:text="${#temporals.format(hecho.fecha_acontecimiento, 'dd/MM/yyyy')}"></td>
                     <td th:text="${hecho.categorias}"></td>
                     <td th:switch="${hecho.estado}">
@@ -36,7 +36,7 @@
                     </td>
                     <td class="text-nowrap text-end">
                         <button
-                                th:if="${hecho.estado}=='PENDIENTE'"
+                                th:if="${hecho.estado == 'PENDIENTE'}"
                                 class="btn btn-sm btn-outline-primary"
                                 data-bs-toggle="modal"
                                 data-bs-target="#reviewFactModal"
@@ -44,6 +44,10 @@
                                 th:data-titulo="${hecho.titulo}"
                                 th:data-descripcion="${hecho.descripcion}"
                                 th:data-fecha="${#temporals.format(hecho.fecha_acontecimiento, 'dd/MM/yyyy')}"
+                                th:data-origen="${hecho.origen}"
+                                th:data-categorias="${#strings.listJoin(hecho.categorias, ', ')}"
+                                th:data-direccion="${hecho.ubicacion.direccion + ', ' + hecho.ubicacion.ciudad}"
+                                th:data-coords="${hecho.ubicacion.latitud + ', ' + hecho.ubicacion.longitud}"
                         >
                             <i class="bi bi-check2-circle"></i> Revisar
                         </button>
@@ -80,18 +84,22 @@
                   <span class="badge bg-danger" th:case="RECHAZADO">Rechazado</span>
                 </div>
                 <div class="mt-3">
-                  <button
-                          th:if="${hecho.estado}=='PENDIENTE'"
-                          class="btn btn-sm btn-outline-primary"
-                          data-bs-toggle="modal"
-                          data-bs-target="#reviewFactModal"
-                          th:data-id="${hecho.id}"
-                          th:data-titulo="${hecho.titulo}"
-                          th:data-descripcion="${hecho.descripcion}"
-                          th:data-fecha="${#temporals.format(hecho.fecha_acontecimiento, 'dd/MM/yyyy')}"
-                  >
-                    <i class="bi bi-check2-circle"></i> Revisar
-                  </button>
+                    <button
+                            th:if="${hecho.estado == 'PENDIENTE'}"
+                            class="btn btn-sm btn-outline-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#reviewFactModal"
+                            th:data-id="${hecho.id}"
+                            th:data-titulo="${hecho.titulo}"
+                            th:data-descripcion="${hecho.descripcion}"
+                            th:data-fecha="${#temporals.format(hecho.fecha_acontecimiento, 'dd/MM/yyyy')}"
+                            th:data-origen="${hecho.origen}"
+                            th:data-categorias="${#strings.listJoin(hecho.categorias, ', ')}"
+                            th:data-direccion="${hecho.ubicacion.direccion + ', ' + hecho.ubicacion.ciudad}"
+                            th:data-coords="${hecho.ubicacion.latitud + ', ' + hecho.ubicacion.longitud}"
+                    >
+                        <i class="bi bi-check2-circle"></i> Revisar
+                    </button>
                 </div>
               </div>
             </div>
@@ -171,37 +179,51 @@
         </div>
     </div>
 
-    <div
-            class="modal fade"
-            id="reviewFactModal"
-            tabindex="-1"
-            aria-labelledby="reviewFactModalLabel"
-            aria-hidden="true"
-    >
+    <div class="modal fade" id="reviewFactModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="reviewFactModalLabel">Revisar Hecho</h5>
+                    <h5 class="modal-title">Revisar Hecho</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <h5 class="fw-bold mb-3" id="modal-titulo">Cargando...</h5>
-                    <p><strong>Descripción:</strong> <span id="modal-descripcion"></span></p>
-                    <p><strong>Fecha:</strong> <span id="modal-fecha"></span></p>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h5 class="fw-bold mb-1" id="modal-titulo"></h5>
+                            <small class="text-muted d-block mb-3">ID: <span id="modal-id-text"></span></small>
+
+                            <p><strong>Descripción:</strong></p>
+                            <div id="modal-descripcion" class="p-2 bg-light border rounded mb-3" style="max-height: 150px; overflow-y: auto;"></div>
+
+                            <p><strong>Origen:</strong> <span id="modal-origen"></span></p>
+                        </div>
+                        <div class="col-md-5 border-start">
+                            <p><strong><i class="bi bi-calendar"></i> Fecha:</strong> <span id="modal-fecha"></span></p>
+                            <p><strong><i class="bi bi-tags"></i> Categorías:</strong><br>
+                                <span id="modal-categorias" class="badge bg-info text-dark"></span>
+                            </p>
+                            <hr>
+                            <p><strong><i class="bi bi-geo-alt"></i> Ubicación:</strong></p>
+                            <p id="modal-direccion" class="mb-0"></p>
+                            <small id="modal-coords" class="text-muted"></small>
+                        </div>
+                    </div>
+
                     <hr />
 
                     <form id="reviewForm" th:action="@{/admin/revisar}" method="post">
                         <input type="hidden" name="id" id="modal-id" />
-                        <input type="hidden" name="accion" id="modal-accion" /> <div class="mb-3">
-                        <label for="suggestion" class="form-label">Sugerencia / Motivo</label>
-                        <textarea
-                                id="suggestion"
-                                name="sugerencia"
-                                class="form-control"
-                                rows="3"
-                                placeholder="Escriba una sugerencia si desea aceptar con observaciones, o un motivo para rechazar."
-                        ></textarea>
-                    </div>
+                        <input type="hidden" name="accion" id="modal-accion" />
+                        <div class="mb-3">
+                            <label for="suggestion" class="form-label fw-bold">Sugerencia o Motivo de Rechazo</label>
+                            <textarea
+                                    id="suggestion"
+                                    name="sugerencia"
+                                    class="form-control"
+                                    rows="3"
+                                    placeholder="Escriba aquí los detalles de la revisión..."
+                            ></textarea>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -217,7 +239,7 @@
     </div>
 
 
-    <script>
+    <script th:inline="javascript">
         document.addEventListener("DOMContentLoaded", () => {
             const reviewModal = document.getElementById('reviewFactModal');
             const suggestionInput = document.getElementById("suggestion");
@@ -233,22 +255,30 @@
                     const titulo = button.getAttribute('data-titulo');
                     const descripcion = button.getAttribute('data-descripcion');
                     const fecha = button.getAttribute('data-fecha');
+                    const origen = button.getAttribute('data-origen') || 'Desconocido';
+                    const categorias = button.getAttribute('data-categorias');
+                    const direccion = button.getAttribute('data-direccion');
+                    const coords = button.getAttribute('data-coords');
 
+                    // Llenado de campos visuales
                     document.getElementById('modal-id').value = id;
+                    document.getElementById('modal-id-text').textContent = id;
                     document.getElementById('modal-titulo').textContent = titulo;
                     document.getElementById('modal-descripcion').textContent = descripcion;
                     document.getElementById('modal-fecha').textContent = fecha;
+                    document.getElementById('modal-origen').textContent = origen;
+                    document.getElementById('modal-categorias').textContent = categorias;
+                    document.getElementById('modal-direccion').textContent = direccion;
+                    document.getElementById('modal-coords').textContent = coords;
 
                     suggestionInput.value = "";
-                    rejectBtn.disabled = false;
+                    rejectBtn.disabled = true;
                 });
             }
 
-            if (suggestionInput && rejectBtn) {
-                suggestionInput.addEventListener("input", () => {
-                    rejectBtn.disabled = suggestionInput.value.trim().length === 0;
-                });
-            }
+            suggestionInput.addEventListener("input", () => {
+                rejectBtn.disabled = suggestionInput.value.trim().length === 0;
+            });
 
             acceptBtn.addEventListener("click", () => {
                 document.getElementById("modal-accion").value = "ACEPTAR";
@@ -256,22 +286,10 @@
             });
 
             rejectBtn.addEventListener("click", () => {
-                const motivo = suggestionInput.value.trim();
-                if (motivo === "") {
-                    alert("Por favor, indique un motivo para el rechazo.");
-                    return;
-                }
-
                 document.getElementById("modal-accion").value = "RECHAZAR";
                 reviewForm.submit();
             });
         });
     </script>
-
-    <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-            crossorigin="anonymous"
-    ></script>
 </div>
 </html>
