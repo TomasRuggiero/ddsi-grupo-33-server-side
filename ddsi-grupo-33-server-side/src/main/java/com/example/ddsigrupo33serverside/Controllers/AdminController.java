@@ -109,21 +109,13 @@ public class AdminController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     public String adminHome(Model model) {
         AdminHomeDto dto = adminService.getAdminHome();
-        model.addAttribute("todosLosHechos", dto.getHechosPorCategoria());
-        model.addAttribute("hechosUltimaSemana", dto.getHechosUltimaSemana());
+        model.addAttribute("hechos", dto.getHechosPorCategoria());
         model.addAttribute("totalHechos", dto.getTotalHechos());
         model.addAttribute("totalSolicitudesDeEliminacion", dto.getTotalSolicitudesDeEliminacion());
         model.addAttribute("totalUsuarios", dto.getTotalUsers());
         model.addAttribute("totalColecciones", dto.getTotalColecciones());
         model.addAttribute("titulo", "Administración");
         model.addAttribute("menu", "admin");
-        LocalDate hoy = LocalDate.now();
-        LocalDate inicioSemana = hoy.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-        LocalDate finSemana = inicioSemana.plusDays(6);
-
-        model.addAttribute("rangoSemana", inicioSemana.getDayOfMonth() + "/" + inicioSemana.getMonthValue() +
-                " al " + finSemana.getDayOfMonth() + "/" + finSemana.getMonthValue());
-
         return "administrador/index";
     }
 
