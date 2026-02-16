@@ -24,29 +24,31 @@ public class AdminService {
   private final UsuarioApiClient usuarioApiClient;
 
   public AdminHomeDto getAdminHome() {
-    List<HechoDto> todosLosHechos = hechoApiClient.getAllHechos();
+    // List<HechoDto> todosLosHechos = hechoApiClient.getAllHechos();
+    List<HechoDto> ultimosHechos = hechoApiClient.getUltimos(10L);
 
     LocalDate hoy = LocalDate.now();
     LocalDate haceUnaSemana = hoy.minusDays(7);
 
-    List<HechoDto> hechosUltimaSemana = todosLosHechos.stream()
-        .filter(h -> {
-          LocalDate fecha = h.getFecha_acontecimiento();
-          return fecha != null
-              && !fecha.isBefore(haceUnaSemana)
-              && !fecha.isAfter(hoy);
-        })
-        .toList();
+//    List<HechoDto> hechosUltimaSemana = todosLosHechos.stream()
+//        .filter(h -> {
+//          LocalDate fecha = h.getFecha_acontecimiento();
+//          return fecha != null
+//              && !fecha.isBefore(haceUnaSemana)
+//              && !fecha.isAfter(hoy);
+//        })
+//        .toList();
 
+    Long cantidadHechos = hechoApiClient.getCantidad();
     Integer totalColecciones = coleccionApiClient.getTodasLasColecciones().size();
     Integer totalSolicitudes = solicitudApiClient.getAllSolicitudes().size();
 
     Integer totalUsuarios = usuarioApiClient.listarUsuarios().size();
 
     return new AdminHomeDto(
-        todosLosHechos,
-        hechosUltimaSemana,
-        todosLosHechos.size(),
+        ultimosHechos,
+        ultimosHechos,
+        cantidadHechos,
         totalColecciones,
         totalSolicitudes,
         totalUsuarios

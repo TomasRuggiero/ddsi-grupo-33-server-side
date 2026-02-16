@@ -52,6 +52,23 @@ public class HechoApiClient {
     return restTemplate.getForObject(BASE_URL + "/hechos" + "/" + id, HechoDto.class);
   }
 
+  public Long getCantidad() {
+    return restTemplate.getForObject(BASE_URL + "/hechos/cantidad", Long.class);
+  }
+
+  public List<HechoDto> getUltimos(Long cantidad) {
+    ParameterizedTypeReference<List<HechoDto>> typeRef = new ParameterizedTypeReference<List<HechoDto>>() {};
+
+    ResponseEntity<List<HechoDto>> response = restTemplate.exchange(
+        BASE_URL + "/hechos/ultimos/"+cantidad,
+        HttpMethod.GET,
+        null,
+        typeRef
+    );
+
+    return response.getBody();
+  }
+
   public List<HechoDto> getAllHechos() {
       ParameterizedTypeReference<List<HechoDto>> typeRef = new ParameterizedTypeReference<List<HechoDto>>() {};
 

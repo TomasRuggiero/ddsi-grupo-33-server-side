@@ -11,7 +11,7 @@ public class AdminHomeDto {
     private List<HechoDto> hechosPorCategoria;
     private List<HechoDto> hechosUltimaSemana;
 
-    private Integer totalHechos;
+    private Long totalHechos;
     private Integer totalColecciones;
     private Integer totalSolicitudesDeEliminacion;
     private Integer totalUsers;
