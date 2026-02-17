@@ -63,8 +63,8 @@ public class AdminService {
       return fuenteApiClient.getAllFuentes();
     }
 
-    public List<HechoDto> getAdminHechos() {
-      return hechoApiClient.getAllHechos();
+    public PageResponseDto<HechoDto> getAdminHechos(int page, int size) {
+      return hechoApiClient.getAllHechos(page, size);
     }
 
     public List<SolicitudDto> getSolicitudes() {

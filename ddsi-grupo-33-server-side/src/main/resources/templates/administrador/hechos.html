@@ -55,6 +55,29 @@
                     </td>
                 </tr>
               </tbody>
+                <div class="d-flex justify-content-between align-items-center mt-3 mb-5">
+                    <div class="small text-muted">
+                        Mostrando hechos del <span th:text="${page.number * page.size + 1}"></span>
+                        al <span th:text="${(page.number + 1) * page.size > page.totalElements ? page.totalElements : (page.number + 1) * page.size}"></span>
+                        de un total de <span th:text="${page.totalElements}"></span>.
+                    </div>
+
+                    <nav>
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item" th:classappend="${page.number == 0} ? 'disabled'">
+                                <a class="page-link" th:href="@{/admin/hechos(page=${page.number - 1}, size=${page.size})}">Anterior</a>
+                            </li>
+
+                            <li class="page-item disabled">
+                                <span class="page-link">Página <span th:text="${page.number + 1}"></span> de <span th:text="${page.totalPages}"></span></span>
+                            </li>
+
+                            <li class="page-item" th:classappend="${page.number + 1 >= page.totalPages} ? 'disabled'">
+                                <a class="page-link" th:href="@{/admin/hechos(page=${page.number + 1}, size=${page.size})}">Siguiente</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </table>
           </div>
 
@@ -103,6 +126,29 @@
                 </div>
               </div>
             </div>
+              <div class="d-flex justify-content-between align-items-center mt-3 mb-5">
+                  <div class="small text-muted">
+                      Mostrando hechos del <span th:text="${page.number * page.size + 1}"></span>
+                      al <span th:text="${(page.number + 1) * page.size > page.totalElements ? page.totalElements : (page.number + 1) * page.size}"></span>
+                      de un total de <span th:text="${page.totalElements}"></span>.
+                  </div>
+
+                  <nav>
+                      <ul class="pagination pagination-sm mb-0">
+                          <li class="page-item" th:classappend="${page.number == 0} ? 'disabled'">
+                              <a class="page-link" th:href="@{/admin/hechos(page=${page.number - 1}, size=${page.size})}">Anterior</a>
+                          </li>
+
+                          <li class="page-item disabled">
+                              <span class="page-link">Página <span th:text="${page.number + 1}"></span> de <span th:text="${page.totalPages}"></span></span>
+                          </li>
+
+                          <li class="page-item" th:classappend="${page.number + 1 >= page.totalPages} ? 'disabled'">
+                              <a class="page-link" th:href="@{/admin/hechos(page=${page.number + 1}, size=${page.size})}">Siguiente</a>
+                          </li>
+                      </ul>
+                  </nav>
+              </div>
           </div>
     <div
             class="modal fade"

@@ -1,6 +1,7 @@
 package com.example.ddsigrupo33serverside.Services;
 
 import com.example.ddsigrupo33serverside.Dtos.HechoDto;
+import com.example.ddsigrupo33serverside.Dtos.PageResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -15,6 +16,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -69,17 +71,17 @@ public class HechoApiClient {
     return response.getBody();
   }
 
-  public List<HechoDto> getAllHechos() {
-      ParameterizedTypeReference<List<HechoDto>> typeRef = new ParameterizedTypeReference<List<HechoDto>>() {};
+  public PageResponseDto<HechoDto> getAllHechos(int page, int size) {
+    String url = UriComponentsBuilder.fromHttpUrl(BASE_URL + "/hechos")
+        .queryParam("page", page)
+        .queryParam("size", size)
+        .toUriString();
 
-      ResponseEntity<List<HechoDto>> response = restTemplate.exchange(
-              BASE_URL + "/hechos",
-              HttpMethod.GET,
-              null,
-              typeRef
-      );
+    // Usamos ParameterizedTypeReference para que Jackson sepa cómo desempaquetar el Page
+    ParameterizedTypeReference<PageResponseDto<HechoDto>> typeRef =
+        new ParameterizedTypeReference<>() {};
 
-      return response.getBody();
+    return restTemplate.exchange(url, HttpMethod.GET, null, typeRef).getBody();
   }
 
   public UUID crearHecho(HechoDto hechoDto) {

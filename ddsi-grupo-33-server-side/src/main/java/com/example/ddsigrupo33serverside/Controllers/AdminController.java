@@ -1,8 +1,6 @@
 package com.example.ddsigrupo33serverside.Controllers;
 
-import com.example.ddsigrupo33serverside.Dtos.AdminHomeDto;
-import com.example.ddsigrupo33serverside.Dtos.ColeccionInputDto;
-import com.example.ddsigrupo33serverside.Dtos.FuenteProxyInputDto;
+import com.example.ddsigrupo33serverside.Dtos.*;
 import com.example.ddsigrupo33serverside.Services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.UUID;
 
 @Controller
@@ -142,8 +137,13 @@ public class AdminController {
 
     @GetMapping("hechos")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public String hechos(Model model) {
-      model.addAttribute("hechos", adminService.getAdminHechos());
+    public String hechos(@RequestParam(defaultValue = "0") int page,
+                          @RequestParam(defaultValue = "20") int size,
+                          Model model) {
+      PageResponseDto<HechoDto> hechosPage = adminService.getAdminHechos(page, size);
+
+      model.addAttribute("hechos", hechosPage.getContent());
+      model.addAttribute("page", hechosPage);
       model.addAttribute("titulo", "Hechos");
       model.addAttribute("menu", "hechos");
 
