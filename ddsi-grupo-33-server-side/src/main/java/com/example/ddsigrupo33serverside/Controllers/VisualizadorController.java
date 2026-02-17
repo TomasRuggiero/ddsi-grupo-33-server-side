@@ -44,12 +44,17 @@ public class VisualizadorController {
   }
 
   @GetMapping("/colecciones/{id}")
-  public String hechosPorColeccion(@PathVariable Long id, FiltroHechosDto filtros, @RequestParam(required = false) Boolean curado, Model model) {
-    ColeccionDto coleccion = coleccionService.getColeccionPorId(id, filtros, curado);
+  public String hechosPorColeccion(@PathVariable Long id, FiltroHechosDto filtros,
+                                   @RequestParam(required = false) Boolean curado,
+                                   @RequestParam(defaultValue = "0") Integer page,
+                                   @RequestParam(defaultValue = "20") Integer size,
+                                   Model model) {
+    ColeccionPagedDto coleccion = coleccionService.getColeccionPorId(id, filtros, curado,  page, size);
     if (coleccion == null) {
       return "error/404"; // opcional
     }
     model.addAttribute("coleccion", coleccion);
+    model.addAttribute("filtros", filtros);
     return "visualizador/hechos-coleccion";
   }
 

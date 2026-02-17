@@ -2,6 +2,7 @@ package com.example.ddsigrupo33serverside.Services;
 
 import com.example.ddsigrupo33serverside.Dtos.ColeccionDto;
 import com.example.ddsigrupo33serverside.Dtos.ColeccionInputDto;
+import com.example.ddsigrupo33serverside.Dtos.ColeccionPagedDto;
 import com.example.ddsigrupo33serverside.Dtos.FiltroHechosDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,8 +50,10 @@ public class ColeccionApiClient {
     restTemplate.put(BASE_URL + "/colecciones" + "/" + id + "/consenso/" + algoritmoDeConsenso, null);
   }
 
-  public ColeccionDto getColeccionPorId(Long id, FiltroHechosDto filtros, Boolean curado) {
-    UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(BASE_URL + "/colecciones" + "/" + id);
+  public ColeccionPagedDto getColeccionPorId(Long id, FiltroHechosDto filtros, Boolean curado, int page, int size) {
+    UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(BASE_URL + "/colecciones" + "/" + id)
+        .queryParam("page", page)
+        .queryParam("size", size);
 
     if (curado != null && curado)
       builder.queryParam("curado", true);
@@ -75,7 +78,7 @@ public class ColeccionApiClient {
       builder.queryParam("categoria", filtros.getCategoria());
     }
 
-    return restTemplate.getForObject(builder.toUriString(), ColeccionDto.class);
+    return restTemplate.getForObject(builder.toUriString(), ColeccionPagedDto.class);
   }
 
 }

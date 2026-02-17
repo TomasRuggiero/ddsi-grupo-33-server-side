@@ -133,7 +133,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="hecho : ${coleccion.hechos}">
+        <tr th:each="hecho : ${coleccion.hechos.content}">
           <td th:text="${hecho.titulo}"></td>
           <td th:text="${#temporals.format(hecho.fecha_acontecimiento, 'dd/MM/yyyy')}"></td>
           <td th:text="${hecho.ubicacion != null ? hecho.ubicacion.direccion : 'N/A'}"></td>
@@ -144,11 +144,30 @@
           </td>
         </tr>
         </tbody>
+          <div class="d-flex justify-content-between align-items-center mt-4">
+              <div class="text-muted small">
+                  Mostrando página <span th:text="${coleccion.hechos.number + 1}">1</span>
+                  de <span th:text="${coleccion.hechos.totalPages}">10</span>
+                  (<span th:text="${coleccion.hechos.totalElements}">100</span> hechos en total)
+              </div>
+
+              <nav aria-label="Navegación de hechos">
+                  <ul class="pagination mb-0">
+                      <li class="page-item" th:classappend="${coleccion.hechos.number == 0} ? 'disabled'">
+                          <a class="page-link" th:href="@{/visualizador/colecciones/{id}(id=${coleccion.id}, page=${coleccion.hechos.number - 1}, size=${coleccion.hechos.size}, curado=${param.curado}, titulo=${param.titulo}, categoria=${param.categoria})}">Anterior</a>
+                      </li>
+
+                      <li class="page-item" th:classappend="${coleccion.hechos.number + 1 >= coleccion.hechos.totalPages} ? 'disabled'">
+                          <a class="page-link" th:href="@{/visualizador/colecciones/{id}(id=${coleccion.id}, page=${coleccion.hechos.number + 1}, size=${coleccion.hechos.size}, curado=${param.curado}, titulo=${param.titulo}, categoria=${param.categoria})}">Siguiente</a>
+                      </li>
+                  </ul>
+              </nav>
+          </div>
       </table>
     </div>
 
     <div class="d-block d-md-none">
-      <div class="row g-3" th:each="hecho : ${coleccion.hechos}">
+      <div class="row g-3" th:each="hecho : ${coleccion.hechos.content}">
         <div class="col-12">
           <div class="card shadow-sm">
             <div class="card-body">
@@ -159,6 +178,25 @@
           </div>
         </div>
       </div>
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <div class="text-muted small">
+                Mostrando página <span th:text="${coleccion.hechos.number + 1}">1</span>
+                de <span th:text="${coleccion.hechos.totalPages}">10</span>
+                (<span th:text="${coleccion.hechos.totalElements}">100</span> hechos en total)
+            </div>
+
+            <nav aria-label="Navegación de hechos">
+                <ul class="pagination mb-0">
+                    <li class="page-item" th:classappend="${coleccion.hechos.number == 0} ? 'disabled'">
+                        <a class="page-link" th:href="@{/visualizador/colecciones/{id}(id=${coleccion.id}, page=${coleccion.hechos.number - 1}, size=${coleccion.hechos.size}, curado=${param.curado}, titulo=${param.titulo}, categoria=${param.categoria})}">Anterior</a>
+                    </li>
+
+                    <li class="page-item" th:classappend="${coleccion.hechos.number + 1 >= coleccion.hechos.totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/visualizador/colecciones/{id}(id=${coleccion.id}, page=${coleccion.hechos.number + 1}, size=${coleccion.hechos.size}, curado=${param.curado}, titulo=${param.titulo}, categoria=${param.categoria})}">Siguiente</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
   </div>
 </main>
