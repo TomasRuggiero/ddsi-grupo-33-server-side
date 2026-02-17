@@ -41,8 +41,6 @@ public class ColeccionApiClient {
     ColeccionDto[] colecciones = restTemplate.getForObject(BASE_URL + "/colecciones", ColeccionDto[].class);
     List<ColeccionDto> coleccionesLista = Arrays.asList(colecciones);
 
-    coleccionesLista.forEach(c -> c.setTotalDeHechos(c.getHechos().size()));
-
     return coleccionesLista;
   }
 

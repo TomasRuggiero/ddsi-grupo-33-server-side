@@ -28,7 +28,7 @@
                 <td th:text="${coleccion.titulo}"></td>
                 <td class="text-truncate" style="max-width: 200px;" th:text="${coleccion.descripcion} + ."></td>
                 <td><span class="badge bg-primary" th:text="${coleccion.algoritmoDeConsenso}"></span></td>
-                <td th:text="${coleccion.hechos != null ? coleccion.hechos.size() : 0}"></td>
+                <td th:text="${coleccion.totalDeHechos != null ? coleccion.totalDeHechos : 0}"></td>
                 <td class="text-center">
                     <button
                             type="button"

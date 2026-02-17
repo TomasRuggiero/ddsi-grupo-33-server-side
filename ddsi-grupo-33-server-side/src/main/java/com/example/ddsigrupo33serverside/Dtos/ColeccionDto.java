@@ -15,7 +15,7 @@ public class ColeccionDto {
   private CriterioDePertenenciaDto CriterioDePertenencia;
   private String algoritmoDeConsenso;
   private List<HechoDto> Hechos;
-  private Integer TotalDeHechos;
+  private Integer totalDeHechos;
   @JsonProperty("fuentes_id")
   private List<Long> idsFuentesDeDatos;
 }
