@@ -29,6 +29,7 @@ public class VisualizadorController {
     try {
       List<HechoDto> hechos = hechoService.getMisHechos();
       model.addAttribute("hechos", hechos);
+      model.addAttribute("titulo", "Mis Hechos");
       return "visualizador/hechos-subidos";
     } catch (HttpClientErrorException.Unauthorized e) {
       return "error/401";
@@ -55,6 +56,7 @@ public class VisualizadorController {
     }
     model.addAttribute("coleccion", coleccion);
     model.addAttribute("filtros", filtros);
+    model.addAttribute("titulo", coleccion.getTitulo());
     return "visualizador/hechos-coleccion";
   }
 
@@ -66,6 +68,7 @@ public class VisualizadorController {
       return "error/404"; // opcional
     }
     model.addAttribute("hecho", hecho);
+    model.addAttribute("titulo", hecho.getTitulo());
     return "visualizador/hecho";
   }
 

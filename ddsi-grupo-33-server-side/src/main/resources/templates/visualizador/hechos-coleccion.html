@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: html}">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,23 +16,7 @@
 </head>
 
 <body class="bg-light d-flex flex-column min-vh-100">
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="/">MetaMapa</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="/admin">Administrador</a></li>
-        <li class="nav-item"><a class="nav-link" href="/visualizador/colecciones">Colecciones</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{'/hechos/nuevo'}">Subir Hecho</a></li>
-        <li class="nav-item"><a class="nav-link" href="/login">Iniciar Sesión</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<div th:fragment="contenido" class="flex-grow-1">
 
 <main class="flex-grow-1">
 
@@ -201,12 +185,6 @@
   </div>
 </main>
 
-<footer class="bg-dark text-white-50 py-4 mt-5">
-  <div class="container text-center">
-    <p class="mb-0 small">© 2025 MetaMapa.</p>
-  </div>
-</footer>
-
 <script>
   const radios = document.querySelectorAll('input[name="modo_nav"]');
   const hiddenCurado = document.getElementById('curadoHidden');
@@ -238,5 +216,6 @@
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</div>
 </body>
 </html>
