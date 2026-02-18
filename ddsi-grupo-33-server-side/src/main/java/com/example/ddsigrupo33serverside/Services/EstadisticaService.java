@@ -27,4 +27,8 @@ public class EstadisticaService {
     return webClient.get().uri("/estadisticas").retrieve().bodyToMono(EstadisticaDto.class).block();
   }
 
+  public byte[] obtenerCsv(){
+    return webClient.get().uri("/estadisticas/csv").retrieve().bodyToMono(byte[].class).block();
+  }
+
 }
