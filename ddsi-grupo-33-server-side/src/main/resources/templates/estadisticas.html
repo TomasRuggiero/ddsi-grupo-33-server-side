@@ -1,0 +1,158 @@
+<html th:replace="~{layout/base ::html}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<div th:fragment="contenido">
+    <h1 class="mt-4 mb-4 ms-5">Resumen del Sistema</h1>
+    <p class="lead text-muted ms-5">
+        Estadísticas y métricas clave del sistema MetaMapa.
+    </p>
+
+    <div class="container-fluid overflow-hidden">
+    <div class="row justify-content-center g-3">
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                    <div class="col-6">
+                        <h5 class="fw-bold">Colección</h5>
+                        <div class="dropdown dropdown-generico">
+                            <button class="btn btn-sm btn-light dropdown-toggle dropdown-boton"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                Seleccionar
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li th:each="coleccion : ${colecciones}">
+                                    <a class="dropdown-item"
+                                       href="#"
+                                       th:text="${coleccion.nombre}"
+                                       th:attr="data-valor=${coleccion.valor}"
+                                       onclick="seleccionar(this)">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <h5 class="fw-bold">Provincia</h5>
+                        <p class="card-text display-4 dropdown-valor">-</p>
+                        <!--<p class="card-text display-4" th:text="${coleccion}"></p>-->
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <h5 class="fw-bold">Categoria</h5>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light dropdown-toggle dropdown-boton"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    Seleccionar
+                                </button>
+
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li th:each="categoria : ${categoriasProvincia}">
+                                        <a class="dropdown-item"
+                                           href="#"
+                                           th:text="${categoria.nombre}"
+                                           th:attr="data-valor=${categoria.valor}"
+                                           onclick="seleccionar(this)">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <h5 class="fw-bold">Provincia</h5>
+                            <p class="card-text display-4 dropdown-valor">-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <h5 class="fw-bold">Categoria</h5>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light dropdown-toggle dropdown-boton"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    Seleccionar
+                                </button>
+
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li th:each="categoria : ${categoriasHora}">
+                                        <a class="dropdown-item"
+                                           href="#"
+                                           th:text="${categoria.nombre}"
+                                           th:attr="data-valor=${categoria.valor}"
+                                           onclick="seleccionar(this)">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <h5 class="fw-bold">Hora</h5>
+                            <p class="card-text display-4 dropdown-valor">-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center g-3">
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Categoria con mas hechos</h5>
+                    <p class="card-text display-4" th:text="${categoriaMasHechos}"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Solicitudes SPAM</h5>
+                    <p class="card-text display-4" th:text="${solicitudesSpam}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+
+    <div class="container mt-4">
+        <a th:href="@{/estadisticas/csv}"
+           class="btn btn-success">
+            <i class="bi bi-download"></i> Descargar estadisticas (CSV)
+        </a>
+    </div>
+
+
+    <script>
+        function seleccionar(elemento) {
+
+            const card = elemento.closest(".card");
+
+            const boton = card.querySelector(".dropdown-boton");
+            const valorElemento = card.querySelector(".dropdown-valor");
+
+            const nombre = elemento.innerText;
+            const valor = elemento.getAttribute("data-valor");
+
+            boton.innerText = nombre;
+            valorElemento.innerText = valor;
+        }
+    </script>
+</div>
+</html>

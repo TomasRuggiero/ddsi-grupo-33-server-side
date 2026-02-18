@@ -1,19 +1,30 @@
 package com.example.ddsigrupo33serverside.Dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class HechoDto {
-  public UUID id;
-  public String titulo;
-  private String fecha_acontecimiento;
-  private String ubicacion;
-  private String fuente;
+  private UUID id;
+  private String titulo;
+  private String descripcion;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  private LocalDate fecha_acontecimiento;
+  @JsonProperty("fechaDeCarga")
+  private LocalDate fecha_de_carga;
+  private String estado;
+  private String origen;
   private Set<String> categorias;
-  private String longitud;
-  private String latitud;
+  private UbicacionDto ubicacion;
+  private List<MultimediaDto> multimedia;
 }

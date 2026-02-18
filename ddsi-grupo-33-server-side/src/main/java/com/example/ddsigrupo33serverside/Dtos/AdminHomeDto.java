@@ -8,11 +8,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class AdminHomeDto {
-    public List<HechoDto> hechosPorCategoria;
-    public List<HechoDto> hechosUltimaSemana;
+    private List<HechoDto> hechosPorCategoria;
+    private List<HechoDto> hechosUltimaSemana;
 
-    public Integer totalHechos;
-    public Integer totalColecciones;
-    public Integer totalSolicitudesDeEliminacion;
-    public Integer totalUsers;
+    private Long totalHechos;
+    private Integer totalColecciones;
+    private Integer totalSolicitudesDeEliminacion;
+    private Integer totalUsers;
 }

@@ -1,24 +1,21 @@
 package com.example.ddsigrupo33serverside.Controllers;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
-import com.example.ddsigrupo33serverside.Dtos.ColeccionDto;
-import com.example.ddsigrupo33serverside.Dtos.HechoDto;
-import com.example.ddsigrupo33serverside.Dtos.SolicitudDto;
+import com.example.ddsigrupo33serverside.Dtos.*;
 import com.example.ddsigrupo33serverside.Services.ColeccionApiClient;
 import com.example.ddsigrupo33serverside.Services.HechoApiClient;
 import com.example.ddsigrupo33serverside.Services.SolicitudApiClient;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 @Controller
+@Slf4j
 @RequestMapping("/visualizador")
 @RequiredArgsConstructor
 public class VisualizadorController {
@@ -27,31 +24,71 @@ public class VisualizadorController {
   private final SolicitudApiClient solicitudService;
 
 
+  @GetMapping("mis-hechos")
+  public String misHechos(Model model) {
+    try {
+      List<HechoDto> hechos = hechoService.getMisHechos();
+      model.addAttribute("hechos", hechos);
+      model.addAttribute("titulo", "Mis Hechos");
+      return "visualizador/hechos-subidos";
+    } catch (HttpClientErrorException.Unauthorized e) {
+      return "error/401";
+    }
+  }
+
   @GetMapping("/colecciones")
   public String colecciones(Model model){
     List<ColeccionDto> colecciones = coleccionService.getTodasLasColecciones();
     model.addAttribute("colecciones", colecciones);
-    return "/visualizador/colecciones";
+    model.addAttribute("titulo", "Visualizador de Colecciones");
+    return "visualizador/colecciones";
   }
 
   @GetMapping("/colecciones/{id}")
-  public String hechosPorColeccion(@PathVariable Long id, Model model) {
-    ColeccionDto coleccion = coleccionService.getColeccionPorId(id);
+  public String hechosPorColeccion(@PathVariable Long id, FiltroHechosDto filtros,
+                                   @RequestParam(required = false) Boolean curado,
+                                   @RequestParam(defaultValue = "0") Integer page,
+                                   @RequestParam(defaultValue = "20") Integer size,
+                                   Model model) {
+    ColeccionPagedDto coleccion = coleccionService.getColeccionPorId(id, filtros, curado,  page, size);
     if (coleccion == null) {
       return "error/404"; // opcional
     }
     model.addAttribute("coleccion", coleccion);
-    return "/visualizador/hechos-coleccion";
+    model.addAttribute("filtros", filtros);
+    model.addAttribute("titulo", coleccion.getTitulo());
+    return "visualizador/hechos-coleccion";
   }
 
   @GetMapping("/hecho/{id}")
   public String detalleHecho(@PathVariable UUID id, Model model) {
     HechoDto hecho = hechoService.getHechoPorId(id);
+
     if (hecho == null) {
       return "error/404"; // opcional
     }
     model.addAttribute("hecho", hecho);
-    return "/visualizador/hecho";
+    model.addAttribute("titulo", hecho.getTitulo());
+    return "visualizador/hecho";
+  }
+
+  @PostMapping("/hecho/editar/{id}")
+  public String procesarEdicion(@PathVariable UUID id, @ModelAttribute HechoDto hechoDto,
+                                @RequestParam(value = "categorias", required = false) String categoriasRaw) {
+
+    if (categoriasRaw != null && !categoriasRaw.isBlank()) {
+      Set<String> categoriasLimpias = Arrays.stream(categoriasRaw.split(","))
+          .map(String::trim)
+          .filter(c -> !c.isEmpty())
+          .collect(Collectors.toSet());
+
+      hechoDto.setCategorias(categoriasLimpias);
+    } else {
+      hechoDto.setCategorias(new HashSet<>());
+    }
+
+    hechoService.actualizarHecho(id, hechoDto);
+    return "redirect:/visualizador/mis-hechos?editado=true";
   }
 
   @PostMapping("/hecho/{id}/solicitar-eliminacion")

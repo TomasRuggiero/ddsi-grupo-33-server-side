@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: html}">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mis Hechos | MetaMapa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+
+<div th:fragment="contenido" class="flex-grow-1">
+
+<main class="container my-5 flex-grow-1">
+    <div th:if="${param.editado}" class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-check-circle-fill me-2 fs-4"></i>
+            <div>
+                <strong>¡Hecho actualizado!</strong> Los cambios se han guardado correctamente.
+            </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold h2">Mis Hechos Subidos</h1>
+            <p class="text-muted">Aquí puedes gestionar y revisar el estado de los hechos que has aportado a la plataforma.</p>
+        </div>
+        <a th:href="@{/hechos/nuevo}" class="btn btn-primary rounded-pill px-4">
+            <i class="bi bi-plus-lg me-1"></i> Nuevo Hecho
+        </a>
+    </div>
+
+    <div th:if="${#lists.isEmpty(hechos)}" class="alert alert-info border-0 shadow-sm p-5 text-center">
+        <i class="bi bi-info-circle fs-1 d-block mb-3"></i>
+        <h4>Aún no has subido ningún hecho</h4>
+        <p>Tus aportes ayudan a construir un mapa más completo. ¡Anímate a subir el primero!</p>
+        <a th:href="@{/hechos/nuevo}" class="btn btn-primary mt-2">Comenzar ahora</a>
+    </div>
+
+    <div th:if="${not #lists.isEmpty(hechos)}" class="table-responsive d-none d-lg-block card border-0 shadow-sm">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+            <tr>
+                <th class="ps-4">Título</th>
+                <th>Fecha Acontecimiento</th>
+                <th>Estado</th>
+                <th>Origen</th>
+                <th>Categorías</th>
+                <th class="text-end pe-4">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="hecho : ${hechos}">
+                <td class="ps-4">
+                    <div class="fw-bold" th:text="${hecho.titulo}">Incendio forestal</div>
+                    <small class="text-muted" th:text="${#strings.abbreviate(hecho.descripcion, 50)}">Descripción corta...</small>
+                </td>
+                <td>
+                    <i class="bi bi-calendar3 me-1 text-muted"></i>
+                    <span th:text="${#temporals.format(hecho.fecha_acontecimiento, 'dd/MM/yyyy')}">01/01/2026</span>
+                </td>
+                <td>
+                            <span th:classappend="${hecho.estado == 'APROBADO' ? 'bg-success-subtle text-success' :
+                                               (hecho.estado == 'PENDIENTE' ? 'bg-warning-subtle text-warning' : 'bg-danger-subtle text-danger')}"
+                                  class="badge rounded-pill border px-3 py-2"
+                                  th:text="${hecho.estado}">PENDIENTE</span>
+                </td>
+                <td th:text="${hecho.origen}">Redes Sociales</td>
+                <td>
+                    <span th:each="cat : ${hecho.categorias}" class="badge bg-light text-dark border me-1 small" th:text="${cat}">Ambiente</span>
+                </td>
+                <td class="text-end pe-4">
+                    <div class="btn-group shadow-sm rounded">
+                        <a th:href="@{/visualizador/hecho/{id}(id=${hecho.id})}" class="btn btn-white btn-sm border" title="Ver detalle">
+                            <i class="bi bi-eye"></i>
+                        </a>
+
+                        <th:block th:with="hoy=${T(java.time.LocalDate).now()},
+                   fechaCarga=${hecho.fecha_de_carga},
+                   limite=${fechaCarga.plusDays(7)},
+                   puedeEditar=${hoy.isBefore(limite) || hoy.isEqual(limite)}">
+
+                            <button type="button" class="btn btn-white btn-sm border text-primary"
+                                    th:if="${puedeEditar}"
+                                    data-bs-toggle="modal"
+                                    th:data-bs-target="'#modalEditar-' + ${hecho.id}"
+                                    title="Editar Hecho">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+
+                            <button class="btn btn-white btn-sm border text-muted"
+                                    th:unless="${puedeEditar}"
+                                    disabled
+                                    title="Plazo de edición vencido (7 días)">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                        </th:block>
+                    </div>
+
+                    <div th:id="'modalEditar-' + ${hecho.id}" class="modal fade" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <form th:action="@{/visualizador/hecho/editar/{id}(id=${hecho.id})}" method="post">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Editar Hecho</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-start">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-bold">Título</label>
+                                                <input type="text" name="titulo" class="form-control" th:value="${hecho.titulo}" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-bold">Fecha Acontecimiento</label>
+                                                <input type="date" name="fecha_acontecimiento" class="form-control"
+                                                       th:value="${hecho.fecha_acontecimiento}" required>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label fw-bold">Descripción</label>
+                                                <textarea name="descripcion" class="form-control" rows="3" th:text="${hecho.descripcion}"></textarea>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label fw-bold">Categorías</label>
+                                                <input type="text"
+                                                       name="categorias"
+                                                       class="form-control"
+                                                       th:value="${hecho.categorias != null ? #strings.listJoin(hecho.categorias, ', ') : ''}"
+                                                       placeholder="Ej: Ambiente, Incendio, Urgente">
+                                                <div class="form-text">Escribe las categorías separadas por comas.</div>
+                                            </div>
+
+                                            <div class="col-12"><hr><h6 class="text-muted">Ubicación</h6></div>
+
+                                            <div class="col-md-4">
+                                                <label class="small">País</label>
+                                                <input type="text" name="ubicacion.pais" class="form-control form-control-sm" th:value="${hecho.ubicacion?.pais}">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="small">Provincia</label>
+                                                <input type="text" name="ubicacion.provincia" class="form-control form-control-sm" th:value="${hecho.ubicacion?.provincia}">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="small">Ciudad</label>
+                                                <input type="text" name="ubicacion.ciudad" class="form-control form-control-sm" th:value="${hecho.ubicacion?.ciudad}">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <label class="small">Dirección</label>
+                                                <input type="text" name="ubicacion.direccion" class="form-control form-control-sm" th:value="${hecho.ubicacion?.direccion}">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="small">Cód. Postal</label>
+                                                <input type="text" name="ubicacion.codigoPostal" class="form-control form-control-sm" th:value="${hecho.ubicacion?.codigoPostal}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary px-4">Guardar Cambios</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-lg-none">
+        <div th:each="hecho : ${hechos}" class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title fw-bold mb-0" th:text="${hecho.titulo}">Título</h5>
+                    <span th:classappend="${hecho.estado == 'APROBADO' ? 'text-success' : 'text-warning'}"
+                          class="small fw-bold" th:text="${hecho.estado}">ESTADO</span>
+                </div>
+                <p class="card-text text-muted small mb-3" th:text="${hecho.descripcion}">Descripción...</p>
+                <div class="d-flex justify-content-between align-items-center">
+                        <span class="small text-muted">
+                            <i class="bi bi-geo-alt me-1"></i>
+                            <span th:text="${hecho.ubicacion?.direccion}">Dirección</span>
+                        </span>
+                    <a th:href="@{/visualizador/hecho/{id}(id=${hecho.id})}" class="btn btn-sm btn-outline-primary">Ver detalle</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</div>
+</body>
+</html>

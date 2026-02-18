@@ -1,163 +1,5 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Solicitudes | Panel de Administración MetaMapa</title>
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-            crossorigin="anonymous"
-    />
-    <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
-</head>
-<body>
-<nav class="navbar navbar-dark bg-dark fixed-top">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Administrador</a>
-        <button
-                class="navbar-toggler d-md-none"
-                type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#sidebarOffcanvas"
-                aria-controls="sidebarOffcanvas"
-                aria-label="Toggle navigation"
-        >
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</nav>
-
-<div class="container-fluid">
-    <div class="row flex-nowrap">
-        <div
-                class="col-xl-2 col-3 bg-dark vh-100 top-0 start-0 d-md-block d-none"
-        >
-            <div class="d-flex flex-column flex-shrink-0 p-3 pt-5 text-white-50">
-                <ul class="nav nav-pills flex-column mb-auto mt-4">
-                    <li class="nav-item">
-                        <a href="/admin" class="nav-link text-white">
-                            <i class="bi bi-grid-fill me-2"></i> Resumen
-                        </a>
-                    </li>
-                    <hr />
-                    <li>
-                        <a
-                                href="/administrador/hechos.html"
-                                class="nav-link text-white"
-                        >
-                            <i class="bi bi-geo-alt-fill me-2"></i> Hechos
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                                href="/admin/colecciones"
-                                class="nav-link text-white"
-                        >
-                            <i class="bi bi-folder-fill me-2"></i> Colecciones
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                                href="/admin/solicitudes"
-                                class="nav-link active"
-                                aria-current="page"
-                        >
-                            <i class="bi bi-envelope-fill me-2"></i> Solicitudes
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                                href="/administrador/fuentes.html"
-                                class="nav-link text-white"
-                        >
-                            <i class="bi bi-database-fill me-2"></i> Fuentes
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                                href="/administrador/usuarios.html"
-                                class="nav-link text-white"
-                        >
-                            <i class="bi bi-people-fill me-2"></i> Usuarios
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div
-                class="offcanvas offcanvas-start bg-dark text-white"
-                tabindex="-1"
-                id="sidebarOffcanvas"
-                aria-labelledby="sidebarOffcanvasLabel"
-        >
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">Menú</h5>
-                <button
-                        type="button"
-                        class="btn-close text-reset"
-                        data-bs-dismiss="offcanvas"
-                        aria-label="Close"
-                ></button>
-            </div>
-            <div class="offcanvas-body">
-                <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item">
-                        <a href="/admin" class="nav-link text-white">
-                            <i class="bi bi-grid-fill me-2"></i> Resumen
-                        </a>
-                    </li>
-                    <hr />
-                    <li>
-                        <a
-                                href="/administrador/hechos.html"
-                                class="nav-link text-white"
-                        >
-                            <i class="bi bi-geo-alt-fill me-2"></i> Hechos
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                                href="/admin/colecciones"
-                                class="nav-link text-white"
-                        >
-                            <i class="bi bi-folder-fill me-2"></i> Colecciones
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                                href="/admin/solicitudes"
-                                class="nav-link active"
-                                aria-current="page"
-                        >
-                            <i class="bi bi-envelope-fill me-2"></i> Solicitudes
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                                href="/administrador/fuentes.html"
-                                class="nav-link text-white"
-                        >
-                            <i class="bi bi-database-fill me-2"></i> Fuentes
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                                href="/administrador/usuarios.html"
-                                class="nav-link text-white"
-                        >
-                            <i class="bi bi-people-fill me-2"></i> Usuarios
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <main class="col-12 col-md-9 col-xl-10 px-md-4 pt-5">
+<html th:replace="~{layout/base-admin ::html}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<div th:fragment="contenido">
             <div
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
             >
@@ -165,54 +7,50 @@
             </div>
 
             <div class="table-responsive d-none d-md-block">
-                <table class="table table-striped table-sm">
-                    <thead>
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
                     <tr>
-                        <th scope="col">#ID</th>
-                        <th scope="col">Descripción (Justificación)</th>
-                        <th scope="col">Hecho Relacionado (Título)</th>
-                        <th scope="col">ID de Hecho</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col" th:if="${(solicitudes?.?[estado == 'PENDIENTE'] ?: {}).size() > 0}">Acciones</th>
+                        <th>#ID</th>
+                        <th>Hecho Relacionado</th>
+                        <th>Justificación</th>
+                        <th>Estado</th>
+                        <th class="text-end">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="solicitud : ${solicitudes}">
-                        <td th:text="${solicitud.id}">1</td>
-                        <td th:text="${solicitud.justificacion}">El hecho contiene datos desactualizados.</td>
-                        <td th:text="${solicitud.tituloHecho}">Incendio en El Bolsón</td>
-                        <td th:text="${solicitud.idHecho}">a1b2c3d4-e5f6-7890-1234-567890abcdef</td>
+                        <td th:text="${solicitud.id}"></td>
                         <td>
-                    <span
-                            class="badge rounded-pill"
-                            th:text="${solicitud.estado}"
-                            th:classappend="${solicitud.estado == 'PENDIENTE' ? 'bg-warning' : (solicitud.estado == 'APROBADA' ? 'bg-success' : 'bg-danger')}"
-                    >Pendiente</span>
+                            <div class="fw-bold" th:text="${solicitud.tituloHecho}"></div>
+                            <small class="text-muted" th:text="|ID Hecho: ${solicitud.idHecho}|"></small>
                         </td>
-                        <td th:if="${solicitud.estado == 'PENDIENTE'}">
-                            <button
-                                    type="button"
-                                    class="btn btn-sm btn-success me-1"
+                        <td class="text-truncate" style="max-width: 250px;" th:text="${solicitud.justificacion}"></td>
+                        <td>
+                            <span class="badge rounded-pill"
+                                  th:text="${solicitud.estado}"
+                                  th:classappend="${solicitud.estado == 'PENDIENTE' ? 'bg-warning text-dark' : (solicitud.estado == 'APROBADA' ? 'bg-success' : 'bg-danger')}">
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-primary"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#acceptRequestModal"
-                                    th:attr="data-solicitud-id=${solicitud.id}"
-                            >
-                                <i class="bi bi-check-circle"></i> Aceptar
-                            </button>
-                            <button
-                                    type="button"
-                                    class="btn btn-sm btn-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#rejectRequestModal"
-                                    th:attr="data-solicitud-id=${solicitud.id}"
-                            >
-                                <i class="bi bi-x-circle"></i> Rechazar
+                                    data-bs-target="#reviewRequestModal"
+                                    th:attr="data-id=${solicitud.id},
+                                             data-justificacion=${solicitud.justificacion},
+                                             data-hecho-titulo=${solicitud.tituloHecho},
+                                             data-hecho-id=${solicitud.idHecho},
+                                             data-estado=${solicitud.estado}">
+                                <i class="bi bi-search"></i> Revisar
                             </button>
                         </td>
-                        <td th:unless="${solicitud.estado == 'PENDIENTE'}"></td>
                     </tr>
                     </tbody>
                 </table>
+                <div th:if="${solicitudes.size() == 0}" class="text-center py-5">
+                    <i class="bi bi-inbox display-4 d-block text-muted"></i>
+                    <p class="text-muted">No hay solicitudes para mostrar.</p>
+                </div>
             </div>
 
             <div class="d-block d-md-none">
@@ -264,154 +102,107 @@
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
-</div>
+    <div class="modal fade" id="reviewRequestModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title">Revisión de Solicitud #<span id="modal-solicitud-id-title"></span></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="fw-bold text-muted small d-block">HECHO RELACIONADO</label>
+                        <span id="modal-hecho-titulo" class="fs-5 fw-bold"></span>
+                        <br>
+                        <small class="text-muted">ID: <span id="modal-hecho-id"></span></small>
+                    </div>
 
-<div
-        class="modal fade"
-        id="acceptRequestModal"
-        tabindex="-1"
-        aria-labelledby="acceptRequestModalLabel"
-        aria-hidden="true"
->
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="acceptRequestModalLabel">
-                    Aceptar Solicitud
-                </h5>
-                <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                ></button>
-            </div>
-            <div class="modal-body">
-                <p>
-                    ¿Estás seguro de que querés aceptar esta solicitud? Esta acción
-                    eliminará el hecho relacionado.
-                </p>
-                <form id="acceptForm" method="POST" action="">
-                    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                >
-                    Cancelar
-                </button>
-                <button type="button" class="btn btn-success" id="confirmAcceptBtn">Aceptar</button>
-            </div>
-        </div>
-    </div>
-</div>
+                    <hr>
 
-<div
-        class="modal fade"
-        id="rejectRequestModal"
-        tabindex="-1"
-        aria-labelledby="rejectRequestModalLabel"
-        aria-hidden="true"
->
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="rejectRequestModalLabel">
-                    Rechazar Solicitud
-                </h5>
-                <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                ></button>
-            </div>
-            <div class="modal-body">
-                <p>
-                    ¿Estás seguro de que querés rechazar esta solicitud? El hecho no
-                    será eliminado.
-                </p>
-                <form id="rejectForm" method="POST" action="">
-                    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                >
-                    Cancelar
-                </button>
-                <button type="button" class="btn btn-danger" id="confirmRejectBtn">Rechazar</button>
+                    <div class="mb-4">
+                        <label class="fw-bold text-muted small d-block mb-2">JUSTIFICACIÓN DEL USUARIO</label>
+                        <div id="modal-justificacion"
+                             class="p-3 bg-light border rounded shadow-sm"
+                             style="max-height: 300px; overflow-y: auto; overflow-x: hidden; word-wrap: break-word; white-space: pre-wrap; line-height: 1.5;">
+                        </div>
+                    </div>
+
+                    <div id="modal-actions" class="d-none">
+                        <div class="alert alert-info py-2 small">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Aceptar esta solicitud eliminará el hecho definitivamente.
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-danger flex-fill" id="btn-reject-action">
+                                <i class="bi bi-x-circle"></i> Rechazar
+                            </button>
+                            <button type="button" class="btn btn-success flex-fill" id="btn-accept-action">
+                                <i class="bi bi-check-circle"></i> Aceptar y Eliminar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="modal-status-closed" class="d-none text-center py-2">
+                        <div class="alert alert-secondary mb-0">
+                            Esta solicitud ya ha sido procesada.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <form id="actionForm" method="POST" style="display: none;">
+        <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    </form>
+
+    <script th:inline="javascript">
+        const BASE_URL = /*[[@{/admin/solicitudes}]]*/ '/admin/solicitudes';
+        const reviewModal = document.getElementById('reviewRequestModal');
+        const actionForm = document.getElementById('actionForm');
+
+        if (reviewModal) {
+            reviewModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+
+                // Extraer datos del botón
+                const id = button.getAttribute('data-id');
+                const justificacion = button.getAttribute('data-justificacion');
+                const hechoTitulo = button.getAttribute('data-hecho-titulo');
+                const hechoId = button.getAttribute('data-hecho-id');
+                const estado = button.getAttribute('data-estado');
+
+                // Poblar el modal
+                document.getElementById('modal-solicitud-id-title').textContent = id;
+                document.getElementById('modal-hecho-titulo').textContent = hechoTitulo;
+                document.getElementById('modal-hecho-id').textContent = hechoId;
+                document.getElementById('modal-justificacion').textContent = justificacion;
+
+                // Control de visibilidad de acciones
+                const actionsDiv = document.getElementById('modal-actions');
+                const statusDiv = document.getElementById('modal-status-closed');
+                const btnAccept = document.getElementById('btn-accept-action');
+                const btnReject = document.getElementById('btn-reject-action');
+
+                if (estado === 'PENDIENTE') {
+                    actionsDiv.classList.remove('d-none');
+                    statusDiv.classList.add('d-none');
+
+                    // Configurar URLs de botones
+                    btnAccept.onclick = () => {
+                        actionForm.action = `${BASE_URL}/${id}/aceptar`;
+                        actionForm.submit();
+                    };
+                    btnReject.onclick = () => {
+                        actionForm.action = `${BASE_URL}/${id}/rechazar`;
+                        actionForm.submit();
+                    };
+                } else {
+                    actionsDiv.classList.add('d-none');
+                    statusDiv.classList.remove('d-none');
+                }
+            });
+        }
+    </script>
 </div>
-
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"
-></script>
-
-<script th:inline="javascript">
-    /*<![CDATA[*/
-
-    // La URL base del controlador de solicitudes de admin, obtenida de Thymeleaf
-    const BASE_URL = /*[[@{/admin/solicitudes}]]*/ '/admin/solicitudes';
-
-    // Obtener referencias a los elementos del DOM
-    const acceptRequestModal = document.getElementById('acceptRequestModal');
-    const rejectRequestModal = document.getElementById('rejectRequestModal');
-    const confirmAcceptBtn = document.getElementById('confirmAcceptBtn');
-    const confirmRejectBtn = document.getElementById('confirmRejectBtn');
-    const acceptForm = document.getElementById('acceptForm');
-    const rejectForm = document.getElementById('rejectForm');
-
-    // Función genérica para configurar el listener de apertura y el envío del formulario
-    function setupModalListener(modalElement, confirmButton, formElement, actionPath) {
-        // 1. Manejar la apertura del modal (para establecer la URL de acción)
-        modalElement.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const solicitudId = button.getAttribute('data-solicitud-id');
-
-            // Construir la URL completa: /admin/solicitudes/{id}/aceptar o /rechazar
-            const actionUrl = BASE_URL + '/' + solicitudId + actionPath;
-
-            // Asignar la URL al formulario oculto
-            formElement.setAttribute('action', actionUrl);
-        });
-
-        // 2. Manejar el clic del botón de confirmación (para enviar el POST)
-        confirmButton.addEventListener('click', function () {
-            // Envía el formulario POST, el controlador hará la redirección
-            formElement.submit();
-        });
-    }
-
-    // Configurar listeners para ACEPTAR
-    setupModalListener(
-        acceptRequestModal,
-        confirmAcceptBtn,
-        acceptForm,
-        '/aceptar'
-    );
-
-    // Configurar listeners para RECHAZAR
-    setupModalListener(
-        rejectRequestModal,
-        confirmRejectBtn,
-        rejectForm,
-        '/rechazar'
-    );
-
-    /*]]>*/
-</script>
-</body>
 </html>
