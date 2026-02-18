@@ -30,7 +30,8 @@ public class AdminController {
       @PathVariable String tipo,
       @RequestParam(value = "archivo", required = false) MultipartFile archivo,
       @RequestParam(value = "username", required = false) String username,
-      @RequestParam(value = "password", required = false) String password
+      @RequestParam(value = "password", required = false) String password,
+      @RequestParam(value = "route", required = false) String route
   ) {
     if ("estatica".equals(tipo) && archivo != null) {
       fuenteApiClient.crearFuenteEstatica(archivo);
@@ -41,6 +42,7 @@ public class AdminController {
       FuenteProxyInputDto dto = new FuenteProxyInputDto();
       dto.setUsername(username);
       dto.setPassword(password);
+      dto.setRoute(route);
       fuenteApiClient.crearFuenteProxy(dto);
       return ResponseEntity.ok().build();
     }

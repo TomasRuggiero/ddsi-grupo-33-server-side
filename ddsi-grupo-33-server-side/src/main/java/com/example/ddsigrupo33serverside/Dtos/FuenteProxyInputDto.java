@@ -6,4 +6,5 @@ import lombok.Data;
 public class FuenteProxyInputDto {
   private String username;
   private String password;
+  private String route;
 }

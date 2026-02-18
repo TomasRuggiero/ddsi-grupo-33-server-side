@@ -156,11 +156,15 @@
                         <div id="camposProxy" class="d-none animate-fade-in">
                             <div class="mb-3">
                                 <label for="proxyUser" class="form-label">Usuario</label>
-                                <input type="text" class="form-control" id="proxyUser" placeholder="Username">
+                                <input type="text" class="form-control" id="proxyUser" placeholder="Nombre de usuario">
                             </div>
                             <div class="mb-3">
                                 <label for="proxyPass" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="proxyPass" placeholder="Password">
+                                <input type="password" class="form-control" id="proxyPass" placeholder="Contraseña">
+                            </div>
+                            <div class="mb-3">
+                                <label for="proxyRoute" class="form-label">Ruta a la API</label>
+                                <input type="text" class="form-control" id="proxyRoute" placeholder="Ruta a la API">
                             </div>
                         </div>
                     </form>
@@ -225,11 +229,13 @@
                     } else if (tipo === "proxy") {
                         const user = document.getElementById("proxyUser").value;
                         const pass = document.getElementById("proxyPass").value;
+                        const route = document.getElementById("proxyRoute").value;
 
                         if (!user || !pass) return alert("Usuario y contraseña son obligatorios");
 
                         formData.append("username", user);
                         formData.append("password", pass);
+                        formData.append("route", route);
                         options.body = formData;
 
                     } else if (tipo === "dinamica") {
