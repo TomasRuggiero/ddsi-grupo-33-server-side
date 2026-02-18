@@ -42,13 +42,6 @@ public class UsuarioController {
       redirectAttributes.addFlashAttribute("tipoMensaje", "success");
       return "redirect:/login";
     }
-    catch (ValidationException e) {
-      convertirValidationExceptionABindingResult(e, bindingResult);
-      model.addAttribute("titulo", "Crear Nuevo Alumno");
-      log.error(e.getMessage());
-      e.printStackTrace();
-      return "redirect:register?error=true";
-    }
     catch (DuplicateCorreoException e) {
       log.error("El correo ya se encuentra en uso", e);
       //model.addAttribute("error", "El correo indicado ya se encuentra en uso");
@@ -57,6 +50,13 @@ public class UsuarioController {
       log.error(e.getMessage());
       e.printStackTrace();
       return "redirect:/register?error=true";
+    }
+    catch (ValidationException e) {
+      convertirValidationExceptionABindingResult(e, bindingResult);
+      model.addAttribute("titulo", "Crear Nuevo Alumno");
+      log.error(e.getMessage());
+      e.printStackTrace();
+      return "register";
     }
     catch (Exception e) {
       log.error("Error al crear usuario", e);

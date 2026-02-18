@@ -44,12 +44,20 @@ public class UsuarioService {
     }
 
     if (usuarioDto.getFechaNacimiento() == null || usuarioDto.getFechaNacimiento().toString().trim().isEmpty()) {
-      validationException.addFieldError("fechaNacimiento", "La echa de nacimineto es obligatoria");
+      validationException.addFieldError("fechaNacimiento", "La fecha de nacimineto es obligatoria");
       tieneErrores = true;
     }
 
     if (usuarioDto.getContrasenia() == null || usuarioDto.getContrasenia().trim().isEmpty()) {
       validationException.addFieldError("contrasenia", "La contrasenia es obligatoria");
+      tieneErrores = true;
+    }
+
+    if(usuarioDto.getConfirmarContrasenia() == null || usuarioDto.getConfirmarContrasenia().trim().isEmpty()){
+      validationException.addFieldError("confirmarContrasenia", "La confirmacion de contrasenia es obligatoria");
+      tieneErrores = true;
+    } else if (!usuarioDto.getConfirmarContrasenia().equals(usuarioDto.getContrasenia())){
+      validationException.addFieldError("confirmarContrasenia", "Las contrasenias no coinciden");
       tieneErrores = true;
     }
 

@@ -15,4 +15,5 @@ public class UsuarioDto {
   private LocalDate fechaNacimiento;
   private String correo;
   private String contrasenia;
+  private String confirmarContrasenia;
 }

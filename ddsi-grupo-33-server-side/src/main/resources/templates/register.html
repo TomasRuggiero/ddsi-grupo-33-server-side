@@ -22,6 +22,9 @@
               th:field="*{nombre}"
               required
             />
+            <div th:if="${#fields.hasErrors('nombre')}" class="text-danger">
+              <small th:errors="*{nombre}">Error en nombre</small>
+            </div>
           </div>
 
           <div class="mb-3">
@@ -34,6 +37,9 @@
                     th:field="*{fechaNacimiento}"
                     required
             />
+            <div th:if="${#fields.hasErrors('fechaNacimiento')}" class="text-danger">
+              <small th:errors="*{fechaNacimiento}">Error en fecha</small>
+            </div>
           </div>
 
           <div class="mb-3">
@@ -46,6 +52,9 @@
               th:field="*{correo}"
               required
             />
+            <div th:if="${#fields.hasErrors('correo')}" class="text-danger">
+              <small th:errors="*{correo}">Error en correo</small>
+            </div>
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Contraseña</label>
@@ -57,6 +66,9 @@
               th:field="*{contrasenia}"
               required
             />
+            <div th:if="${#fields.hasErrors('contrasenia')}" class="text-danger">
+              <small th:errors="*{contrasenia}">Error en contrasenia</small>
+            </div>
           </div>
           <div class="mb-3">
             <label for="confirmPassword" class="form-label"
@@ -67,8 +79,12 @@
               class="form-control"
               id="confirmPassword"
               placeholder="Confirmar Contraseña"
+              th:field="*{confirmarContrasenia}"
               required
             />
+            <div th:if="${#fields.hasErrors('confirmarContrasenia')}" class="text-danger">
+              <small th:errors="*{confirmarContrasenia}">Error en confirmar contrasenia</small>
+            </div>
           </div>
 
           <button class="btn btn-primary w-100 py-2" type="submit">
