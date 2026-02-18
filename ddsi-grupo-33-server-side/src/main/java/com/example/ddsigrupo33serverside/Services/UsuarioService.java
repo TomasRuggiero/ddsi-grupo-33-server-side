@@ -38,7 +38,7 @@ public class UsuarioService {
     if (usuarioDto.getCorreo() == null || usuarioDto.getCorreo().trim().isEmpty()) {
       validationException.addFieldError("correo", "El correo es obligatorio");
       tieneErrores = true;
-    } else if (!usuarioDto.getCorreo().contains("@") || !usuarioDto.getCorreo().contains(".com")) {
+    } else if (!usuarioDto.getCorreo().contains("@")) {
       validationException.addFieldError("correo", "El correo ingresado es invalido");
       tieneErrores = true;
     }
