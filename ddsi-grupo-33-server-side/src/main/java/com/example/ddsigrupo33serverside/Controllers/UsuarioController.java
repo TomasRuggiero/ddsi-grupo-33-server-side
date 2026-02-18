@@ -39,7 +39,6 @@ public class UsuarioController {
     try {
       usuarioService.crearUsuario(usuarioDto);
       redirectAttributes.addFlashAttribute("mensaje", "Usuario registrado exitosamente");
-      redirectAttributes.addFlashAttribute("tipoMensaje", "success");
       return "redirect:/login";
     }
     catch (DuplicateCorreoException e) {
